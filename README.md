@@ -19,3 +19,4 @@ of the default `xdg-open http://twitch.tv/%streamer%`.
 * Give feedback when streamer page is being opened (livestreamer takes some seconds to start)
 * make the layout of the settings panel nicer
 * nicely reload settings when they are changed
+* Translations
