@@ -39,8 +39,6 @@ function _execCmd() {
 }
 
 function load_json_async(url, fun) {
-    let here = this;
-
     let message = Soup.Message.new('GET', url);
     _httpSession.queue_message(message, function(session, message) {
         let data = JSON.parse(message.response_body.data);
