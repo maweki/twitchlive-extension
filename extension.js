@@ -105,12 +105,6 @@ function init() {
     button.connect('button-press-event', _execCmd);
 }
 
-function reload() {
-  disable();
-  enable();
-}
-setting.connect('changed', reload);
-
 function enable() {
     Main.panel._rightBox.insert_child_at_index(button, 0);
     interval();
