@@ -5,6 +5,8 @@ your favorite streamers are online. Clicking the panel will open the
 streamer's twitch page or execute an arbitrary command to open
 that stream.
 
+Install it from here (using Firefox with the gnome-integration plugin): https://extensions.gnome.org/extension/1078/twitchlive-panel/
+
 I use livestreamer (https://github.com/chrippa/livestreamer) with
 `livestreamer twitch.tv/%streamer% high` as the opening command instead
 of the default `xdg-open http://twitch.tv/%streamer%`.
