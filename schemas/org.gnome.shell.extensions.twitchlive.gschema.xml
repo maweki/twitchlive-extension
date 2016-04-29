@@ -1,0 +1,21 @@
+<schemalist gettext-domain="gnome-shell-extensions">
+  <schema id="org.gnome.shell.extensions.twitchlive" path="/org/gnome/shell/extensions/twitchlive/">
+    <key name="streamers" type="s">
+      <default>''</default>
+		<summary>Streamers, comma seperated</summary>
+		<description>A comma seperated list of account names to follow
+		</description>
+    </key>
+    <key name="opencmd" type="s">
+      <default>'xdg-open http://twitch.tv/%streamer%'</default>
+		<summary>Command to start stream</summary>
+		<description>The command that is to be executed when clicking on a streamers name. Your browser or livestreamer or something else
+		</description>
+    </key>
+    <key type="i" name="interval">
+		<default>5</default>
+		<summary>The interval between updates in minutes</summary>
+		<description>The interval between updates in minutes</description>
+    </key>
+  </schema>
+</schemalist>
