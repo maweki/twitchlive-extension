@@ -32,8 +32,9 @@ let timer = { view: 0, update: 0 };
 let streamertext, text, button, icon;
 
 function _execCmd() {
-    if (online.length > 0) {
-      let cmd = setting.get_string('opencmd').replace('%streamer%', online[0]);
+    let _online = online;
+    if (_online.length > 0) {
+      let cmd = setting.get_string('opencmd').replace('%streamer%', _online[0]);
   		GLib.spawn_command_line_async(cmd);
     }
 }
