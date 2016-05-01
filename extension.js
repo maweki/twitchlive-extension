@@ -65,10 +65,11 @@ function updateData() {
 }
 
 function interval() {
-  if (online.length > 0) {
+  let _online = online;
+  if (_online.length > 0) {
     icon.set_icon_name('media-record-symbolic');
-    online.push(online.shift()); // rotate with race condition
-    streamertext.set_text(online[0]);
+    _online.push(_online.shift()); // rotate
+    streamertext.set_text(_online[0]);
   }
   else {
     icon.set_icon_name('media-playback-stop-symbolic');

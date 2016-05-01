@@ -16,7 +16,6 @@ of the default `xdg-open http://twitch.tv/%streamer%`.
 
 ## TODO (pull requests welcome):
 
-* Remove race condition on streamer display rotation
 * Open streamer page on double-click (and not any click mode)
 * Give feedback when streamer page is being opened (livestreamer takes some seconds to start)
 * make the layout of the settings panel nicer
