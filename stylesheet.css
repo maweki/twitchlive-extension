@@ -1,0 +1,8 @@
+.viewer-icon {
+  height: 1em;
+  width: 1.4em;
+}
+
+.viewer-count {
+  text-align: right; /* I think this might not be implemented for St.Label yet */
+}
