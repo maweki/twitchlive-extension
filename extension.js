@@ -9,6 +9,7 @@ const GLib = imports.gi.GLib;
 const Main = imports.ui.main;
 const Soup = imports.gi.Soup;
 const Mainloop = imports.mainloop;
+const Clutter = imports.gi.Clutter;
 const Tweener = imports.ui.tweener;
 const Panel = imports.ui.main.panel;
 const PanelMenu = imports.ui.panelMenu;
@@ -48,7 +49,8 @@ const ExtensionLayout = new Lang.Class({
     this.actor.add_actor(this._box);
     icon = new St.Icon({ icon_name: 'media-record-symbolic',
                              style_class: 'system-status-icon' });
-    streamertext = new St.Label({text: "Twitch Streamers"});
+    streamertext = new St.Label({text: "Twitch Streamers",
+                                y_align: Clutter.ActorAlign.CENTER});
     this._box.add_child(icon);
     this._box.add_child(streamertext);
 
