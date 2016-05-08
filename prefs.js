@@ -21,6 +21,7 @@ const App = new Lang.Class(
         this.main.attach (new Gtk.Label({label: _("Streamers to follow (comma seperated)")}), 1, 1, 1, 1);
         this.main.attach (new Gtk.Label({label: _("Update Interval (min)")}), 1, 2, 1, 1);
         this.main.attach (new Gtk.Label({label: _("Command to execute")}), 1, 3, 1, 1);
+        this.main.attach (new Gtk.Label({label: _("Show streamer count instead")}), 1, 4, 1, 1);
 
         this.interval = new Gtk.SpinButton({
             adjustment: new Gtk.Adjustment({
@@ -31,14 +32,17 @@ const App = new Lang.Class(
         });
         this.streamers = new Gtk.Entry();
         this.cmd = new Gtk.Entry();
+        this.hide_streamers = new Gtk.Switch();
 
         this.main.attach(this.streamers, 2, 1, 1, 1);
         this.main.attach(this.interval, 2, 2, 1, 1);
         this.main.attach(this.cmd, 2, 3, 1, 1);
+        this.main.attach(this.hide_streamers, 2, 4, 1, 1);
 
         Schema.bind('interval', this.interval, 'value', Gio.SettingsBindFlags.DEFAULT);
         Schema.bind('streamers', this.streamers, 'text', Gio.SettingsBindFlags.DEFAULT);
         Schema.bind('opencmd', this.cmd, 'text', Gio.SettingsBindFlags.DEFAULT);
+        Schema.bind('hidestreamers', this.hide_streamers, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         this.main.show_all();
     }

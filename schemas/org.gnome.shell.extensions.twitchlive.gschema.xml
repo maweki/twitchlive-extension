@@ -17,5 +17,10 @@
 		<summary>The interval between updates in minutes</summary>
 		<description>The interval between updates in minutes</description>
     </key>
+    <key type="b" name="hidestreamers">
+		<default>false</default>
+		<summary>Streamer count instead of names</summary>
+		<description>Showing only the count of active streamers instead of cycling through names</description>
+    </key>
   </schema>
 </schemalist>

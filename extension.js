@@ -134,8 +134,14 @@ function interval() {
   let _online = online;
   if (_online.length > 0) {
     icon.set_icon_name('media-record-symbolic');
-    _online.push(_online.shift()); // rotate
-    streamertext.set_text(_online[0]);
+    let hide_streamers = setting.get_boolean('hidestreamers');
+    if (hide_streamers) {
+      streamertext.set_text(_online.length.toString());
+    }
+    else {
+      _online.push(_online.shift()); // rotate
+      streamertext.set_text(_online[0]);
+    }
   }
   else {
     icon.set_icon_name('media-playback-stop-symbolic');
