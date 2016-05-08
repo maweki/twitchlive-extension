@@ -3,13 +3,16 @@ const Gettext = imports.gettext;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
-const _ = Gettext.gettext;
 
 let schemaDir = Extension.dir.get_child('schemas').get_path();
 let schemaSource = Gio.SettingsSchemaSource.new_from_directory(schemaDir, Gio.SettingsSchemaSource.get_default(), false);
 let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false);
 let Schema = new Gio.Settings({ settings_schema: schema });
 
+const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
+const localeDir = Extension.dir.get_child('locale');
+const _ = Gettext.domain(domain).gettext;
+Gettext.bindtextdomain(domain, localeDir.get_path());
 
 const App = new Lang.Class(
 {
