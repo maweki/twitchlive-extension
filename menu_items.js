@@ -1,3 +1,7 @@
+/**
+  AUTHOR: Mario Wenzel
+  LICENSE: GPL3.0
+**/
 const Lang = imports.lang;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;

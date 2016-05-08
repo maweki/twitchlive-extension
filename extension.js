@@ -1,6 +1,7 @@
 /**
-	AUTHOR: Mario Wenzel
-	COMPILING SCHEMAS: glib-compile-schemas schemas/
+  AUTHOR: Mario Wenzel
+  LICENSE: GPL3.0
+  COMPILING SCHEMAS: glib-compile-schemas schemas/
 **/
 const St = imports.gi.St;
 const Lang = imports.lang;

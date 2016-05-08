@@ -1,3 +1,7 @@
+/**
+  AUTHOR: Mario Wenzel
+  LICENSE: GPL3.0
+**/
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Gettext = imports.gettext;
 const Gio = imports.gi.Gio;

@@ -12,7 +12,7 @@ I use livestreamer (https://github.com/chrippa/livestreamer) with
 of the default `xdg-open http://twitch.tv/%streamer%`.
 
 
-## License: GPL 2.0
+## License: GPL 3.0
 
 Promises library by https://github.com/satya164/gjs-helpers
 
