@@ -21,7 +21,7 @@ const Promise = Extension.imports.promise.Promise;
 
 const _httpSession = new Soup.SessionAsync();
 
-const viewUpdateInterval = 5000;
+const viewUpdateInterval = 10*1000;
 
 let schemaDir = Extension.dir.get_child('schemas').get_path();
 let schemaSource = Gio.SettingsSchemaSource.new_from_directory(
