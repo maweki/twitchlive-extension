@@ -110,9 +110,9 @@ function updateData() {
             }
           }
         });
-        requests.push(http_prom);
+        return http_prom;
       };
-      f(streamer);
+      requests.push(f(streamer));
   }
 
   new Promise.all(requests).then(() => {
