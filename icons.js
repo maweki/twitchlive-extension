@@ -33,5 +33,5 @@ function trigger_download(streamername, imageurl) {
 
 function get_streamericon(streamername, style_class) {
   // a nicer fallback - maybe some default twitch icon - needs to be added
-  return new St.Icon({ icon_name: 'twitchlive-' + streamername, style_class: style_class, fallback_icon_name: 'emblem-videos-symbolic' });
+  return new St.Icon({ icon_name: 'twitchlive-' + streamername, style_class: style_class, fallback_icon_name: 'twitchlive' });
 }

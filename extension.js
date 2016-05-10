@@ -6,6 +6,7 @@
 const St = imports.gi.St;
 const Lang = imports.lang;
 const Gio = imports.gi.Gio;
+const Gtk = imports.gi.Gtk;
 const GLib = imports.gi.GLib;
 const Main = imports.ui.main;
 const Soup = imports.gi.Soup;
@@ -49,7 +50,7 @@ const ExtensionLayout = new Lang.Class({
     this.parent(0.0);
     this._box = new St.BoxLayout();
     this.actor.add_actor(this._box);
-    icon = new St.Icon({ icon_name: 'media-record-symbolic',
+    icon = new St.Icon({ icon_name: 'twitchlive',
                              style_class: 'system-status-icon' });
     streamertext = new St.Label({text: "Twitch Streamers",
                                 y_align: Clutter.ActorAlign.CENTER});
@@ -139,7 +140,7 @@ function updateData() {
 function interval() {
   let _online = online;
   if (_online.length > 0) {
-    icon.set_icon_name('media-record-symbolic');
+    icon.set_icon_name('twitchlive_on');
     let hide_streamers = setting.get_boolean('hidestreamers');
     if (hide_streamers) {
       streamertext.set_text(_online.length.toString());
@@ -150,7 +151,7 @@ function interval() {
     }
   }
   else {
-    icon.set_icon_name('media-playback-stop-symbolic');
+    icon.set_icon_name('twitchlive_off');
     streamertext.set_text("");
   }
   return true;
@@ -166,6 +167,7 @@ function enable_view_update() {
 }
 
 function init() {
+  Gtk.IconTheme.get_default().append_search_path(Extension.dir.get_child('livestreamer-icons').get_path());
   Icons.init_icons();
 }
 

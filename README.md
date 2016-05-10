@@ -16,6 +16,8 @@ of the default `xdg-open http://twitch.tv/%streamer%`.
 
 Promises library by https://github.com/satya164/gjs-helpers
 
+Icons by https://github.com/RaphaelRochet
+
 ## TODO (pull requests welcome):
 
 * Give feedback when streamer page is being opened (livestreamer takes some seconds to start)
