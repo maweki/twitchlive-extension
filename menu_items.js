@@ -6,6 +6,9 @@ const Lang = imports.lang;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
 
+const Extension = imports.misc.extensionUtils.getCurrentExtension();
+const Icons = Extension.imports.icons;
+
 const StreamerMenuItem = new Lang.Class({
 
   Name: 'StreamerMenuItem',
@@ -16,10 +19,12 @@ const StreamerMenuItem = new Lang.Class({
     this._streamer = streamername;
 
     this._layout = {};
+    this._layout.streamer_icon = Icons.get_streamericon(streamername, "streamer-icon streamer-menuitem");
     this._layout.name = new St.Label({ text: streamername, style_class : "name streamer-menuitem"});
     this._layout.game = new St.Label({ text: game, style_class : "game streamer-menuitem"});
     this._layout.viewer_count = new St.Label({ text: viewer_count.toString(), style_class : "viewer-count streamer-menuitem"});
     this._layout.viewer_icon = new St.Icon({ icon_name: 'avatar-default-symbolic', style_class: 'viewer-icon streamer-menuitem' });
+    this.actor.add(this._layout.streamer_icon);
     this.actor.add(this._layout.name);
     this.actor.add(this._layout.game);
     this.actor.add(this._layout.viewer_count);

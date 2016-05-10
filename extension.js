@@ -19,6 +19,7 @@ const PopupMenu = imports.ui.popupMenu;
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const MenuItems = Extension.imports.menu_items;
 const Promise = Extension.imports.promise.Promise;
+const Icons = Extension.imports.icons;
 
 const _httpSession = new Soup.SessionAsync();
 
@@ -98,6 +99,9 @@ function updateData() {
           load_json_async(url, resolve)
         }).then((data) => {
           if (data.stream) {
+            if (data.stream.channel && data.stream.channel.logo) {
+              Icons.trigger_download(streamer, data.stream.channel.logo);
+            }
             online.push(streamer);
             let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
             menu.addMenuItem(item);
@@ -161,6 +165,7 @@ function enable_view_update() {
 }
 
 function init() {
+  Icons.init_icons();
 }
 
 function enable() {
