@@ -99,14 +99,15 @@ function updateData() {
           load_json_async(url, resolve)
         }).then((data) => {
           if (data.stream) {
-            if (data.stream.channel && data.stream.channel.logo) {
-              Icons.trigger_download(streamer, data.stream.channel.logo);
-            }
             online.push(streamer);
             let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
             menu.addMenuItem(item);
             item.connect("activate", Lang.bind(this, _execCmd, streamer));
             menu_items.push(item);
+
+            if (data.stream.channel && data.stream.channel.logo) {
+              Icons.trigger_download(streamer, data.stream.channel.logo);
+            }
           }
         });
         requests.push(http_prom);
