@@ -22,7 +22,7 @@ function trigger_download(streamername, imageurl) {
   if (!GLib.file_test(filename, GLib.FileTest.EXISTS)) {
     // this might be done with soup but works fine this way
     let cmd = "curl -s %url% -o %output%".replace('%url%', imageurl).replace('%output%', filename);
-    GLib.spawn_command_line_sync(cmd);
+    GLib.spawn_command_line_sync(cmd); // download should probably be async
 
     if (extension != 'png') { // we should actually check for the png-file
       cmd = "mogrify -format png " + filename;
