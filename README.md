@@ -18,6 +18,8 @@ Promises library by https://github.com/satya164/gjs-helpers
 
 Icons by https://github.com/RaphaelRochet
 
+Twitch and the Twitch icon is owned by Twitch Interactive, Inc., no rights infringement intended
+
 ## TODO (pull requests welcome):
 
 * Give feedback when streamer page is being opened (livestreamer takes some seconds to start)
