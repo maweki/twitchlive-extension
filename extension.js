@@ -40,16 +40,16 @@ let HIDESTREAMERS = false;
 let button;
 
 const ExtensionLayout = new Lang.Class({
-	Name: 'ExtensionLayout',
-	Extends: PanelMenu.Button,
+  Name: 'ExtensionLayout',
+  Extends: PanelMenu.Button,
 
-	streamertext : null,
-	text: null,
-	icon: null,
-	online: [],
-	timer: { view: 0, update: 0 },
-	settings: new Gio.Settings({ settings_schema: schema }),
-	_httpSession: new Soup.SessionAsync(),
+  streamertext : null,
+  text: null,
+  icon: null,
+  online: [],
+  timer: { view: 0, update: 0 },
+  settings: new Gio.Settings({ settings_schema: schema }),
+  _httpSession: new Soup.SessionAsync(),
   settingsTimerId: 0,
 
   _init: function() {
@@ -63,15 +63,15 @@ const ExtensionLayout = new Lang.Class({
     this._box.add_child(this.icon);
     this._box.add_child(this.streamertext);
 
-	  this._applySettings();
-	  this.settings.connect('changed', Lang.bind(this, this._applySettings));
+    this._applySettings();
+    this.settings.connect('changed', Lang.bind(this, this._applySettings));
   },
 
   _applySettings: function() {
-	  STREAMERS = this.settings.get_string('streamers').split(',');
-	  OPENCMD = this.settings.get_string('opencmd');
-	  INTERVAL = this.settings.get_int('interval')*1000*60;
-	  HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
+    STREAMERS = this.settings.get_string('streamers').split(',');
+    OPENCMD = this.settings.get_string('opencmd');
+    INTERVAL = this.settings.get_int('interval')*1000*60;
+    HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
 
     if (this.settingsTimerId != 0) Mainloop.source_remove(this.settingsTimerId);
     this.settingsTimerId = Mainloop.timeout_add(1000, Lang.bind(this, function(){
@@ -92,10 +92,10 @@ const ExtensionLayout = new Lang.Class({
     this.parent();
   },
 
-	_execCmd:function(sender, event, streamer) {
-		let cmd = OPENCMD.replace('%streamer%', streamer);
-  		GLib.spawn_command_line_async(cmd);
-	},
+  _execCmd:function(sender, event, streamer) {
+    let cmd = OPENCMD.replace('%streamer%', streamer);
+    GLib.spawn_command_line_async(cmd);
+  },
 
   updateData: function() {
     this.disable_view_update();
