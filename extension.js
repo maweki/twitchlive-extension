@@ -121,7 +121,6 @@ const ExtensionLayout = new Lang.Class({
     this.disable_view_update();
     let menu = this.streamersMenu;
     let menu_items = [];
-    menu.removeAll();
 
     this.online = [];
     let that = this; // this will be overwritten in promise calls
@@ -135,7 +134,6 @@ const ExtensionLayout = new Lang.Class({
         if (data.stream) {
           that.online.push(streamer);
           let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
-          menu.addMenuItem(item);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
           menu_items.push(item);
 
@@ -152,6 +150,9 @@ const ExtensionLayout = new Lang.Class({
     new Promise.all(requests).then(
         //sucess
         function(){
+            menu.removeAll();
+            menu_items.map((d) => menu.addMenuItem(d));
+
             if (menu_items.length == 0) {
               menu.addMenuItem(new MenuItems.NobodyMenuItem());
             }
