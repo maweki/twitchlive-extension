@@ -38,7 +38,7 @@ const StreamerMenuItem = new Lang.Class({
   },
 
   get_size_info: function() {
-    return [this._layout.name.get_width(), this._layout.game.get_width(), this._layout.viewer_count.get_width()];
+    return [this._layout.name.get_allocation_box().get_width(), this._layout.game.get_allocation_box().get_width(), this._layout.viewer_count.get_allocation_box().get_width()];
   },
 
   apply_size_info: function(size_info) {
