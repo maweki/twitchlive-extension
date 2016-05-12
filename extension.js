@@ -127,32 +127,27 @@ const ExtensionLayout = new Lang.Class({
     let that = this; // this will be overwritten in promise calls
 
     // make requests
-    let requests = [];
-    for (let i = 0; i < STREAMERS.length; i++) {
-        let streamer = STREAMERS[i].trim();
-        if (streamer == "") continue;
+    let req = function(streamer){
+      let http_prom = new Promise((resolve, reject) => {
+        let url = 'https://api.twitch.tv/kraken/streams/' + streamer;
+        that.load_json_async(url, resolve)
+      }).then((data) => {
+        if (data.stream) {
+          that.online.push(streamer);
+          let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
+          menu.addMenuItem(item);
+          item.connect("activate", Lang.bind(that, that._execCmd, streamer));
+          menu_items.push(item);
 
-        let f = function(streamer){
-          let http_prom = new Promise((resolve, reject) => {
-            let url = 'https://api.twitch.tv/kraken/streams/' + streamer;
-            that.load_json_async(url, resolve)
-          }).then((data) => {
-            if (data.stream) {
-              that.online.push(streamer);
-              let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
-              menu.addMenuItem(item);
-              item.connect("activate", Lang.bind(that, that._execCmd, streamer));
-              menu_items.push(item);
+          if (data.stream.channel && data.stream.channel.logo) {
+            Icons.trigger_download(streamer, data.stream.channel.logo);
+          }
+        }
+      });
+      return http_prom;
+    };
 
-              if (data.stream.channel && data.stream.channel.logo) {
-                Icons.trigger_download(streamer, data.stream.channel.logo);
-              }
-            }
-          });
-          return http_prom;
-        };
-        requests.push(f(streamer));
-    }
+    let requests = STREAMERS.map((d) => d.trim()).filter((d) => d != "").map(req);
 
     new Promise.all(requests).then(
         //sucess
