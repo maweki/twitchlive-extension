@@ -63,9 +63,6 @@ const ExtensionLayout = new Lang.Class({
     this._box.add_child(this.streamertext);
 
 	  this._applySettings();
-    this.updateData();
-    this.timer.update = Mainloop.timeout_add(INTERVAL, Lang.bind(this, this.updateData));
-
 	  this.settings.connect('changed', Lang.bind(this, this._applySettings));
   },
 
@@ -75,7 +72,10 @@ const ExtensionLayout = new Lang.Class({
 	  INTERVAL = this.settings.get_int('interval')*1000*60;
 	  HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
 
-	  // TODO reload timer here
+    this.updateData();
+
+    if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
+    this.timer.update = Mainloop.timeout_add(INTERVAL, Lang.bind(this, this.updateData));
   },
 
   destroy: function() {
