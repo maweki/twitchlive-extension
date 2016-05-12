@@ -16,6 +16,7 @@ const Tweener = imports.ui.tweener;
 const Panel = imports.ui.main.panel;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
+const Util = imports.misc.util;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const MenuItems = Extension.imports.menu_items;
@@ -63,6 +64,18 @@ const ExtensionLayout = new Lang.Class({
     this._box.add_child(this.icon);
     this._box.add_child(this.streamertext);
 
+    // Create menu section for streamers
+    this.streamersMenu = new PopupMenu.PopupMenuSection();
+    this.menu.addMenuItem(this.streamersMenu);
+
+    // Add separator
+    this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
+    // Add 'Settings' menu item to open settings
+    let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
+    this.menu.addMenuItem(settingsMenuItem);
+    settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
+
     this._applySettings();
     this.settings.connect('changed', Lang.bind(this, this._applySettings));
   },
@@ -92,6 +105,13 @@ const ExtensionLayout = new Lang.Class({
     this.parent();
   },
 
+  _openSettings: function () {
+      Util.spawn([
+          "gnome-shell-extension-prefs",
+          Extension.uuid
+      ]);
+  },
+
   _execCmd:function(sender, event, streamer) {
     let cmd = OPENCMD.replace('%streamer%', streamer);
     GLib.spawn_command_line_async(cmd);
@@ -99,7 +119,7 @@ const ExtensionLayout = new Lang.Class({
 
   updateData: function() {
     this.disable_view_update();
-    let menu = this.menu;
+    let menu = this.streamersMenu;
     let menu_items = [];
     menu.removeAll();
 
