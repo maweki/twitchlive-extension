@@ -22,8 +22,6 @@ const MenuItems = Extension.imports.menu_items;
 const Promise = Extension.imports.promise.Promise;
 const Icons = Extension.imports.icons;
 
-const _httpSession = new Soup.SessionAsync();
-
 const viewUpdateInterval = 10*1000;
 
 let schemaDir = Extension.dir.get_child('schemas').get_path();
@@ -33,137 +31,172 @@ let schemaSource = Gio.SettingsSchemaSource.new_from_directory(
     false
 );
 let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false);
-let setting = new Gio.Settings({ settings_schema: schema });
 
+let STREAMERS = [];
+let OPENCMD = "";
+let INTERVAL = 5*1000*60;
+let HIDESTREAMERS = false;
 
-let streamers = [];
-let online = [];
-let timer = { view: 0, update: 0 };
-
-let streamertext, text, button, icon;
+let button;
 
 const ExtensionLayout = new Lang.Class({
-  Name: 'ExtensionLayout',
-  Extends: PanelMenu.Button,
+	Name: 'ExtensionLayout',
+	Extends: PanelMenu.Button,
+
+	streamertext : null,
+	text: null,
+	icon: null,
+	online: [],
+	timer: { view: 0, update: 0 },
+	settings: new Gio.Settings({ settings_schema: schema }),
+	_httpSession: new Soup.SessionAsync(),
 
   _init: function() {
     this.parent(0.0);
     this._box = new St.BoxLayout();
     this.actor.add_actor(this._box);
-    icon = new St.Icon({ icon_name: 'twitchlive',
+    this.icon = new St.Icon({ icon_name: 'twitchlive',
                              style_class: 'system-status-icon' });
-    streamertext = new St.Label({text: "Twitch Streamers",
+    this.streamertext = new St.Label({text: "Twitch Streamers",
                                 y_align: Clutter.ActorAlign.CENTER});
-    this._box.add_child(icon);
-    this._box.add_child(streamertext);
+    this._box.add_child(this.icon);
+    this._box.add_child(this.streamertext);
 
-    //button.connect('button-release-event', _execCmd);
-  }
+	  this._applySettings();
+    this.updateData();
+    this.timer.update = Mainloop.timeout_add(INTERVAL, Lang.bind(this, this.updateData));
+
+	  this.settings.connect('changed', Lang.bind(this, this._applySettings));
+  },
+
+  _applySettings: function() {
+	  STREAMERS = this.settings.get_string('streamers').split(',');
+	  OPENCMD = this.settings.get_string('opencmd');
+	  INTERVAL = this.settings.get_int('interval')*1000*60;
+	  HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
+
+	  // TODO reload timer here
+  },
+
+  destroy: function() {
+    if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
+    this.timer.update = 0;
+    this.disable_view_update();
+    this.parent();
+  },
+
+	_execCmd:function(sender, event, streamer) {
+		let cmd = OPENCMD.replace('%streamer%', streamer);
+  		GLib.spawn_command_line_async(cmd);
+	},
+
+  updateData: function() {
+    this.disable_view_update();
+    let menu = this.menu;
+    let menu_items = [];
+    menu.removeAll();
+
+    this.online = [];
+    let that = this; // this will be overwritten in promise calls
+
+    // make requests
+    let requests = [];
+    for (let i = 0; i < STREAMERS.length; i++) {
+        let streamer = STREAMERS[i].trim();
+        if (streamer == "") continue;
+
+        let f = function(streamer){
+          let http_prom = new Promise((resolve, reject) => {
+            let url = 'https://api.twitch.tv/kraken/streams/' + streamer;
+            that.load_json_async(url, resolve)
+          }).then((data) => {
+            if (data.stream) {
+              that.online.push(streamer);
+              let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
+              menu.addMenuItem(item);
+              item.connect("activate", Lang.bind(that, that._execCmd, streamer));
+              menu_items.push(item);
+
+              if (data.stream.channel && data.stream.channel.logo) {
+                Icons.trigger_download(streamer, data.stream.channel.logo);
+              }
+            }
+          });
+          return http_prom;
+        };
+        requests.push(f(streamer));
+    }
+
+    new Promise.all(requests).then(
+        //sucess
+        function(){
+            if (menu_items.length == 0) {
+              menu.addMenuItem(new MenuItems.NobodyMenuItem());
+            }
+            else {
+              // gather sizes
+              let sizes = [0,0,0];
+              for (let i = 0; i < menu_items.length; i++) {
+                sizes = max_size_info(sizes, menu_items[i].get_size_info());
+              };
+
+              // set sizes
+              for (let i = 0; i < menu_items.length; i++) {
+                menu_items[i].apply_size_info(sizes);
+              };
+            }
+            that.enable_view_update();
+          },
+      //failed
+      function(why){
+        log("An error occured : " + why );
+      }
+    );
+
+    return true;
+  },
+
+  disable_view_update: function() {
+    if (this.timer.view != 0) Mainloop.source_remove(this.timer.view);
+    this.timer.view = 0;
+  },
+
+  enable_view_update: function() {
+    this.interval();
+    this.timer.view = Mainloop.timeout_add(viewUpdateInterval,  Lang.bind(this, this.interval));
+  },
+
+  interval: function() {
+    let _online = this.online;
+    if (_online.length > 0) {
+      this.icon.set_icon_name('twitchlive_on');
+      if (HIDESTREAMERS) {
+        this.streamertext.set_text(_online.length.toString());
+      }
+      else {
+        _online.push(_online.shift()); // rotate
+        this.streamertext.set_text(_online[0]);
+      }
+    }
+    else {
+      this.icon.set_icon_name('twitchlive_off');
+      this.streamertext.set_text("");
+    }
+    return true;
+  },
+
+  load_json_async: function(url, fun) {
+      let message = Soup.Message.new('GET', url);
+      this._httpSession.queue_message(message, function(session, message) {
+          let data = JSON.parse(message.response_body.data);
+          fun(data);
+      });
+  },
 
 });
 
-function _execCmd(sender, event, streamer) {
-  let cmd = setting.get_string('opencmd').replace('%streamer%', streamer);
-  GLib.spawn_command_line_async(cmd);
-}
-
 function max_size_info(size_info1, size_info2) {
   return [Math.max(size_info1[0], size_info2[0]), Math.max(size_info1[1], size_info2[1]), Math.max(size_info1[2], size_info2[2])]
-}
-
-function load_json_async(url, fun) {
-    let message = Soup.Message.new('GET', url);
-    _httpSession.queue_message(message, function(session, message) {
-        let data = JSON.parse(message.response_body.data);
-        fun(data);
-    });
-}
-
-function updateData() {
-  disable_view_update();
-  let menu = button.menu;
-  let menu_items = [];
-  menu.removeAll();
-
-  streamers = setting.get_string('streamers').split(',');
-  online = [];
-
-  // make requests
-  let requests = [];
-  for (let i = 0; i < streamers.length; i++) {
-      let streamer = streamers[i].trim();
-      if (streamer == "") continue;
-
-      let f = function(streamer){
-        let http_prom = new Promise((resolve, reject) => {
-          let url = 'https://api.twitch.tv/kraken/streams/' + streamer;
-          load_json_async(url, resolve)
-        }).then((data) => {
-          if (data.stream) {
-            online.push(streamer);
-            let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
-            menu.addMenuItem(item);
-            item.connect("activate", Lang.bind(this, _execCmd, streamer));
-            menu_items.push(item);
-
-            if (data.stream.channel && data.stream.channel.logo) {
-              Icons.trigger_download(streamer, data.stream.channel.logo);
-            }
-          }
-        });
-        return http_prom;
-      };
-      requests.push(f(streamer));
-  }
-
-  new Promise.all(requests).then(() => {
-    if (menu_items.length == 0) {
-      menu.addMenuItem(new MenuItems.NobodyMenuItem());
-    }
-    else {
-      // gather sizes
-      let sizes = [0,0,0];
-      for (let i = 0; i < menu_items.length; i++) {
-        sizes = max_size_info(sizes, menu_items[i].get_size_info());
-      };
-
-      // set sizes
-      for (let i = 0; i < menu_items.length; i++) {
-        menu_items[i].apply_size_info(sizes);
-      };
-    }
-    enable_view_update();
-  });
-  return true;
-}
-
-function interval() {
-  let _online = online;
-  if (_online.length > 0) {
-    icon.set_icon_name('twitchlive_on');
-    let hide_streamers = setting.get_boolean('hidestreamers');
-    if (hide_streamers) {
-      streamertext.set_text(_online.length.toString());
-    }
-    else {
-      _online.push(_online.shift()); // rotate
-      streamertext.set_text(_online[0]);
-    }
-  }
-  else {
-    icon.set_icon_name('twitchlive_off');
-    streamertext.set_text("");
-  }
-  return true;
-}
-
-function disable_view_update() {
-  if (timer.view != 0) Mainloop.source_remove(timer.view);
-  timer.view = 0;
-}
-function enable_view_update() {
-  interval();
-  timer.view = Mainloop.timeout_add(viewUpdateInterval, interval);
 }
 
 function init() {
@@ -174,12 +207,7 @@ function init() {
 function enable() {
     button = new ExtensionLayout();
     Panel.addToStatusArea('twitchlive', button, 0);
-    updateData();
-    timer.update = Mainloop.timeout_add(setting.get_int('interval')*1000*60, updateData);
 }
 function disable() {
     button.destroy();
-    if (timer.update != 0) Mainloop.source_remove(timer.update);
-    timer.update = 0;
-    disable_view_update();
 }
