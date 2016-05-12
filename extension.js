@@ -50,6 +50,7 @@ const ExtensionLayout = new Lang.Class({
 	timer: { view: 0, update: 0 },
 	settings: new Gio.Settings({ settings_schema: schema }),
 	_httpSession: new Soup.SessionAsync(),
+  settingsTimerId: 0,
 
   _init: function() {
     this.parent(0.0);
@@ -72,13 +73,19 @@ const ExtensionLayout = new Lang.Class({
 	  INTERVAL = this.settings.get_int('interval')*1000*60;
 	  HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
 
-    this.updateData();
+    if (this.settingsTimerId != 0) Mainloop.source_remove(this.settingsTimerId);
+    this.settingsTimerId = Mainloop.timeout_add(1000, Lang.bind(this, function(){
+      this.updateData();
+      return false;
+    }));
 
     if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
     this.timer.update = Mainloop.timeout_add(INTERVAL, Lang.bind(this, this.updateData));
   },
 
   destroy: function() {
+    if (this.settingsTimerId != 0) Mainloop.source_remove(this.settingsTimerId);
+    this.settingsTimerId = 0;
     if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
     this.timer.update = 0;
     this.disable_view_update();
