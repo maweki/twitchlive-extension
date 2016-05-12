@@ -158,15 +158,10 @@ const ExtensionLayout = new Lang.Class({
             }
             else {
               // gather sizes
-              let sizes = [0,0,0];
-              for (let i = 0; i < menu_items.length; i++) {
-                sizes = max_size_info(sizes, menu_items[i].get_size_info());
-              };
+              let sizes = menu_items.map((item) => item.get_size_info()).reduce(max_size_info, [0,0,0]);
 
               // set sizes
-              for (let i = 0; i < menu_items.length; i++) {
-                menu_items[i].apply_size_info(sizes);
-              };
+              menu_items.map((item) => item.apply_size_info(sizes));
             }
             that.enable_view_update();
           },
