@@ -1,5 +1,5 @@
 /**
-  AUTHOR: Mario Wenzel
+  AUTHORS: Mario Wenzel, Raphaël Rochet
   LICENSE: GPL3.0
   COMPILING SCHEMAS: glib-compile-schemas schemas/
 **/
