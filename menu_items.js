@@ -42,9 +42,10 @@ const StreamerMenuItem = new Lang.Class({
   },
 
   apply_size_info: function(size_info) {
+    let viewer_count_size_diff = size_info[2] - this._layout.viewer_count.get_allocation_box().get_width();
     this._layout.name.set_width(size_info[0]);
-    this._layout.game.set_width(size_info[1]);
-    this._layout.viewer_count.set_width(size_info[2]);
+    this._layout.game.set_width(size_info[1] + viewer_count_size_diff);
+    this._layout.viewer_count.set_width(size_info[2] - viewer_count_size_diff);
   }
 });
 
