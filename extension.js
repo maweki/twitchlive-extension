@@ -84,6 +84,10 @@ const ExtensionLayout = new Lang.Class({
     this.menu.addMenuItem(settingsMenuItem);
     settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
 
+    this.updateMenuItem = new PopupMenu.PopupMenuItem(_('Update now'));
+    this.menu.addMenuItem(this.updateMenuItem);
+    this.updateMenuItem.connect('activate', Lang.bind(this, this.updateData));
+
     this._applySettings();
     this.settings.connect('changed', Lang.bind(this, this._applySettings));
     this.menu.connect('open-state-changed', Lang.bind(this, this._onMenuOpened));
@@ -101,8 +105,6 @@ const ExtensionLayout = new Lang.Class({
       return false;
     }));
 
-    if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
-    this.timer.update = Mainloop.timeout_add(INTERVAL, Lang.bind(this, this.updateData));
   },
 
   destroy: function() {
@@ -127,6 +129,11 @@ const ExtensionLayout = new Lang.Class({
   },
 
   updateData: function() {
+    // disable timer and disable "update now" menu
+    if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
+    this.updateMenuItem.actor.reactive = false;
+    this.updateMenuItem.label.set_text(_("Updating ..."));
+
     this.disable_view_update();
     let menu = this.streamersMenu;
     let menu_items = [];
@@ -162,11 +169,13 @@ const ExtensionLayout = new Lang.Class({
             // clear menu
             menu.removeAll();
             that.spacer.actor.hide();
-            // but store items for late menu draw
+            // store items for late menu draw
             that.menuItems = menu_items;
+            if (that.menu.isOpen) that.updateMenuLayout();
             that.layoutChanged = true;
-            if (that.menu.isOpen) updateMenuLayout();
-
+            // make update now menu reactive again
+            that.updateMenuItem.actor.reactive = true;
+            that.updateMenuItem.label.set_text(_("Update now"));
             that.enable_view_update();
           },
       //failed
@@ -175,7 +184,9 @@ const ExtensionLayout = new Lang.Class({
       }
     );
 
-    return true;
+    //schedule next check
+    this.timer.update = Mainloop.timeout_add(INTERVAL, Lang.bind(this, this.updateData));
+    return false;
   },
 
   updateMenuLayout: function() {
