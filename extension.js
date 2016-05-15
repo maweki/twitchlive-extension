@@ -206,6 +206,7 @@ const ExtensionLayout = new Lang.Class({
   },
 
   updateMenuLayout: function() {
+    this.streamersMenu.removeAll();
     this.menuItems.map((d) => this.streamersMenu.addMenuItem(d));
     if (this.menuItems.length == 0) {
       this.streamersMenu.addMenuItem(new MenuItems.NobodyMenuItem(_("Nobody is streaming")));
