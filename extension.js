@@ -46,6 +46,19 @@ let HIDESTREAMERS = false;
 
 let button;
 
+const SeparatorMenuItem = new Lang.Class({
+    Name: 'SeparatorMenuItem',
+    // Looks like a SeparatorMenuItem, but never hides
+    Extends: PopupMenu.PopupBaseMenuItem,
+    _init: function (text) {
+        this.parent({ reactive: false, can_focus: false});
+        this._separator = new St.Widget({ style_class: 'popup-separator-menu-item',
+                                          y_expand: true,
+                                          y_align: Clutter.ActorAlign.CENTER });
+        this.actor.add(this._separator, { expand: true });
+    },
+});
+
 const ExtensionLayout = new Lang.Class({
   Name: 'ExtensionLayout',
   Extends: PanelMenu.Button,
@@ -79,7 +92,7 @@ const ExtensionLayout = new Lang.Class({
     this.menu.addMenuItem(this.streamersMenuContainer);
 
     // Add separator
-    this.spacer = new PopupMenu.PopupSeparatorMenuItem();
+    this.spacer = new SeparatorMenuItem();
     this.menu.addMenuItem(this.spacer);
 
     // Add 'Settings' menu item to open settings
