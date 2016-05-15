@@ -73,7 +73,11 @@ const ExtensionLayout = new Lang.Class({
 
     // Create menu section for streamers
     this.streamersMenu = new PopupMenu.PopupMenuSection();
-    this.menu.addMenuItem(this.streamersMenu);
+    this.streamersMenuContainer = new PopupMenu.PopupMenuSection();
+    let scrollView = new St.ScrollView({ overlay_scrollbars: true , hscrollbar_policy: Gtk.PolicyType.NEVER });
+    scrollView.add_actor(this.streamersMenu.actor);
+    this.streamersMenuContainer.actor.add_actor(scrollView);
+    this.menu.addMenuItem(this.streamersMenuContainer);
 
     // Add separator
     this.spacer = new PopupMenu.PopupSeparatorMenuItem();
