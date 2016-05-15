@@ -54,7 +54,7 @@ const NobodyMenuItem = new Lang.Class({
   Extends: PopupMenu.PopupBaseMenuItem,
 
   _init: function(nobodytext) {
-    this.parent();
+    this.parent({ reactive: false, can_focus: false });
     this.actor.add(new St.Label({ text: nobodytext, style_class : "nobody-menuitem"}));
   }
 });
