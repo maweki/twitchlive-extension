@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-16 01:05+0200\n"
-"PO-Revision-Date: 2016-05-15 11:11+0200\n"
+"PO-Revision-Date: 2016-05-16 01:06+0200\n"
 "Last-Translator: Raphaël Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -24,11 +24,11 @@ msgstr "Paramètres"
 
 #: extension.js:91 extension.js:182
 msgid "Update now"
-msgstr ""
+msgstr "Mettre à jour maintenant"
 
 #: extension.js:139
 msgid "Updating ..."
-msgstr ""
+msgstr "Mise à jour ..."
 
 #: extension.js:199
 msgid "Nobody is streaming"
