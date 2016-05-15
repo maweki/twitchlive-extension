@@ -187,8 +187,8 @@ const ExtensionLayout = new Lang.Class({
             that.spacer.actor.hide();
             // store items for late menu draw
             that.menuItems = menu_items;
-            if (that.menu.isOpen) that.updateMenuLayout();
             that.layoutChanged = true;
+            if (that.menu.isOpen) that.updateMenuLayout();
             // make update now menu reactive again
             that.updateMenuItem.actor.reactive = true;
             that.updateMenuItem.label.set_text(_("Update now"));
