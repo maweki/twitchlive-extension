@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-08 21:24+0200\n"
+"POT-Creation-Date: 2016-05-15 11:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: prefs.js:24
+#: extension.js:80
+msgid "Settings"
+msgstr ""
+
+#: extension.js:162
+msgid "Nobody is streaming"
+msgstr ""
+
+#: prefs.js:28
 msgid "Streamers to follow (comma seperated)"
 msgstr ""
 
-#: prefs.js:25
+#: prefs.js:29
 msgid "Update Interval (min)"
 msgstr ""
 
-#: prefs.js:26
+#: prefs.js:30
 msgid "Command to execute"
 msgstr ""
 
-#: prefs.js:27
+#: prefs.js:31
 msgid "Show streamer count instead"
 msgstr ""

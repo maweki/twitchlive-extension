@@ -23,6 +23,12 @@ const MenuItems = Extension.imports.menu_items;
 const Promise = Extension.imports.promise.Promise;
 const Icons = Extension.imports.icons;
 
+const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
+const localeDir = Extension.dir.get_child('locale');
+const Gettext = imports.gettext;
+const _ = Gettext.domain(domain).gettext;
+Gettext.bindtextdomain(domain, localeDir.get_path());
+
 const viewUpdateInterval = 10*1000;
 
 let schemaDir = Extension.dir.get_child('schemas').get_path();
@@ -154,7 +160,7 @@ const ExtensionLayout = new Lang.Class({
             menu_items.map((d) => menu.addMenuItem(d));
 
             if (menu_items.length == 0) {
-              menu.addMenuItem(new MenuItems.NobodyMenuItem());
+              menu.addMenuItem(new MenuItems.NobodyMenuItem(_("Nobody is streaming")));
             }
             else {
               // gather sizes

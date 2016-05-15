@@ -53,8 +53,8 @@ const NobodyMenuItem = new Lang.Class({
   Name: 'NobodyMenuItem',
   Extends: PopupMenu.PopupBaseMenuItem,
 
-  _init: function() {
+  _init: function(nobodytext) {
     this.parent();
-    this.actor.add(new St.Label({ text: "Nobody is streaming", style_class : "nobody-menuitem"}));
+    this.actor.add(new St.Label({ text: nobodytext, style_class : "nobody-menuitem"}));
   }
 });
