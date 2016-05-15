@@ -58,6 +58,7 @@ const ExtensionLayout = new Lang.Class({
   settings: new Gio.Settings({ settings_schema: schema }),
   _httpSession: new Soup.SessionAsync(),
   settingsTimerId: 0,
+  layoutChanged: false,
 
   _init: function() {
     this.parent(0.0);
@@ -75,7 +76,8 @@ const ExtensionLayout = new Lang.Class({
     this.menu.addMenuItem(this.streamersMenu);
 
     // Add separator
-    this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+    this.spacer = new PopupMenu.PopupSeparatorMenuItem();
+    this.menu.addMenuItem(this.spacer);
 
     // Add 'Settings' menu item to open settings
     let settingsMenuItem = new PopupMenu.PopupMenuItem(_('Settings'));
@@ -84,6 +86,7 @@ const ExtensionLayout = new Lang.Class({
 
     this._applySettings();
     this.settings.connect('changed', Lang.bind(this, this._applySettings));
+    this.menu.connect('open-state-changed', Lang.bind(this, this._onMenuOpened));
   },
 
   _applySettings: function() {
@@ -156,19 +159,14 @@ const ExtensionLayout = new Lang.Class({
     new Promise.all(requests).then(
         //sucess
         function(){
+            // clear menu
             menu.removeAll();
-            menu_items.map((d) => menu.addMenuItem(d));
+            that.spacer.actor.hide();
+            // but store items for late menu draw
+            that.menuItems = menu_items;
+            that.layoutChanged = true;
+            if (that.menu.isOpen) updateMenuLayout();
 
-            if (menu_items.length == 0) {
-              menu.addMenuItem(new MenuItems.NobodyMenuItem(_("Nobody is streaming")));
-            }
-            else {
-              // gather sizes
-              let sizes = menu_items.map((item) => item.get_size_info()).reduce(max_size_info, [0,0,0]);
-
-              // set sizes
-              menu_items.map((item) => item.apply_size_info(sizes));
-            }
             that.enable_view_update();
           },
       //failed
@@ -178,6 +176,28 @@ const ExtensionLayout = new Lang.Class({
     );
 
     return true;
+  },
+
+  updateMenuLayout: function() {
+    this.menuItems.map((d) => this.streamersMenu.addMenuItem(d));
+    if (this.menuItems.length == 0) {
+      this.streamersMenu.addMenuItem(new MenuItems.NobodyMenuItem(_("Nobody is streaming")));
+    }
+    else {
+      this.spacer.actor.show();
+      // gather sizes
+      let sizes = this.menuItems.map((item) => item.get_size_info()).reduce(max_size_info, [0,0,0]);
+      // set sizes
+      this.menuItems.map((item) => item.apply_size_info(sizes));
+    }
+    this.layoutChanged = false;
+  },
+
+  _onMenuOpened: function() {
+    // This event is fired when menu is shown or hidden
+    if (this.menu.isOpen && this.layoutChanged == true) {
+      this.updateMenuLayout();
+    }
   },
 
   disable_view_update: function() {
