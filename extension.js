@@ -140,6 +140,7 @@ const ExtensionLayout = new Lang.Class({
   },
 
   _execCmd:function(sender, event, streamer) {
+    this.menu.close();
     let cmd = OPENCMD.replace('%streamer%', streamer);
     GLib.spawn_command_line_async(cmd);
   },
