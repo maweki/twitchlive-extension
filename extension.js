@@ -101,9 +101,10 @@ const ExtensionLayout = new Lang.Class({
     settingsMenuItem.connect('activate', Lang.bind(this, this._openSettings));
 
     this.updateMenuItem = new PopupMenu.PopupMenuItem(_('Update now'));
-    this.menu.addMenuItem(this.updateMenuItem);
+    this.updateMenuContainer = new PopupMenu.PopupMenuSection();
+    this.updateMenuContainer.actor.add_actor(this.updateMenuItem.actor);
+    this.menu.addMenuItem(this.updateMenuContainer);
     this.updateMenuItem.connect('activate', Lang.bind(this, this.updateData));
-
     this._applySettings();
     this.settings.connect('changed', Lang.bind(this, this._applySettings));
     this.menu.connect('open-state-changed', Lang.bind(this, this._onMenuOpened));
