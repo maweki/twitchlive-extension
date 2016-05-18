@@ -24,35 +24,21 @@ const App = new Lang.Class(
 
     _init: function()
     {
-        this.main = new Gtk.Grid({row_spacing: 10, column_spacing: 20, column_homogeneous: false, row_homogeneous: true});
-        this.main.attach (new Gtk.Label({label: _("Streamers to follow (comma seperated)")}), 1, 1, 1, 1);
-        this.main.attach (new Gtk.Label({label: _("Update Interval (min)")}), 1, 2, 1, 1);
-        this.main.attach (new Gtk.Label({label: _("Command to execute")}), 1, 3, 1, 1);
-        this.main.attach (new Gtk.Label({label: _("Show streamer count instead")}), 1, 4, 1, 1);
 
-        this.interval = new Gtk.SpinButton({
-            adjustment: new Gtk.Adjustment({
-                lower: 1,
-                upper: 30,
-                step_increment: 1
-            })
-        });
-        this.streamers = new Gtk.Entry();
-        this.cmd = new Gtk.Entry();
-        this.hide_streamers = new Gtk.Switch();
+      // Prepare static controls
+      let buildable = new Gtk.Builder();
+      buildable.add_from_file( Extension.dir.get_path() + '/prefs.xml' );
 
-        this.main.attach(this.streamers, 2, 1, 1, 1);
-        this.main.attach(this.interval, 2, 2, 1, 1);
-        this.main.attach(this.cmd, 2, 3, 1, 1);
-        this.main.attach(this.hide_streamers, 2, 4, 1, 1);
+      Schema.bind('interval', buildable.get_object('field_interval'), 'value', Gio.SettingsBindFlags.DEFAULT);
+      Schema.bind('streamers', buildable.get_object('field_streamers'), 'text', Gio.SettingsBindFlags.DEFAULT);
+      Schema.bind('opencmd', buildable.get_object('field_opencmd'), 'text', Gio.SettingsBindFlags.DEFAULT);
+      Schema.bind('hidestreamers', buildable.get_object('field_hidestreamers'), 'active', Gio.SettingsBindFlags.DEFAULT);
 
-        Schema.bind('interval', this.interval, 'value', Gio.SettingsBindFlags.DEFAULT);
-        Schema.bind('streamers', this.streamers, 'text', Gio.SettingsBindFlags.DEFAULT);
-        Schema.bind('opencmd', this.cmd, 'text', Gio.SettingsBindFlags.DEFAULT);
-        Schema.bind('hidestreamers', this.hide_streamers, 'active', Gio.SettingsBindFlags.DEFAULT);
-
-        this.main.show_all();
+      this.main = buildable.get_object('prefs-widget');
+      this.main.show_all();
+      return this.main;
     }
+
 });
 
 function buildPrefsWidget()

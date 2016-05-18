@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!--
+  AUTHORS: Mario Wenzel, Raphaël Rochet
+  LICENSE: GPL3.0
+-->
+<interface domain="twitchlive">
+
+<object class="GtkAdjustment" id="Adjust_Interval">
+	<property name="lower">1</property>
+	<property name="upper">30</property>
+	<property name="step_increment">1</property>
+</object>
+
+<object class="GtkVBox" id="prefs-widget">
+	<property name="margin">10</property>
+	<property name="spacing">5</property>
+
+	<child>
+		<object class="GtkBox">
+			<property name="spacing">5</property>
+			<child>
+				<object class="GtkLabel">
+					<property name="label" translatable="yes">Streamers to follow (comma seperated)</property>
+					<property name="hexpand">true</property>
+					<property name="halign">1</property>
+				</object>
+			</child>
+			<child>
+				<object class="GtkEntry" id="field_streamers">
+				</object>
+			</child>
+		</object>
+	</child>
+
+	<child>
+		<object class="GtkBox">
+			<property name="spacing">5</property>
+			<child>
+				<object class="GtkLabel">
+					<property name="label" translatable="yes">Update Interval (min)</property>
+					<property name="hexpand">true</property>
+					<property name="halign">1</property>
+				</object>
+			</child>
+			<child>
+				<object class="GtkSpinButton" id="field_interval">
+					<property name="adjustment">Adjust_Interval</property>
+				</object>
+			</child>
+		</object>
+	</child>
+
+	<child>
+		<object class="GtkVBox">
+			<child>
+				<object class="GtkLabel">
+					<property translatable="yes" name="label">IntCommand to execute</property>
+					<property name="hexpand">true</property>
+					<property name="halign">1</property>
+				</object>
+			</child>
+			<child>
+				<object class="GtkEntry" id="field_opencmd">
+				</object>
+			</child>
+		</object>
+	</child>
+
+	<child>
+		<object class="GtkBox">
+			<property name="spacing">5</property>
+			<child>
+				<object class="GtkLabel">
+					<property translatable="yes" name="label">Show streamer count instead</property>
+					<property name="hexpand">true</property>
+					<property name="halign">1</property>
+				</object>
+			</child>
+			<child>
+				<object class="GtkSwitch" id="field_hidestreamers">
+					<property name="active">false</property>
+				</object>
+			</child>
+		</object>
+	</child>
+
+</object>
+
+</interface>
