@@ -11,76 +11,124 @@
 	<property name="step_increment">1</property>
 </object>
 
-<object class="GtkVBox" id="prefs-widget">
-	<property name="margin">10</property>
-	<property name="spacing">5</property>
+<object class="GtkGrid" id="prefs-widget">
+	<property name="orientation">vertical</property>
 
 	<child>
 		<object class="GtkBox">
+			<property name="margin">10</property>
 			<property name="spacing">5</property>
+
 			<child>
-				<object class="GtkLabel">
-					<property name="label" translatable="yes">Streamers to follow (comma seperated)</property>
-					<property name="hexpand">true</property>
-					<property name="halign">1</property>
+				<object class="GtkGrid">
+					<property name="row-spacing">5</property>
+					<property name="orientation">vertical</property>
+
+					<child>
+						<object class="GtkEntry" id="field_addstreamer">
+							<property name="hexpand">true</property>
+						</object>
+					</child>
+
+					<child>
+						<object class="GtkScrolledWindow" id="scrolledwindow1">
+							<property name="visible">True</property>
+							<property name="vscrollbar_policy">automatic</property>
+							<child>
+								<object class="GtkTreeView" id="field_streamerslist">
+									<property name="hexpand">true</property>
+									<property name="vexpand">true</property>
+								</object>
+							</child>
+						</object>
+					</child>
+					
 				</object>
 			</child>
+
 			<child>
-				<object class="GtkEntry" id="field_streamers">
+				<object class="GtkButtonBox">
+				<property name="orientation">vertical</property>
+				<property name="layout-style">GTK_BUTTONBOX_START</property>
+				<property name="spacing">5</property>
+				<child>
+					<object class="GtkButton" id="add_streamer">
+						<property name="label" translatable="yes">Add streamer</property>
+					</object>
+				</child>
+				<child>
+					<object class="GtkButton" id="del_streamer">
+						<property name="label" translatable="yes">Remove selected</property>
+					</object>
+				</child>
 				</object>
 			</child>
+
 		</object>
 	</child>
 
 	<child>
-		<object class="GtkBox">
-			<property name="spacing">5</property>
-			<child>
-				<object class="GtkLabel">
-					<property name="label" translatable="yes">Update Interval (min)</property>
-					<property name="hexpand">true</property>
-					<property name="halign">1</property>
-				</object>
-			</child>
-			<child>
-				<object class="GtkSpinButton" id="field_interval">
-					<property name="adjustment">Adjust_Interval</property>
-				</object>
-			</child>
+		<object class="GtkSeparator">
 		</object>
 	</child>
 
 	<child>
 		<object class="GtkVBox">
-			<child>
-				<object class="GtkLabel">
-					<property translatable="yes" name="label">IntCommand to execute</property>
-					<property name="hexpand">true</property>
-					<property name="halign">1</property>
-				</object>
-			</child>
-			<child>
-				<object class="GtkEntry" id="field_opencmd">
-				</object>
-			</child>
-		</object>
-	</child>
-
-	<child>
-		<object class="GtkBox">
+			<property name="margin">10</property>
 			<property name="spacing">5</property>
+
 			<child>
-				<object class="GtkLabel">
-					<property translatable="yes" name="label">Show streamer count instead</property>
-					<property name="hexpand">true</property>
-					<property name="halign">1</property>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Update Interval (min)</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSpinButton" id="field_interval">
+							<property name="adjustment">Adjust_Interval</property>
+						</object>
+					</child>
 				</object>
 			</child>
+
 			<child>
-				<object class="GtkSwitch" id="field_hidestreamers">
-					<property name="active">false</property>
+				<object class="GtkVBox">
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Command to execute</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkEntry" id="field_opencmd">
+						</object>
+					</child>
 				</object>
 			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Show streamer count instead</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_hidestreamers">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
 		</object>
 	</child>
 
