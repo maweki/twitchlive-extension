@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-18 19:01+0200\n"
-"PO-Revision-Date: 2016-05-16 01:06+0200\n"
-"Last-Translator: Raphaël Rochet <raphael@rri.fr>\n"
+"PO-Revision-Date: 2016-05-18 22:00+0200\n"
+"Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -36,15 +36,15 @@ msgstr "Personne ne diffuse"
 
 #: prefs.js:48
 msgid "Streamer name"
-msgstr ""
+msgstr "Nom du Streamer"
 
 #: prefs.xml:56
 msgid "Add streamer"
-msgstr ""
+msgstr "Ajouter"
 
 #: prefs.xml:61
 msgid "Remove selected"
-msgstr ""
+msgstr "Retirer"
 
 #: prefs.xml:85
 msgid "Update Interval (min)"
