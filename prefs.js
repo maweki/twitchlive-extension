@@ -46,47 +46,77 @@ const App = new Lang.Class(
 
       // let's create a simple text column, that renders as ... text !
       let nameCol = new Gtk.TreeViewColumn( { expand: true, sort_column_id: 0, title: _("Streamer name") });
-      let nameColRenderer = new Gtk.CellRendererText;
+      let nameColRenderer = new Gtk.CellRendererText( {editable: true} );
+      nameColRenderer.connect('edited', Lang.bind(this, this._cellEdited));
       nameCol.pack_start(nameColRenderer, true);
       nameCol.add_attribute(nameColRenderer, "text", 0);
       this.streamersList.append_column(nameCol);
 
       // populate the list
-      this._refreshStreamersList();
+      this._reloadStreamersList();
 
       this.main.show_all();
       return this.main;
     },
 
+    _cellEdited: function(renderer, path, new_text, whatelse) {
+      let [ok, iter] = this.store.get_iter_from_string(path);
+      if ( ok ) {
+        // Remove old name
+        let old_name = this.store.get_value(iter, 0);
+        if (old_name) { this._removeStreamer(iter); }
+        // Add new name
+        let new_iter = this._appendStreamer(new_text);
+        this.streamersList.get_selection().select_iter(new_iter);
+        // And save !
+        this._saveStreamersList();
+      }
+    },
+
+    _removeStreamer: function(iter) {
+      let name = this.store.get_value(iter, 0);
+      this.store.remove(iter);
+      let index = this.streamers.indexOf(name);
+      if (index < 0) return;
+      this.streamers.splice(index, 1);
+    },
+
+    _appendStreamer: function(name) {
+      this.streamers.push(name);
+      let iter = this.store.append();
+      this.store.set(iter, [0], [name]);
+      return iter;
+    },
+
     _addStreamer: function() {
       let name = this.newStreamerEntry.text;
       if (!name) return;
-      this.streamers.push(name);
+      let iter = this._appendStreamer(name);
+      this.streamersList.get_selection().select_iter(iter);
       this.newStreamerEntry.text = "";
-      Schema.set_string('streamers', this.streamers.join(','));
-      this._refreshStreamersList();
+      this._saveStreamersList();
     },
 
     _delStreamer: function() {
       let [selection, model, iter] = this.streamersList.get_selection().get_selected();
       if (selection) {
-          let name = this.store.get_value(iter, 0);
-          this.store.remove(iter);
-          let index = this.streamers.indexOf(name);
-          if (index < 0) return;
-          this.streamers.splice(index, 1);
-          Schema.set_string('streamers', this.streamers.join(','));
+        this._removeStreamer(iter);
+        this._saveStreamersList();
       }
     },
 
-    _refreshStreamersList: function() {
-      this.streamers = Schema.get_string('streamers').split(',').sort();
+    _saveStreamersList: function() {
+      Schema.set_string('streamers', this.streamers.join(','));
+    },
+
+    _reloadStreamersList: function() {
+      let old_streamers = Schema.get_string('streamers').split(',').sort();
+      this.streamers = [];
       this.store.clear();
-      for (let i = 0; i < this.streamers.length; i++) {
-            let name = this.streamers[i].trim();
+      for (let i = 0; i < old_streamers.length; i++) {
+            let name = old_streamers[i].trim();
             if (!name) continue;
-            let iter = this.store.append();
-            this.store.set(iter, [0], [name]);
+            this._appendStreamer(name);
         }
     },
 
