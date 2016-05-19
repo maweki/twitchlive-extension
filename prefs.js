@@ -45,18 +45,18 @@ const App = new Lang.Class(
       this.streamersList.model = this.store;
 
       // let's create a single column
-      let nameCol = new Gtk.TreeViewColumn( { expand: true, sort_column_id: 0, title: _("Streamer name") });
+      this.nameCol = new Gtk.TreeViewColumn( { expand: true, sort_column_id: 0, title: _("Streamer name") });
 
       // render user icon at first
-      let iconColRenderer = new Gtk.CellRendererPixbuf( {icon_name: 'avatar-default-symbolic'} );
-      nameCol.pack_start(iconColRenderer, false);
+      this.iconColRenderer = new Gtk.CellRendererPixbuf( {icon_name: 'avatar-default-symbolic'} );
+      this.nameCol.pack_start(this.iconColRenderer, false);
       // render streamer name next
-      let nameColRenderer = new Gtk.CellRendererText( {editable: true} );
-      nameColRenderer.connect('edited', Lang.bind(this, this._cellEdited));
-      nameCol.pack_start(nameColRenderer, true);
-      nameCol.add_attribute(nameColRenderer, "text", 0);
+      this.nameColRenderer = new Gtk.CellRendererText( {editable: true} );
+      this.nameColRenderer.connect('edited', Lang.bind(this, this._cellEdited));
+      this.nameCol.pack_start(this.nameColRenderer, true);
+      this.nameCol.add_attribute(this.nameColRenderer, "text", 0);
 
-      this.streamersList.append_column(nameCol);
+      this.streamersList.append_column(this.nameCol);
 
       // populate the list
       this._reloadStreamersList();
@@ -68,12 +68,16 @@ const App = new Lang.Class(
     _cellEdited: function(renderer, path, new_text, whatelse) {
       let [ok, iter] = this.store.get_iter_from_string(path);
       if ( ok ) {
-        // Remove old name
         let old_name = this.store.get_value(iter, 0);
-        if (old_name) { this._removeStreamer(iter); }
-        // Add new name
-        let new_iter = this._appendStreamer(new_text);
-        this.streamersList.get_selection().select_iter(new_iter);
+        if (new_text) {
+          this.store.set(iter, [0], [new_text]);
+          this.streamers.push(new_text);
+          let index = this.streamers.indexOf(old_name);
+          if (index >= 0) this.streamers.splice(index, 1);
+        } else {
+          // Cell has been emptied : remove old name
+          this._removeStreamer(iter);
+        }
         // And save !
         this._saveStreamersList();
       }
@@ -95,12 +99,10 @@ const App = new Lang.Class(
     },
 
     _addStreamer: function() {
-      let name = this.newStreamerEntry.text;
-      if (!name) return;
-      let iter = this._appendStreamer(name);
+      let iter = this._appendStreamer("");
       this.streamersList.get_selection().select_iter(iter);
-      this.newStreamerEntry.text = "";
-      this._saveStreamersList();
+      let path = this.store.get_path(iter);
+      this.streamersList.set_cursor_on_cell( path, this.nameCol, this.nameColRenderer, true );
     },
 
     _delStreamer: function() {
