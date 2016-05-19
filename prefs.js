@@ -44,12 +44,18 @@ const App = new Lang.Class(
       this.store.set_column_types([GObject.TYPE_STRING]);
       this.streamersList.model = this.store;
 
-      // let's create a simple text column, that renders as ... text !
+      // let's create a single column
       let nameCol = new Gtk.TreeViewColumn( { expand: true, sort_column_id: 0, title: _("Streamer name") });
+
+      // render user icon at first
+      let iconColRenderer = new Gtk.CellRendererPixbuf( {icon_name: 'avatar-default-symbolic'} );
+      nameCol.pack_start(iconColRenderer, false);
+      // render streamer name next
       let nameColRenderer = new Gtk.CellRendererText( {editable: true} );
       nameColRenderer.connect('edited', Lang.bind(this, this._cellEdited));
       nameCol.pack_start(nameColRenderer, true);
       nameCol.add_attribute(nameColRenderer, "text", 0);
+
       this.streamersList.append_column(nameCol);
 
       // populate the list
