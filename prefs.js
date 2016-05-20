@@ -9,6 +9,8 @@ const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
 const GObject = imports.gi.GObject;
 
+const Icons = Extension.imports.icons;
+
 let schemaDir = Extension.dir.get_child('schemas').get_path();
 let schemaSource = Gio.SettingsSchemaSource.new_from_directory(schemaDir, Gio.SettingsSchemaSource.get_default(), false);
 let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false);
@@ -25,6 +27,8 @@ const App = new Lang.Class(
 
     _init: function()
     {
+      Icons.init_icons();
+
       // Build widgets, bind simple fields to settings and connect buttons clicked signals
       let buildable = new Gtk.Builder();
       buildable.add_from_file( Extension.dir.get_path() + '/prefs.xml' );
@@ -41,7 +45,7 @@ const App = new Lang.Class(
 
       // Create the list's store and columns
       this.store = new Gtk.ListStore();
-      this.store.set_column_types([GObject.TYPE_STRING]);
+      this.store.set_column_types([GObject.TYPE_STRING, GObject.TYPE_STRING]);
       this.streamersList.model = this.store;
 
       // let's create a single column
@@ -55,6 +59,9 @@ const App = new Lang.Class(
       this.nameColRenderer.connect('edited', Lang.bind(this, this._cellEdited));
       this.nameCol.pack_start(this.nameColRenderer, true);
       this.nameCol.add_attribute(this.nameColRenderer, "text", 0);
+
+
+      this.nameCol.add_attribute(this.iconColRenderer, "icon-name", 1);
 
       this.streamersList.append_column(this.nameCol);
 
@@ -70,7 +77,7 @@ const App = new Lang.Class(
       if ( ok ) {
         let old_name = this.store.get_value(iter, 0);
         if (new_text) {
-          this.store.set(iter, [0], [new_text]);
+          this.store.set(iter, [0, 1], [new_text, 'twitchlive-' + new_text]);
           this.streamers.push(new_text);
           let index = this.streamers.indexOf(old_name);
           if (index >= 0) this.streamers.splice(index, 1);
@@ -94,7 +101,7 @@ const App = new Lang.Class(
     _appendStreamer: function(name) {
       this.streamers.push(name);
       let iter = this.store.append();
-      this.store.set(iter, [0], [name]);
+      this.store.set(iter, [0, 1], [name, 'twitchlive-' + name]);
       return iter;
     },
 
