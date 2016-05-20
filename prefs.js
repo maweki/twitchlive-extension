@@ -125,7 +125,7 @@ const App = new Lang.Class(
     },
 
     _reloadStreamersList: function() {
-      let old_streamers = Schema.get_string('streamers').split(',').sort();
+      let old_streamers = Schema.get_string('streamers').split(',').sort((a,b) => a.toUpperCase() < b.toUpperCase() ? -1 : 1);
       this.streamers = [];
       this.store.clear();
       for (let i = 0; i < old_streamers.length; i++) {
