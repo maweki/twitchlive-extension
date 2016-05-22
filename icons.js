@@ -14,6 +14,29 @@ function init_icons() {
   Gtk.IconTheme.get_default().append_search_path(icons_path);
 }
 
+function has_icon(streamername) {
+  // check whether an icon is already available
+}
+
+function trigger_download_by_name(streamername) {
+  // should return immediately and continue async
+  // use the api to fetch imageurl (https://github.com/justintv/Twitch-API/blob/master/v3_resources/channels.md#get-channelschannel)
+  // call trigger_download_by_url
+  // this method should only be used when the settings change
+}
+
+function trigger_download_by_url(streamername, imageurl) {
+  // basically what trigger_download does now but should return immediately
+}
+
+/*
+  New download/cache mechanism: We check against the actual filename twitch tells us and check whether this icon is available
+  if it is, we don't do anything. This name is both available from trigger_download_by_name (via api) and trigger_download_by_url.
+  alternatively, a zero-length file of the same name withouth extension could be saved.
+
+  If it is not available, download the file, post-process it (to png), if neccessary and symlink it to the name the icons recognize.
+*/
+
 function trigger_download(streamername, imageurl) {
   // some cache clearing mechanism needs to be added
   let extension = imageurl.split('.').pop();
