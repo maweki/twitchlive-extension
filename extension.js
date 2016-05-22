@@ -71,6 +71,7 @@ const ExtensionLayout = new Lang.Class({
   settings: new Gio.Settings({ settings_schema: schema }),
   _httpSession: new Soup.SessionAsync(),
   layoutChanged: false,
+  streamer_rotation: 0,
 
   _init: function() {
     this.parent(0.0);
@@ -154,9 +155,8 @@ const ExtensionLayout = new Lang.Class({
 
     this.disable_view_update();
     let menu = this.streamersMenu;
-    let menu_items = [];
 
-    this.online = [];
+    let new_online = [];
     let that = this; // this will be overwritten in promise calls
 
     // make requests
@@ -166,10 +166,11 @@ const ExtensionLayout = new Lang.Class({
         that.load_json_async(url, resolve)
       }).then((data) => {
         if (data.stream) {
-          that.online.push(streamer);
           let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
-          menu_items.push(item);
+          new_online.push({
+            item: item, streamer: streamer, game: data.stream.game, viewers: data.stream.viewers
+          });
 
           if (data.stream.channel && data.stream.channel.logo) {
             Icons.trigger_download(streamer, data.stream.channel.logo);
@@ -184,11 +185,13 @@ const ExtensionLayout = new Lang.Class({
     new Promise.all(requests).then(
         //sucess
         function(){
+            // switch updated streamers
+            that.online = new_online;
+
             // clear menu
             menu.removeAll();
             that.spacer.actor.hide();
             // store items for late menu draw
-            that.menuItems = menu_items;
             that.layoutChanged = true;
             if (that.menu.isOpen) that.updateMenuLayout();
             // make update now menu reactive again
@@ -209,16 +212,21 @@ const ExtensionLayout = new Lang.Class({
 
   updateMenuLayout: function() {
     this.streamersMenu.removeAll();
-    this.menuItems.map((d) => this.streamersMenu.addMenuItem(d));
-    if (this.menuItems.length == 0) {
+
+    let online = this.online.slice();
+    online.sort((a,b) => a.viewers < b.viewers ? 1 : -1); // add sorting by key here
+
+    let menuItems = online.map((d) => d.item);
+    menuItems.map((d) => this.streamersMenu.addMenuItem(d));
+    if (menuItems.length == 0) {
       this.streamersMenu.addMenuItem(new MenuItems.NobodyMenuItem(_("Nobody is streaming")));
     }
     else {
       this.spacer.actor.show();
       // gather sizes
-      let sizes = this.menuItems.map((item) => item.get_size_info()).reduce(max_size_info, [0,0,0]);
+      let sizes = menuItems.map((item) => item.get_size_info()).reduce(max_size_info, [0,0,0]);
       // set sizes
-      this.menuItems.map((item) => item.apply_size_info(sizes));
+      menuItems.map((item) => item.apply_size_info(sizes));
     }
     this.layoutChanged = false;
   },
@@ -248,8 +256,8 @@ const ExtensionLayout = new Lang.Class({
         this.streamertext.set_text(_online.length.toString());
       }
       else {
-        _online.push(_online.shift()); // rotate
-        this.streamertext.set_text(_online[0]);
+        this.streamer_rotation++;
+        this.streamertext.set_text(_online[this.streamer_rotation % _online.length].streamer);
       }
     }
     else {
