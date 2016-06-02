@@ -6,6 +6,9 @@ const St = imports.gi.St;
 const Gtk = imports.gi.Gtk;
 const GLib = imports.gi.GLib;
 
+const Extension = imports.misc.extensionUtils.getCurrentExtension();
+const Api = Extension.imports.api;
+
 const icons_path = GLib.get_user_cache_dir() + '/twitchlive-extension';
 
 function init_icons() {
@@ -19,14 +22,17 @@ function has_icon(streamername) {
 }
 
 function trigger_download_by_name(streamername) {
-  // should return immediately and continue async
-  // use the api to fetch imageurl (https://github.com/justintv/Twitch-API/blob/master/v3_resources/channels.md#get-channelschannel)
-  // call trigger_download_by_url
-  // this method should only be used when the settings change
+  if (has_icon(streamername)) {
+    return;
+  }
+  Api.channel(undefined, streamername).then((channel) => { // where do we get a session from?
+    if (channel.logo) trigger_download_by_url(streamername, channel.logo);
+  });
 }
 
 function trigger_download_by_url(streamername, imageurl) {
   // basically what trigger_download does now but should return immediately
+  trigger_download(streamername, imageurl);
 }
 
 /*

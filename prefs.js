@@ -135,6 +135,15 @@ const App = new Lang.Class(
         }
     },
 
+    _retrieveStreamerIcons: function(streamer) { // when do we trigger this?
+      if (streamer === undefined) {
+        this.streamers.map((streamer) => Icons.trigger_download_by_name(streamer));
+      }
+      else {
+        Icons.trigger_download_by_name(streamer);
+      }
+    }
+
 });
 
 function buildPrefsWidget()
