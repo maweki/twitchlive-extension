@@ -2,6 +2,7 @@ const Soup = imports.gi.Soup;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Promise = Extension.imports.promise.Promise;
+const Icons = Extension.imports.icons;
 
 const api_base = 'https://api.twitch.tv/kraken/';
 
@@ -18,9 +19,11 @@ function channel(session, streamer, icon_download=true) {
   return new Promise((resolve, reject) => {
     let url = api_base + 'channels/' + streamer;
     load_json_async(session, url, resolve);
-  }).then((data) => {
-    // trigger icon download here
-    return data;
+  }).then((channel) => {
+    if (icon_download && channel.logo) {
+      Icons.trigger_download(streamer, channel.logo);
+    }
+    return channel;
   });
 }
 
@@ -30,7 +33,9 @@ function stream(session, streamer, icon_download=true) {
     let url = api_base + 'streams/' + streamer;
     load_json_async(session, url, resolve);
   }).then((data) => {
-    // trigger icon download here
+    if (icon_download && data.stream && data.stream.channel && data.stream.channel.logo) {
+      Icons.trigger_download(streamer, data.stream.channel.logo);
+    }
     return data;
   });
 }

@@ -168,10 +168,6 @@ const ExtensionLayout = new Lang.Class({
           let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
           menu_items.push(item);
-
-          if (data.stream.channel && data.stream.channel.logo) {
-            Icons.trigger_download(streamer, data.stream.channel.logo);
-          }
         }
       });
       return http_prom;
