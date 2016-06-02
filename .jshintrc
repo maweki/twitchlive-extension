@@ -1,0 +1,11 @@
+{
+  "esversion" : 6,
+  "undef": true,
+  "unused": "vars",
+  "predef": [ "imports", "global" ],
+  "node": false,
+  "browser": false,
+  "bitwise": true,
+  "eqeqeq": true,
+  "noarg": true
+}
