@@ -6,6 +6,8 @@ const Icons = Extension.imports.icons;
 
 const api_base = 'https://api.twitch.tv/kraken/';
 
+/* exported channel, stream */
+
 function load_json_async(httpSession, url, fun) {
   let message = Soup.Message.new('GET', url);
   httpSession.queue_message(message, function(session, message) {
