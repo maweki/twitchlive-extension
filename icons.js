@@ -71,6 +71,10 @@ function trigger_download_by_url(streamername, imageurl) {
 
 }
 
+function get_icon_name(streamername) {
+  return 'twitchlive-' + streamername.toLowerCase();
+}
+
 function get_streamericon(streamername, style_class) {
-  return new St.Icon({ icon_name: 'twitchlive-' + streamername.toLowerCase(), style_class: style_class, fallback_icon_name: 'twitchlive' });
+  return new St.Icon({ icon_name: get_icon_name(streamername), style_class: style_class, fallback_icon_name: 'twitchlive' });
 }
