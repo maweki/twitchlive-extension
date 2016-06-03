@@ -46,7 +46,7 @@ function trigger_download_by_url(streamername, imageurl) {
   let download_filename = imageurl.split('/').pop();
   let unique_path = icons_path + '/' + download_filename;
   let source_extension = imageurl.split('.').pop();
-  let target_name = icons_path + '/twitchlive-' + streamername + '.' + source_extension;
+  let target_name = icons_path + '/twitchlive-' + streamername.toLowerCase() + '.' + source_extension;
   if (GLib.file_test(unique_path, GLib.FileTest.EXISTS)) {
     return; // these icon names appear to be unique. We don't need to download it again.
   }
@@ -72,5 +72,5 @@ function trigger_download_by_url(streamername, imageurl) {
 }
 
 function get_streamericon(streamername, style_class) {
-  return new St.Icon({ icon_name: 'twitchlive-' + streamername, style_class: style_class, fallback_icon_name: 'twitchlive' });
+  return new St.Icon({ icon_name: 'twitchlive-' + streamername.toLowerCase(), style_class: style_class, fallback_icon_name: 'twitchlive' });
 }

@@ -79,7 +79,7 @@ const App = new Lang.Class(
       if ( ok ) {
         let old_name = this.store.get_value(iter, 0);
         if (new_text) {
-          this.store.set(iter, [0, 1], [new_text, 'twitchlive-' + new_text]);
+          this.store.set(iter, [0, 1], [new_text, 'twitchlive-' + new_text.toLowerCase()]);
           this.streamers.push(new_text);
           let index = this.streamers.indexOf(old_name);
           if (index >= 0) this.streamers.splice(index, 1);
@@ -103,7 +103,7 @@ const App = new Lang.Class(
     _appendStreamer: function(name) {
       this.streamers.push(name);
       let iter = this.store.append();
-      this.store.set(iter, [0, 1], [name, 'twitchlive-' + name]);
+      this.store.set(iter, [0, 1], [name, 'twitchlive-' + name.toLowerCase()]);
       return iter;
     },
 
