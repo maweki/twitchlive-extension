@@ -11,7 +11,7 @@ const Api = Extension.imports.api;
 
 const icons_path = GLib.get_user_cache_dir() + '/twitchlive-extension';
 
-/* exported init_icons, trigger_download_by_name, trigger_download_by_url, get_streamericon */
+/* exported init_icons, trigger_download_by_name, trigger_download_by_url, get_streamericon, has_icon */
 
 function init_icons() {
   // everything needs to be disabled if the creation fails or if it isn't a writable directory
@@ -24,20 +24,17 @@ function mogrify_available() { // this result can surely be cached
   return res[0];
 }
 
-function get_filename(streamername) {
+function get_final_icon_path(streamername) {
   let filename = icons_path + '/twitchlive-' + streamername + '.png';
   return filename;
 }
 
 function has_icon(streamername) {
   // check whether any icon is already available
-  return GLib.file_test(get_filename(streamername), GLib.FileTest.EXISTS);
+  return GLib.file_test(get_final_icon_path(streamername), GLib.FileTest.EXISTS);
 }
 
 function trigger_download_by_name(streamername) {
-  if (has_icon(streamername)) {
-    return;
-  }
   Api.channel(undefined, streamername).then((channel) => { // where do we get a session from?
     if (channel.logo) trigger_download_by_url(streamername, channel.logo);
   });

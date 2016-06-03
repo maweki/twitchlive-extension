@@ -137,10 +137,12 @@ const App = new Lang.Class(
 
     _retrieveStreamerIcons: function(streamer) { // when do we trigger this?
       if (streamer === undefined) {
-        this.streamers.map((streamer) => Icons.trigger_download_by_name(streamer));
+        this.streamers.map((streamer) => {
+          if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer);
+        });
       }
       else {
-        Icons.trigger_download_by_name(streamer);
+        if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer);
       }
     }
 
