@@ -83,6 +83,7 @@ const App = new Lang.Class(
           this.streamers.push(new_text);
           let index = this.streamers.indexOf(old_name);
           if (index >= 0) this.streamers.splice(index, 1);
+          this._retrieveStreamerIcons(new_text);
         } else {
           // Cell has been emptied : remove old name
           this._removeStreamer(iter);
@@ -124,7 +125,6 @@ const App = new Lang.Class(
 
     _saveStreamersList: function() {
       Schema.set_string('streamers', this.streamers.join(','));
-      this._retrieveStreamerIcons(); // TODO: Throttle this call
     },
 
     _reloadStreamersList: function() {
@@ -136,6 +136,7 @@ const App = new Lang.Class(
             if (!name) continue;
             this._appendStreamer(name);
         }
+      this._retrieveStreamerIcons();
     },
 
     _retrieveStreamerIcons: function(streamer) {
