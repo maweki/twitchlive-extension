@@ -14,12 +14,12 @@ const icons_path = GLib.get_user_cache_dir() + '/twitchlive-extension';
 /* exported init_icons, trigger_download_by_name, trigger_download_by_url, get_streamericon, has_icon */
 
 function init_icons() {
-  // everything needs to be disabled if the creation fails or if it isn't a writable directory
+  // TODO: everything needs to be disabled if the creation fails or if it isn't a writable directory
   GLib.mkdir_with_parents(icons_path, 448);
   Gtk.IconTheme.get_default().append_search_path(icons_path);
 }
 
-function mogrify_available() { // this result can surely be cached
+function mogrify_available() { // TODO: cache this result
   let res = GLib.spawn_command_line_sync('mogrify -version');
   return res[0];
 }
@@ -42,7 +42,7 @@ function trigger_download_by_name(streamername, session) {
 }
 
 function trigger_download_by_url(streamername, imageurl) {
-  // this should return immediately
+  // TODO: this should return immediately
   let download_filename = imageurl.split('/').pop();
   let unique_path = icons_path + '/' + download_filename;
   let source_extension = imageurl.split('.').pop();
