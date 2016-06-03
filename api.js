@@ -1,3 +1,7 @@
+/**
+  AUTHOR: Mario Wenzel
+  LICENSE: GPL3.0
+**/
 const Soup = imports.gi.Soup;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
