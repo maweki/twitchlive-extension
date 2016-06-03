@@ -34,8 +34,9 @@ function has_icon(streamername) {
   return GLib.file_test(get_final_icon_path(streamername), GLib.FileTest.EXISTS);
 }
 
-function trigger_download_by_name(streamername) {
-  Api.channel(undefined, streamername).then((channel) => { // where do we get a session from?
+function trigger_download_by_name(streamername, session) {
+  // TODO: throttle this on a streamername basis
+  Api.channel(session, streamername).then((channel) => {
     if (channel.logo) trigger_download_by_url(streamername, channel.logo);
   });
 }

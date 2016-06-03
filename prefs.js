@@ -8,6 +8,7 @@ const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
 const GObject = imports.gi.GObject;
+const Soup = imports.gi.Soup;
 
 const Icons = Extension.imports.icons;
 
@@ -24,6 +25,7 @@ Gettext.bindtextdomain(domain, localeDir.get_path());
 const App = new Lang.Class(
 {
     Name: 'TwitchLive.App',
+    _httpSession: new Soup.SessionAsync(),
 
     _init: function()
     {
@@ -122,6 +124,7 @@ const App = new Lang.Class(
 
     _saveStreamersList: function() {
       Schema.set_string('streamers', this.streamers.join(','));
+      this._retrieveStreamerIcons(); // TODO: Throttle this call
     },
 
     _reloadStreamersList: function() {
@@ -135,14 +138,14 @@ const App = new Lang.Class(
         }
     },
 
-    _retrieveStreamerIcons: function(streamer) { // when do we trigger this?
+    _retrieveStreamerIcons: function(streamer) {
       if (streamer === undefined) {
         this.streamers.map((streamer) => {
-          if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer);
+          if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer, this._httpSession);
         });
       }
       else {
-        if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer);
+        if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer, this._httpSession);
       }
     }
 
