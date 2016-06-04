@@ -25,7 +25,7 @@ function mogrify_available() { // TODO: cache this result
 }
 
 function get_final_icon_path(streamername) {
-  let filename = icons_path + '/twitchlive-' + streamername + '.png';
+  let filename = icons_path + '/' + get_icon_name(streamername) + '.png';
   return filename;
 }
 
@@ -46,7 +46,7 @@ function trigger_download_by_url(streamername, imageurl) {
   let download_filename = imageurl.split('/').pop();
   let unique_path = icons_path + '/' + download_filename;
   let source_extension = imageurl.split('.').pop();
-  let target_name = icons_path + '/twitchlive-' + streamername.toLowerCase() + '.' + source_extension;
+  let target_name = icons_path + '/' + get_icon_name(streamername) + '.' + source_extension;
   if (GLib.file_test(unique_path, GLib.FileTest.EXISTS)) {
     return; // these icon names appear to be unique. We don't need to download it again.
   }
