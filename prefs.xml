@@ -11,6 +11,13 @@
 	<property name="step_increment">1</property>
 </object>
 
+<object class="GtkListStore" id="StreamSort_ListStore">
+	<columns>
+		<column type="gchararray"/>
+		<column type="gchararray"/>
+	</columns>
+</object>
+
 <object class="GtkGrid" id="prefs-widget">
 	<property name="orientation">vertical</property>
 
@@ -146,6 +153,33 @@
 					<child>
 						<object class="GtkSwitch" id="field_hideempty">
 							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Sort streamers by</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkComboBox" id="field_sortkey">
+							<property name="visible">True</property>
+							<property name="can_focus">False</property>
+							<property name="model">StreamSort_ListStore</property>
+							<property name="id-column">0</property>
+							<child>
+								<object class="GtkCellRendererText" id="renderer"/>
+								<attributes>
+									<attribute name="text">1</attribute>
+								</attributes>
+							</child>
 						</object>
 					</child>
 				</object>

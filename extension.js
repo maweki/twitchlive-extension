@@ -46,6 +46,7 @@ let INTERVAL = 5*1000*60;
 let HIDESTREAMERS = false;
 let HIDEPLAYLISTS = false;
 let HIDEEMPTY = false;
+let SORTKEY = 'COUNT';
 
 let button;
 
@@ -121,6 +122,7 @@ const ExtensionLayout = new Lang.Class({
     HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
     HIDEPLAYLISTS = this.settings.get_boolean('hideplaylists');
     HIDEEMPTY = this.settings.get_boolean('hideempty');
+    SORTKEY = this.settings.get_string('sortkey');
 
     if (this.timer.settings != 0) Mainloop.source_remove(this.timer.settings);
     this.timer.settings = Mainloop.timeout_add(1000, Lang.bind(this, function(){
@@ -224,7 +226,14 @@ const ExtensionLayout = new Lang.Class({
     this.streamersMenu.removeAll();
 
     let online = this.online.slice();
-    online.sort((a,b) => a.viewers < b.viewers ? 1 : -1); // add sorting by key here
+    //apply sort
+    if ( SORTKEY == 'NAME' ) {
+      online.sort((a,b) => a.streamer.toUpperCase() > b.streamer.toUpperCase() ? 1 : -1);
+    } else if ( SORTKEY == 'GAME' ) {
+      online.sort((a,b) => a.game.toUpperCase() > b.game.toUpperCase() ? 1 : -1);
+    } else {
+      online.sort((a,b) => a.viewers < b.viewers ? 1 : -1);
+    }
 
     let menuItems = online.map((d) => d.item);
     menuItems.map((d) => this.streamersMenu.addMenuItem(d));

@@ -46,6 +46,14 @@ const App = new Lang.Class(
       // Name some widgets for future reference
       this.newStreamerEntry = buildable.get_object('field_addstreamer');
       this.streamersList = buildable.get_object('field_streamerslist');
+      this.sortkeyStore = buildable.get_object('StreamSort_ListStore');
+
+      // Fill the sort key combobox
+      [ ['NAME', _('Streamer name')] , ['GAME', _('Game title')] , ['COUNT', _('Viewers count')] ].forEach( function(element) {
+        let iter = this.sortkeyStore.append();
+        this.sortkeyStore.set(iter, [0, 1], element);
+      }, this);
+      Schema.bind('sortkey', buildable.get_object('field_sortkey'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
 
       // Create the list's store and columns
       this.store = new Gtk.ListStore();
