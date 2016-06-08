@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-09 00:30+0200\n"
-"PO-Revision-Date: 2016-05-18 22:00+0200\n"
+"PO-Revision-Date: 2016-06-09 00:31+0200\n"
 "Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -60,12 +60,11 @@ msgstr "Afficher plutôt le nombre"
 
 #: prefs.xml:123
 msgid "Hide playlist streams"
-msgstr ""
+msgstr "Masquer les rediffusions"
 
 #: prefs.xml:141
-#, fuzzy
 msgid "Hide indicator if nobody is streaming"
-msgstr "Personne ne diffuse"
+msgstr "Masquer l'indicateur si Personne ne diffuse"
 
 #~ msgid "Streamers to follow (comma seperated)"
 #~ msgstr "Streamers à suivre (séparés par des virgules)"
