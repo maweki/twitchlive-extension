@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-09 01:54+0200\n"
-"PO-Revision-Date: 2016-06-09 00:31+0200\n"
+"PO-Revision-Date: 2016-06-09 01:56+0200\n"
 "Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -40,11 +40,11 @@ msgstr "Nom du Streamer"
 
 #: prefs.js:52
 msgid "Game title"
-msgstr ""
+msgstr "Nom du jeu"
 
 #: prefs.js:52
 msgid "Viewers count"
-msgstr ""
+msgstr "Nombre de spectateurs"
 
 #: prefs.xml:49
 msgid "Add streamer"
@@ -75,9 +75,8 @@ msgid "Hide indicator if nobody is streaming"
 msgstr "Masquer l'indicateur si Personne ne diffuse"
 
 #: prefs.xml:166
-#, fuzzy
 msgid "Sort streamers by"
-msgstr "Ajouter"
+msgstr "Trier les diffusions par"
 
 #~ msgid "Streamers to follow (comma seperated)"
 #~ msgstr "Streamers à suivre (séparés par des virgules)"
