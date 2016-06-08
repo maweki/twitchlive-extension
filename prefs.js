@@ -8,6 +8,7 @@ const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 const Lang = imports.lang;
 const GObject = imports.gi.GObject;
+const Soup = imports.gi.Soup;
 
 const Icons = Extension.imports.icons;
 
@@ -24,6 +25,7 @@ Gettext.bindtextdomain(domain, localeDir.get_path());
 const App = new Lang.Class(
 {
     Name: 'TwitchLive.App',
+    _httpSession: new Soup.SessionAsync(),
 
     _init: function()
     {
@@ -77,10 +79,11 @@ const App = new Lang.Class(
       if ( ok ) {
         let old_name = this.store.get_value(iter, 0);
         if (new_text) {
-          this.store.set(iter, [0, 1], [new_text, 'twitchlive-' + new_text]);
+          this.store.set(iter, [0, 1], [new_text, Icons.get_icon_name(new_text)]);
           this.streamers.push(new_text);
           let index = this.streamers.indexOf(old_name);
           if (index >= 0) this.streamers.splice(index, 1);
+          this._retrieveStreamerIcons(new_text);
         } else {
           // Cell has been emptied : remove old name
           this._removeStreamer(iter);
@@ -101,7 +104,7 @@ const App = new Lang.Class(
     _appendStreamer: function(name) {
       this.streamers.push(name);
       let iter = this.store.append();
-      this.store.set(iter, [0, 1], [name, 'twitchlive-' + name]);
+      this.store.set(iter, [0, 1], [name, Icons.get_icon_name(name)]);
       return iter;
     },
 
@@ -133,7 +136,19 @@ const App = new Lang.Class(
             if (!name) continue;
             this._appendStreamer(name);
         }
+      this._retrieveStreamerIcons();
     },
+
+    _retrieveStreamerIcons: function(streamer) {
+      if (streamer === undefined) {
+        this.streamers.map((streamer) => {
+          if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer, this._httpSession);
+        });
+      }
+      else {
+        if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer, this._httpSession);
+      }
+    }
 
 });
 

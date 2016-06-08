@@ -22,6 +22,7 @@ const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const MenuItems = Extension.imports.menu_items;
 const Promise = Extension.imports.promise.Promise;
 const Icons = Extension.imports.icons;
+const Api = Extension.imports.api;
 
 const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
 const localeDir = Extension.dir.get_child('locale');
@@ -162,10 +163,7 @@ const ExtensionLayout = new Lang.Class({
 
     // make requests
     let req = function(streamer){
-      let http_prom = new Promise((resolve, reject) => {
-        let url = 'https://api.twitch.tv/kraken/streams/' + streamer;
-        that.load_json_async(url, resolve)
-      }).then((data) => {
+      let http_prom = Api.stream(that._httpSession, streamer).then((data) => {
         if (data.stream) {
           let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
@@ -174,7 +172,7 @@ const ExtensionLayout = new Lang.Class({
           });
 
           if (data.stream.channel && data.stream.channel.logo) {
-            Icons.trigger_download(streamer, data.stream.channel.logo);
+            Icons.trigger_download_by_url(streamer, data.stream.channel.logo);
           }
         }
       });
@@ -266,14 +264,6 @@ const ExtensionLayout = new Lang.Class({
       this.streamertext.set_text("");
     }
     return true;
-  },
-
-  load_json_async: function(url, fun) {
-      let message = Soup.Message.new('GET', url);
-      this._httpSession.queue_message(message, function(session, message) {
-          let data = JSON.parse(message.response_body.data);
-          fun(data);
-      });
   },
 
 });
