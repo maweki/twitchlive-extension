@@ -14,7 +14,7 @@ const StreamerMenuItem = new Lang.Class({
   Name: 'StreamerMenuItem',
   Extends: PopupMenu.PopupBaseMenuItem,
 
-  _init: function(streamername, game, viewer_count) {
+  _init: function(streamername, game, viewer_count, is_playlist=false) {
     this.parent();
     this._streamer = streamername;
 
@@ -23,7 +23,13 @@ const StreamerMenuItem = new Lang.Class({
     this._layout.name = new St.Label({ text: streamername, style_class : "name streamer-menuitem"});
     this._layout.game = new St.Label({ text: game, style_class : "game streamer-menuitem"});
     this._layout.viewer_count = new St.Label({ text: viewer_count.toString(), style_class : "viewer-count streamer-menuitem"});
-    this._layout.viewer_icon = new St.Icon({ icon_name: 'avatar-default-symbolic', style_class: 'viewer-icon streamer-menuitem' });
+
+    let info_icon = 'avatar-default-symbolic';
+    if (is_playlist) {
+      info_icon = 'media-playlist-repeat-symbolic';
+    }
+    this._layout.viewer_icon = new St.Icon({ icon_name: info_icon, style_class: 'viewer-icon streamer-menuitem' });
+
     this.actor.add(this._layout.streamer_icon);
     this.actor.add(this._layout.name);
     this.actor.add(this._layout.game);

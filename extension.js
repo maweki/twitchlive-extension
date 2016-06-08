@@ -165,7 +165,7 @@ const ExtensionLayout = new Lang.Class({
     let req = function(streamer){
       let http_prom = Api.stream(that._httpSession, streamer).then((data) => {
         if (data.stream) {
-          let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers);
+          let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers, data.stream.is_playlist);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
           new_online.push({
             item: item, streamer: streamer, game: data.stream.game, viewers: data.stream.viewers
