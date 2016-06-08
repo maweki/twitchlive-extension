@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-09 00:30+0200\n"
+"POT-Creation-Date: 2016-06-09 01:54+0200\n"
 "PO-Revision-Date: 2016-05-16 00:27+0200\n"
 "Last-Translator: Mario Wenzel <maweki@gmail.com>\n"
 "Language-Team: \n"
@@ -18,54 +18,66 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension.js:103
+#: extension.js:104
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: extension.js:107 extension.js:206
+#: extension.js:108 extension.js:208
 msgid "Update now"
 msgstr ""
 
-#: extension.js:160
+#: extension.js:162
 msgid "Updating ..."
 msgstr ""
 
-#: extension.js:232
+#: extension.js:241
 msgid "Nobody is streaming"
 msgstr "Niemand streamt"
 
-#: prefs.js:56
+#: prefs.js:52 prefs.js:64
 msgid "Streamer name"
 msgstr ""
 
-#: prefs.xml:42
+#: prefs.js:52
+msgid "Game title"
+msgstr ""
+
+#: prefs.js:52
+msgid "Viewers count"
+msgstr ""
+
+#: prefs.xml:49
 msgid "Add streamer"
 msgstr ""
 
-#: prefs.xml:47
+#: prefs.xml:54
 msgid "Remove selected"
 msgstr ""
 
-#: prefs.xml:71
+#: prefs.xml:78
 msgid "Update Interval (min)"
 msgstr "Aktualisierungsintervall (min)"
 
-#: prefs.xml:88
+#: prefs.xml:95
 msgid "Command to execute"
 msgstr "Auszuführender Befehl"
 
-#: prefs.xml:105
+#: prefs.xml:112
 msgid "Show streamer count instead"
 msgstr "Zeige stattdessen Anzahl der Streamer"
 
-#: prefs.xml:123
+#: prefs.xml:130
 msgid "Hide playlist streams"
 msgstr ""
 
-#: prefs.xml:141
+#: prefs.xml:148
 #, fuzzy
 msgid "Hide indicator if nobody is streaming"
 msgstr "Niemand streamt"
+
+#: prefs.xml:166
+msgid "Sort streamers by"
+msgstr ""
 
 #~ msgid "Streamers to follow (comma seperated)"
 #~ msgstr "Streamer (komma-getrennt)"
