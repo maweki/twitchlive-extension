@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-18 19:01+0200\n"
+"POT-Creation-Date: 2016-06-09 00:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,50 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:99
+#: extension.js:103
 msgid "Settings"
 msgstr ""
 
-#: extension.js:103 extension.js:196
+#: extension.js:107 extension.js:206
 msgid "Update now"
 msgstr ""
 
-#: extension.js:153
+#: extension.js:160
 msgid "Updating ..."
 msgstr ""
 
-#: extension.js:214
+#: extension.js:232
 msgid "Nobody is streaming"
 msgstr ""
 
-#: prefs.js:48
+#: prefs.js:56
 msgid "Streamer name"
 msgstr ""
 
-#: prefs.xml:56
+#: prefs.xml:42
 msgid "Add streamer"
 msgstr ""
 
-#: prefs.xml:61
+#: prefs.xml:47
 msgid "Remove selected"
 msgstr ""
 
-#: prefs.xml:85
+#: prefs.xml:71
 msgid "Update Interval (min)"
 msgstr ""
 
-#: prefs.xml:102
+#: prefs.xml:88
 msgid "Command to execute"
 msgstr ""
 
-#: prefs.xml:119
+#: prefs.xml:105
 msgid "Show streamer count instead"
+msgstr ""
+
+#: prefs.xml:123
+msgid "Hide playlist streams"
+msgstr ""
+
+#: prefs.xml:141
+msgid "Hide indicator if nobody is streaming"
 msgstr ""
