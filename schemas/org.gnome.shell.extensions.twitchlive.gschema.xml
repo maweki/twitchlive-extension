@@ -22,5 +22,10 @@
 		<summary>Streamer count instead of names</summary>
 		<description>Showing only the count of active streamers instead of cycling through names</description>
     </key>
+    <key type="b" name="hideplaylists">
+		<default>false</default>
+		<summary>Hide playlist streams</summary>
+		<description>Hide active streams that are playlist streams (reruns)</description>
+    </key>
   </schema>
 </schemalist>

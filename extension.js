@@ -44,6 +44,7 @@ let STREAMERS = [];
 let OPENCMD = "";
 let INTERVAL = 5*1000*60;
 let HIDESTREAMERS = false;
+let HIDEPLAYLISTS = false;
 
 let button;
 
@@ -117,6 +118,7 @@ const ExtensionLayout = new Lang.Class({
     OPENCMD = this.settings.get_string('opencmd');
     INTERVAL = this.settings.get_int('interval')*1000*60;
     HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
+    HIDEPLAYLISTS = this.settings.get_boolean('hideplaylists');
 
     if (this.timer.settings != 0) Mainloop.source_remove(this.timer.settings);
     this.timer.settings = Mainloop.timeout_add(1000, Lang.bind(this, function(){
@@ -165,6 +167,10 @@ const ExtensionLayout = new Lang.Class({
     let req = function(streamer){
       let http_prom = Api.stream(that._httpSession, streamer).then((data) => {
         if (data.stream) {
+          if (data.stream.is_playlist && HIDEPLAYLISTS) {
+            return;
+          }
+
           let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers, data.stream.is_playlist);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
           new_online.push({
