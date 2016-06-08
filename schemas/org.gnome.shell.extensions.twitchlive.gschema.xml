@@ -27,5 +27,10 @@
 		<summary>Hide playlist streams</summary>
 		<description>Hide active streams that are playlist streams (reruns)</description>
     </key>
+    <key type="b" name="hideempty">
+		<default>false</default>
+		<summary>Hide indicator if noone is streaming</summary>
+		<description></description>
+    </key>
   </schema>
 </schemalist>

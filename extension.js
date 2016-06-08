@@ -45,6 +45,7 @@ let OPENCMD = "";
 let INTERVAL = 5*1000*60;
 let HIDESTREAMERS = false;
 let HIDEPLAYLISTS = false;
+let HIDEEMPTY = false;
 
 let button;
 
@@ -119,6 +120,7 @@ const ExtensionLayout = new Lang.Class({
     INTERVAL = this.settings.get_int('interval')*1000*60;
     HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
     HIDEPLAYLISTS = this.settings.get_boolean('hideplaylists');
+    HIDEEMPTY = this.settings.get_boolean('hideempty');
 
     if (this.timer.settings != 0) Mainloop.source_remove(this.timer.settings);
     this.timer.settings = Mainloop.timeout_add(1000, Lang.bind(this, function(){
@@ -203,6 +205,9 @@ const ExtensionLayout = new Lang.Class({
             that.updateMenuItem.actor.reactive = true;
             that.updateMenuItem.label.set_text(_("Update now"));
             that.enable_view_update();
+
+            // update indicator visibility if needed
+            that.actor.visible =  !HIDEEMPTY || that.online.length;
           },
       //failed
       function(why){

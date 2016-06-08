@@ -39,6 +39,7 @@ const App = new Lang.Class(
       Schema.bind('opencmd', buildable.get_object('field_opencmd'), 'text', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('hidestreamers', buildable.get_object('field_hidestreamers'), 'active', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('hideplaylists', buildable.get_object('field_hideplaylists'), 'active', Gio.SettingsBindFlags.DEFAULT);
+      Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
       buildable.get_object('add_streamer').connect('clicked', Lang.bind(this, this._addStreamer));
       buildable.get_object('del_streamer').connect('clicked', Lang.bind(this, this._delStreamer));
 
