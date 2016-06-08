@@ -82,7 +82,7 @@ const ExtensionLayout = new Lang.Class({
     this.actor.add_actor(this._box);
     this.icon = new St.Icon({ icon_name: 'twitchlive',
                              style_class: 'system-status-icon' });
-    this.streamertext = new St.Label({text: "Twitch Streamers",
+    this.streamertext = new St.Label({text: "",
                                 y_align: Clutter.ActorAlign.CENTER});
     this._box.add_child(this.icon);
     this._box.add_child(this.streamertext);
