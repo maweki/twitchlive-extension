@@ -119,6 +119,7 @@ const ExtensionLayout = new Lang.Class({
 
     if (this.timer.settings != 0) Mainloop.source_remove(this.timer.settings);
     this.timer.settings = Mainloop.timeout_add(1000, Lang.bind(this, function(){
+      this.timer.settings = 0;
       this.updateData();
       return false;
     }));
