@@ -35,7 +35,7 @@
     <key type="s" name="sortkey">
 		<default>'COUNT'</default>
 		<summary>Sort key for streams in menu</summary>
-		<description></description>
+		<description>NAME, GAME or COUNT (default)</description>
     </key>
   </schema>
 </schemalist>
