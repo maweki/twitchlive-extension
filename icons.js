@@ -76,5 +76,9 @@ function get_icon_name(streamername) {
 }
 
 function get_streamericon(streamername, style_class) {
-  return new St.Icon({ icon_name: get_icon_name(streamername), style_class: style_class, fallback_icon_name: 'twitchlive' });
+  let icon = new St.Icon({ icon_name: get_icon_name(streamername), style_class: style_class });
+  if (icon.set_fallback_icon_name) { // this isnt available before 3.16
+    icon.set_fallback_icon_name('twitchlive');
+  }
+  return icon;
 }
