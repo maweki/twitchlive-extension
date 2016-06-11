@@ -226,14 +226,17 @@ const ExtensionLayout = new Lang.Class({
     this.streamersMenu.removeAll();
 
     let online = this.online.slice();
-    //apply sort
+    //select sort
+    let sortfunc;
     if ( SORTKEY == 'NAME' ) {
-      online.sort((a,b) => a.streamer.toUpperCase() > b.streamer.toUpperCase() ? 1 : -1);
+      sortfunc = (a,b) => a.streamer.toUpperCase() > b.streamer.toUpperCase() ? 1 : -1;
     } else if ( SORTKEY == 'GAME' ) {
-      online.sort((a,b) => a.game.toUpperCase() > b.game.toUpperCase() ? 1 : -1);
+      sortfunc = (a,b) => a.game.toUpperCase() > b.game.toUpperCase() ? 1 : -1;
     } else {
-      online.sort((a,b) => a.viewers < b.viewers ? 1 : -1);
+      sortfunc = (a,b) => a.viewers < b.viewers ? 1 : -1;
     }
+    //apply sort
+    online.sort(sortfunc);
 
     let menuItems = online.map((d) => d.item);
     menuItems.map((d) => this.streamersMenu.addMenuItem(d));
