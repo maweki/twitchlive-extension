@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-09 01:54+0200\n"
-"PO-Revision-Date: 2016-05-16 00:27+0200\n"
+"PO-Revision-Date: 2016-06-12 10:23+0200\n"
 "Last-Translator: Mario Wenzel <maweki@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -24,11 +24,11 @@ msgstr "Einstellungen"
 
 #: extension.js:108 extension.js:208
 msgid "Update now"
-msgstr ""
+msgstr "Jetzt aktualisieren"
 
 #: extension.js:162
 msgid "Updating ..."
-msgstr ""
+msgstr "Aktualisiere..."
 
 #: extension.js:241
 msgid "Nobody is streaming"
@@ -36,23 +36,23 @@ msgstr "Niemand streamt"
 
 #: prefs.js:52 prefs.js:64
 msgid "Streamer name"
-msgstr ""
+msgstr "Streamername"
 
 #: prefs.js:52
 msgid "Game title"
-msgstr ""
+msgstr "Spiel"
 
 #: prefs.js:52
 msgid "Viewers count"
-msgstr ""
+msgstr "Zuschauerzahl"
 
 #: prefs.xml:49
 msgid "Add streamer"
-msgstr ""
+msgstr "Streamer hinzufügen"
 
 #: prefs.xml:54
 msgid "Remove selected"
-msgstr ""
+msgstr "Markierten entfernen"
 
 #: prefs.xml:78
 msgid "Update Interval (min)"
@@ -68,16 +68,15 @@ msgstr "Zeige stattdessen Anzahl der Streamer"
 
 #: prefs.xml:130
 msgid "Hide playlist streams"
-msgstr ""
+msgstr "Playlist-Streams verstecken"
 
 #: prefs.xml:148
-#, fuzzy
 msgid "Hide indicator if nobody is streaming"
-msgstr "Niemand streamt"
+msgstr "Verstecke Indikator wenn niemand streamt"
 
 #: prefs.xml:166
 msgid "Sort streamers by"
-msgstr ""
+msgstr "Sortiere Streamer nach"
 
 #~ msgid "Streamers to follow (comma seperated)"
 #~ msgstr "Streamer (komma-getrennt)"
