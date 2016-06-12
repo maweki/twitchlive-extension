@@ -20,8 +20,11 @@ function init_icons() {
 }
 
 function mogrify_available() { // TODO: cache this result
-  let res = GLib.spawn_command_line_sync('mogrify -version');
-  return res[0];
+  return GLib.find_program_in_path('mogrify'); // this is null if it isnt available
+}
+
+function curl_available() { // TODO: cache this result
+  return GLib.find_program_in_path('curl'); // this is null if it isnt available
 }
 
 function get_final_icon_path(streamername) {
@@ -43,6 +46,10 @@ function trigger_download_by_name(streamername, session) {
 
 function trigger_download_by_url(streamername, imageurl) {
   // TODO: this should return immediately
+  if (!curl_available()) {
+    return; // we can't download anything
+  }
+
   let download_filename = imageurl.split('/').pop();
   let unique_path = icons_path + '/' + download_filename;
   let source_extension = imageurl.split('.').pop();
