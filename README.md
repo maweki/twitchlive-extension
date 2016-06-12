@@ -5,6 +5,8 @@ your favorite streamers are online. Clicking the panel will open a
 list of streamers with the ability to launch the streamer's twitch
 page or execute an arbitrary command to open that stream.
 
+Needs `curl` and `mogrify` to fully support streamer logos.
+
 Install it from here (using Firefox with the gnome-integration plugin): https://extensions.gnome.org/extension/1078/twitchlive-panel/
 
 I use livestreamer (https://github.com/chrippa/livestreamer) with
