@@ -59,7 +59,11 @@
 						<property name="label" translatable="yes">Remove all</property>
 					</object>
 				</child>
-
+				<child>
+					<object class="GtkButton" id="import_from_twitch">
+						<property name="label" translatable="yes">Import from twitch username</property>
+					</object>
+				</child>
 				</object>
 			</child>
 
