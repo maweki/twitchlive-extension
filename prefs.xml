@@ -54,6 +54,12 @@
 						<property name="label" translatable="yes">Remove selected</property>
 					</object>
 				</child>
+				<child>
+					<object class="GtkButton" id="del_all_streamers">
+						<property name="label" translatable="yes">Remove all</property>
+					</object>
+				</child>
+
 				</object>
 			</child>
 

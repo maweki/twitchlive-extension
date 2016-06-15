@@ -42,6 +42,7 @@ const App = new Lang.Class(
       Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
       buildable.get_object('add_streamer').connect('clicked', Lang.bind(this, this._addStreamer));
       buildable.get_object('del_streamer').connect('clicked', Lang.bind(this, this._delStreamer));
+      buildable.get_object('del_all_streamers').connect('clicked', Lang.bind(this, this._delAllStreamers));
 
       // Name some widgets for future reference
       this.newStreamerEntry = buildable.get_object('field_addstreamer');
@@ -131,6 +132,12 @@ const App = new Lang.Class(
         this._removeStreamer(iter);
         this._saveStreamersList();
       }
+    },
+
+    _delAllStreamers: function() {
+      this.streamers = [];
+      this.store.clear();
+      this._saveStreamersList();
     },
 
     _saveStreamersList: function() {
