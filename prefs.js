@@ -141,7 +141,8 @@ const App = new Lang.Class(
     },
 
     _saveStreamersList: function() {
-      Schema.set_string('streamers', this.streamers.join(','));
+      let unique_streamers = [...new Set(this.streamers)];
+      Schema.set_string('streamers', unique_streamers.join(','));
     },
 
     _reloadStreamersList: function() {
