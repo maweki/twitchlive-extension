@@ -43,6 +43,7 @@ const App = new Lang.Class(
       buildable.get_object('add_streamer').connect('clicked', Lang.bind(this, this._addStreamer));
       buildable.get_object('del_streamer').connect('clicked', Lang.bind(this, this._delStreamer));
       buildable.get_object('del_all_streamers').connect('clicked', Lang.bind(this, this._delAllStreamers));
+      buildable.get_object('import_from_twitch').connect('clicked', Lang.bind(this, this._importFromTwitch));
 
       // Name some widgets for future reference
       this.newStreamerEntry = buildable.get_object('field_addstreamer');
@@ -83,6 +84,29 @@ const App = new Lang.Class(
 
       this.main.show_all();
       return this.main;
+    },
+
+    _importFromTwitch: function () {
+      //Open the dialog with the text prompt
+      this._showMessageDialog( function (textbox, messagedialog, response_id) {
+        //Extract the text
+        let username = textbox.get_text();
+        messagedialog.destroy();
+        log(username);
+      });
+    },
+
+    _showMessageDialog: function (callback) {
+      this._messageDialog = new Gtk.MessageDialog ({
+        modal: true,
+        buttons: Gtk.ButtonsType.OK,
+        message_type: Gtk.MessageType.OTHER,
+        text: "Enter the username of the twitch account you wish to import." });
+      let dialogBox = this._messageDialog.get_content_area();
+      let entry = new Gtk.Entry();
+      dialogBox.pack_end(entry, false, false, 0);
+      this._messageDialog.connect ('response', Lang.bind(this, callback.bind(null, entry)));
+      this._messageDialog.show_all();
     },
 
     _cellEdited: function(renderer, path, new_text, whatelse) {
