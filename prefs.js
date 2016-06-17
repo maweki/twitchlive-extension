@@ -17,6 +17,8 @@ let schemaSource = Gio.SettingsSchemaSource.new_from_directory(schemaDir, Gio.Se
 let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false);
 let Schema = new Gio.Settings({ settings_schema: schema });
 
+const Api = Extension.imports.api;
+
 const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
 const localeDir = Extension.dir.get_child('locale');
 const _ = Gettext.domain(domain).gettext;
@@ -87,12 +89,19 @@ const App = new Lang.Class(
     },
 
     _importFromTwitch: function () {
+      let that = this;
       //Open the dialog with the text prompt
       this._showMessageDialog( function (textbox, messagedialog, response_id) {
         //Extract the text
         let username = textbox.get_text();
         messagedialog.destroy();
-        log(username);
+	Api.follows(that._httpSession, username).then((data) => {
+	  if(data.follows){
+	    let usernames = data.follows.map(follow => follow.channel.name);
+	    usernames.forEach(username => that._appendStreamer(username));
+	    that._saveStreamersList();
+	  }
+	});
       });
     },
 
