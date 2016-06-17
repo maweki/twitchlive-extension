@@ -34,3 +34,11 @@ function stream(session, streamer) {
     load_json_async(session, url, resolve);
   });
 }
+
+// https://github.com/justintv/Twitch-API/blob/master/v3_resources/follows.md#get-usersuserfollowschannels
+function follows(session, username) {
+  return new Promise((resolve, reject) => {
+    let url = api_base + 'users/' + username + '/follows/channels?limit=100';
+    load_json_async(session, url, resolve);
+  });
+}
