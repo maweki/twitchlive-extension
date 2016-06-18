@@ -18,6 +18,52 @@
 	</columns>
 </object>
 
+<object class="GtkDialog" id="UserPromptDialog">
+	<property name="modal">true</property>
+	<property name="use-header-bar">1</property>
+	<child type="titlebar">
+		<object class="GtkHeaderBar">
+			<property name="visible">True</property>
+			<property name="can_focus">False</property>
+			<property name="show-close-button">True</property>
+			<property name="title" translatable="yes">Import from twitch</property>
+			<property name="hexpand">true</property>
+		</object>
+	</child>
+	<child internal-child="vbox">
+		<object class="GtkBox">
+			<property name="margin">10</property>
+			<property name="spacing">5</property>
+			<child>
+				<object class="GtkLabel">
+					<property name="label" translatable="yes">Twitch account to import follows from :</property>
+					<property name="hexpand">true</property>
+					<property name="halign">1</property>
+				</object>
+			</child>
+			<child>
+				<object class="GtkEntry" id="UserPromptDialog-entry">
+				</object>
+			</child>
+		</object>
+	</child>
+	<child type="action">
+		<object class="GtkButton" id="UserPromptDialog-cancel">
+			<property name="label" translatable="yes">Cancel</property>
+		</object>
+	</child>
+	<child type="action">
+		<object class="GtkButton" id="UserPromptDialog-ok">
+			<property name="label" translatable="yes">Import</property>
+			<property name="can-default">True</property>
+		</object>
+	</child>
+	<action-widgets>
+		<action-widget response="cancel">UserPromptDialog-cancel</action-widget>
+		<action-widget response="ok" default="true">UserPromptDialog-ok</action-widget>
+	</action-widgets>
+</object>
+
 <object class="GtkGrid" id="prefs-widget">
 	<property name="orientation">vertical</property>
 
