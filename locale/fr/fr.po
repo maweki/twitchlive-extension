@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-18 14:47+0200\n"
+"POT-Creation-Date: 2016-06-18 21:38+0200\n"
 "PO-Revision-Date: 2016-06-09 01:56+0200\n"
 "Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
@@ -34,60 +34,72 @@ msgstr "Mise à jour ..."
 msgid "Nobody is streaming"
 msgstr "Personne ne diffuse"
 
-#: prefs.js:56 prefs.js:68
+#: prefs.js:57 prefs.js:69
 msgid "Streamer name"
 msgstr "Nom du Streamer"
 
-#: prefs.js:56
+#: prefs.js:57
 msgid "Game title"
 msgstr "Nom du jeu"
 
-#: prefs.js:56
+#: prefs.js:57
 msgid "Viewers count"
 msgstr "Nombre de spectateurs"
 
-#: prefs.js:114
-msgid "Enter the twitch account which follows you want to import :"
+#: prefs.xml:29
+msgid "Import from twitch"
+msgstr ""
+
+#: prefs.xml:39
+msgid "Twitch account to import follows from :"
 msgstr ""
 
 #: prefs.xml:52
+msgid "Cancel"
+msgstr ""
+
+#: prefs.xml:57
+msgid "Import"
+msgstr ""
+
+#: prefs.xml:98
 msgid "Add streamer"
 msgstr "Ajouter"
 
-#: prefs.xml:57
+#: prefs.xml:103
 msgid "Remove selected"
 msgstr "Retirer"
 
-#: prefs.xml:62
+#: prefs.xml:108
 #, fuzzy
 msgid "Remove all"
 msgstr "Retirer"
 
-#: prefs.xml:67
+#: prefs.xml:113
 msgid "Import from twitch user"
 msgstr ""
 
-#: prefs.xml:94
+#: prefs.xml:140
 msgid "Update Interval (min)"
 msgstr "Intervalle de mise à jour (min)"
 
-#: prefs.xml:111
+#: prefs.xml:157
 msgid "Command to execute"
 msgstr "Commande à éxécuter"
 
-#: prefs.xml:128
+#: prefs.xml:174
 msgid "Show streamer count instead"
 msgstr "Afficher plutôt le nombre"
 
-#: prefs.xml:146
+#: prefs.xml:192
 msgid "Hide playlist streams"
 msgstr "Masquer les rediffusions"
 
-#: prefs.xml:164
+#: prefs.xml:210
 msgid "Hide indicator if nobody is streaming"
 msgstr "Masquer l'indicateur si Personne ne diffuse"
 
-#: prefs.xml:182
+#: prefs.xml:228
 msgid "Sort streamers by"
 msgstr "Trier les diffusions par"
 
