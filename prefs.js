@@ -95,13 +95,13 @@ const App = new Lang.Class(
         //Extract the text
         let username = textbox.get_text();
         messagedialog.destroy();
-	Api.follows(that._httpSession, username).then((data) => {
-	  if(data.follows){
-	    let usernames = data.follows.map(follow => follow.channel.name);
-	    usernames.forEach(username => that._appendStreamer(username));
-	    that._saveStreamersList();
-	  }
-	});
+        Api.follows(that._httpSession, username).then((data) => {
+          if(data.follows){
+            let usernames = data.follows.map(follow => follow.channel.name);
+            usernames.forEach(username => that._appendStreamer(username));
+            that._saveStreamersList();
+          }
+        });
       });
     },
 
