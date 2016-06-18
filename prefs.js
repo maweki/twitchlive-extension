@@ -90,20 +90,19 @@ const App = new Lang.Class(
     },
 
     _importFromTwitch: function () {
-      let that = this;
       //Open the dialog with the text prompt
-      this._showUserPromptDialog( function (textbox, messagedialog, response_id) {
+      this._showUserPromptDialog( (textbox, messagedialog, response_id) => {
         //Extract the text
         let username = textbox.get_text();
         messagedialog.hide();
         if(response_id === Gtk.ResponseType.OK){
-          Api.follows(that._httpSession, username).then((data) => {
+          Api.follows(this._httpSession, username).then((data) => {
             if(data.follows){
               let usernames = data.follows.map(follow => follow.channel.name);
-              usernames.forEach(username => that._appendStreamer(username));
-              that._saveStreamersList();
-              that._reloadStreamersList();
-              that._retrieveStreamerIcons();
+              usernames.forEach(username => this._appendStreamer(username));
+              this._saveStreamersList();
+              this._reloadStreamersList();
+              this._retrieveStreamerIcons();
             }
           });
         }
