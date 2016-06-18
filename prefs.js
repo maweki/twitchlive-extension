@@ -17,6 +17,8 @@ let schemaSource = Gio.SettingsSchemaSource.new_from_directory(schemaDir, Gio.Se
 let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false);
 let Schema = new Gio.Settings({ settings_schema: schema });
 
+const Api = Extension.imports.api;
+
 const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
 const localeDir = Extension.dir.get_child('locale');
 const _ = Gettext.domain(domain).gettext;
@@ -34,6 +36,7 @@ const App = new Lang.Class(
       // Build widgets, bind simple fields to settings and connect buttons clicked signals
       let buildable = new Gtk.Builder();
       buildable.add_from_file( Extension.dir.get_path() + '/prefs.xml' );
+      this._buildable = buildable;
       this.main = buildable.get_object('prefs-widget');
       Schema.bind('interval', buildable.get_object('field_interval'), 'value', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('opencmd', buildable.get_object('field_opencmd'), 'text', Gio.SettingsBindFlags.DEFAULT);
@@ -42,6 +45,8 @@ const App = new Lang.Class(
       Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
       buildable.get_object('add_streamer').connect('clicked', Lang.bind(this, this._addStreamer));
       buildable.get_object('del_streamer').connect('clicked', Lang.bind(this, this._delStreamer));
+      buildable.get_object('del_all_streamers').connect('clicked', Lang.bind(this, this._delAllStreamers));
+      buildable.get_object('import_from_twitch').connect('clicked', Lang.bind(this, this._importFromTwitch));
 
       // Name some widgets for future reference
       this.newStreamerEntry = buildable.get_object('field_addstreamer');
@@ -82,6 +87,35 @@ const App = new Lang.Class(
 
       this.main.show_all();
       return this.main;
+    },
+
+    _importFromTwitch: function () {
+      let that = this;
+      //Open the dialog with the text prompt
+      this._showUserPromptDialog( function (textbox, messagedialog, response_id) {
+        //Extract the text
+        let username = textbox.get_text();
+        messagedialog.hide();
+        if(response_id === Gtk.ResponseType.OK){
+          Api.follows(that._httpSession, username).then((data) => {
+            if(data.follows){
+              let usernames = data.follows.map(follow => follow.channel.name);
+              usernames.forEach(username => that._appendStreamer(username));
+              that._saveStreamersList();
+              that._reloadStreamersList();
+              that._retrieveStreamerIcons();
+            }
+          });
+        }
+      });
+    },
+
+    _showUserPromptDialog: function (callback) {
+      if( !this._messageDialog ) {
+        this._messageDialog = this._buildable.get_object("UserPromptDialog");
+        this._messageDialog.connect ('response', Lang.bind(this, callback.bind(null, this._buildable.get_object("UserPromptDialog-entry"))));
+      }
+      this._messageDialog.show_all();
     },
 
     _cellEdited: function(renderer, path, new_text, whatelse) {
@@ -133,8 +167,18 @@ const App = new Lang.Class(
       }
     },
 
+    _delAllStreamers: function() {
+      this.streamers = [];
+      this.store.clear();
+      this._saveStreamersList();
+    },
+
     _saveStreamersList: function() {
-      Schema.set_string('streamers', this.streamers.join(','));
+      let toSave = this.streamers.reduce((prev, username) => {
+        return prev.some(u => u.toLowerCase() === username.toLowerCase()) ?
+          prev : prev.concat(username);
+      },[]);
+      Schema.set_string('streamers', toSave.join(','));
     },
 
     _reloadStreamersList: function() {
