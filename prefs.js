@@ -111,7 +111,7 @@ const App = new Lang.Class(
         modal: true,
         buttons: Gtk.ButtonsType.OK,
         message_type: Gtk.MessageType.OTHER,
-        text: "Enter the twitch account which follows you want to import" });
+        text: _("Enter the twitch account which follows you want to import :") });
       let dialogBox = this._messageDialog.get_content_area();
       let entry = new Gtk.Entry();
       dialogBox.pack_end(entry, false, false, 0);
