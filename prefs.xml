@@ -61,7 +61,7 @@
 				</child>
 				<child>
 					<object class="GtkButton" id="import_from_twitch">
-						<property name="label" translatable="yes">Import from twitch username</property>
+						<property name="label" translatable="yes">Import from twitch user</property>
 					</object>
 				</child>
 				</object>
