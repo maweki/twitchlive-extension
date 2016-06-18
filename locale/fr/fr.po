@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-18 21:38+0200\n"
-"PO-Revision-Date: 2016-06-09 01:56+0200\n"
+"PO-Revision-Date: 2016-06-18 21:40+0200\n"
 "Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -48,19 +48,19 @@ msgstr "Nombre de spectateurs"
 
 #: prefs.xml:29
 msgid "Import from twitch"
-msgstr ""
+msgstr "Importer depuis twitch"
 
 #: prefs.xml:39
 msgid "Twitch account to import follows from :"
-msgstr ""
+msgstr "Compte twitch duquel importer les suivis :"
 
 #: prefs.xml:52
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: prefs.xml:57
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #: prefs.xml:98
 msgid "Add streamer"
@@ -71,13 +71,12 @@ msgid "Remove selected"
 msgstr "Retirer"
 
 #: prefs.xml:108
-#, fuzzy
 msgid "Remove all"
-msgstr "Retirer"
+msgstr "Tour retirer"
 
 #: prefs.xml:113
 msgid "Import from twitch user"
-msgstr ""
+msgstr "Importer depuis un compte twitch"
 
 #: prefs.xml:140
 msgid "Update Interval (min)"
