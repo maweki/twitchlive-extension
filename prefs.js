@@ -100,6 +100,7 @@ const App = new Lang.Class(
             let usernames = data.follows.map(follow => follow.channel.name);
             usernames.forEach(username => that._appendStreamer(username));
             that._saveStreamersList();
+            that._retrieveStreamerIcons();
           }
         });
       });
