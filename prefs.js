@@ -91,7 +91,7 @@ const App = new Lang.Class(
     _importFromTwitch: function () {
       let that = this;
       //Open the dialog with the text prompt
-      this._showMessageDialog( function (textbox, messagedialog, response_id) {
+      this._showUserPromptDialog( function (textbox, messagedialog, response_id) {
         //Extract the text
         let username = textbox.get_text();
         messagedialog.destroy();
@@ -105,7 +105,7 @@ const App = new Lang.Class(
       });
     },
 
-    _showMessageDialog: function (callback) {
+    _showUserPromptDialog: function (callback) {
       this._messageDialog = new Gtk.MessageDialog ({
         modal: true,
         buttons: Gtk.ButtonsType.OK,
