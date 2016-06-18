@@ -36,6 +36,7 @@ const App = new Lang.Class(
       // Build widgets, bind simple fields to settings and connect buttons clicked signals
       let buildable = new Gtk.Builder();
       buildable.add_from_file( Extension.dir.get_path() + '/prefs.xml' );
+      this._buildable = buildable;
       this.main = buildable.get_object('prefs-widget');
       Schema.bind('interval', buildable.get_object('field_interval'), 'value', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('opencmd', buildable.get_object('field_opencmd'), 'text', Gio.SettingsBindFlags.DEFAULT);
@@ -94,7 +95,7 @@ const App = new Lang.Class(
       this._showUserPromptDialog( function (textbox, messagedialog, response_id) {
         //Extract the text
         let username = textbox.get_text();
-        messagedialog.destroy();
+        messagedialog.hide();
         if(response_id === Gtk.ResponseType.OK){
           Api.follows(that._httpSession, username).then((data) => {
             if(data.follows){
@@ -109,15 +110,10 @@ const App = new Lang.Class(
     },
 
     _showUserPromptDialog: function (callback) {
-      this._messageDialog = new Gtk.MessageDialog ({
-        modal: true,
-        buttons: Gtk.ButtonsType.OK_CANCEL,
-        message_type: Gtk.MessageType.OTHER,
-        text: _("Enter the twitch account which follows you want to import :") });
-      let dialogBox = this._messageDialog.get_content_area();
-      let entry = new Gtk.Entry();
-      dialogBox.pack_end(entry, false, false, 0);
-      this._messageDialog.connect ('response', Lang.bind(this, callback.bind(null, entry)));
+      if( !this._messageDialog ) {
+        this._messageDialog = this._buildable.get_object("UserPromptDialog");
+        this._messageDialog.connect ('response', Lang.bind(this, callback.bind(null, this._buildable.get_object("UserPromptDialog-entry"))));
+      }
       this._messageDialog.show_all();
     },
 
