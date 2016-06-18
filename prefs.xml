@@ -26,7 +26,7 @@
 			<property name="visible">True</property>
 			<property name="can_focus">False</property>
 			<property name="show-close-button">True</property>
-			<property name="title">Import from twitch</property>
+			<property name="title" translatable="yes">Import from twitch</property>
 			<property name="hexpand">true</property>
 		</object>
 	</child>
