@@ -95,21 +95,23 @@ const App = new Lang.Class(
         //Extract the text
         let username = textbox.get_text();
         messagedialog.destroy();
-        Api.follows(that._httpSession, username).then((data) => {
-          if(data.follows){
-            let usernames = data.follows.map(follow => follow.channel.name);
-            usernames.forEach(username => that._appendStreamer(username));
-            that._saveStreamersList();
-            that._retrieveStreamerIcons();
-          }
-        });
+        if(response_id === Gtk.ResponseType.OK){
+          Api.follows(that._httpSession, username).then((data) => {
+            if(data.follows){
+              let usernames = data.follows.map(follow => follow.channel.name);
+              usernames.forEach(username => that._appendStreamer(username));
+              that._saveStreamersList();
+              that._retrieveStreamerIcons();
+            }
+          });
+        }
       });
     },
 
     _showUserPromptDialog: function (callback) {
       this._messageDialog = new Gtk.MessageDialog ({
         modal: true,
-        buttons: Gtk.ButtonsType.OK,
+        buttons: Gtk.ButtonsType.OK_CANCEL,
         message_type: Gtk.MessageType.OTHER,
         text: _("Enter the twitch account which follows you want to import :") });
       let dialogBox = this._messageDialog.get_content_area();
