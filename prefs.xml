@@ -40,30 +40,36 @@
 			</child>
 
 			<child>
-				<object class="GtkButtonBox">
-				<property name="orientation">vertical</property>
-				<property name="layout-style">GTK_BUTTONBOX_START</property>
-				<property name="spacing">5</property>
-				<child>
-					<object class="GtkButton" id="add_streamer">
-						<property name="label" translatable="yes">Add streamer</property>
-					</object>
-				</child>
-				<child>
-					<object class="GtkButton" id="del_streamer">
-						<property name="label" translatable="yes">Remove selected</property>
-					</object>
-				</child>
-				<child>
-					<object class="GtkButton" id="del_all_streamers">
-						<property name="label" translatable="yes">Remove all</property>
-					</object>
-				</child>
-				<child>
-					<object class="GtkButton" id="import_from_twitch">
-						<property name="label" translatable="yes">Import from twitch user</property>
-					</object>
-				</child>
+				<object class="GtkGrid">
+					<property name="orientation">vertical</property>
+					<child>
+						<object class="GtkButtonBox">
+						<property name="orientation">vertical</property>
+						<property name="layout-style">GTK_BUTTONBOX_EXPAND</property>
+
+						<child>
+							<object class="GtkButton" id="add_streamer">
+								<property name="label" translatable="yes">Add streamer</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="del_streamer">
+								<property name="label" translatable="yes">Remove selected</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="del_all_streamers">
+								<property name="label" translatable="yes">Remove all</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="import_from_twitch">
+								<property name="label" translatable="yes">Import from twitch user</property>
+							</object>
+						</child>
+						</object>
+					</child>
+
 				</object>
 			</child>
 
