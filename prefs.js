@@ -175,8 +175,11 @@ const App = new Lang.Class(
     },
 
     _saveStreamersList: function() {
-      let unique_streamers = [...new Set(this.streamers)];
-      Schema.set_string('streamers', unique_streamers.join(','));
+      let toSave = this.streamers.reduce((prev, username) => {
+        return prev.some(u => u.toLowerCase() === username.toLowerCase()) ?
+          prev : prev.concat(username);
+      },[]);
+      Schema.set_string('streamers', toSave.join(','));
     },
 
     _reloadStreamersList: function() {
