@@ -1,9 +1,4 @@
-.streamer-icon {
-  height: 2.5em;
-  width: 3.5em;
-}
-
-.viewer-icon {
+.viewer-icon, .streamer-icon {
   height: 1em;
   width: 1.4em;
 }
@@ -23,5 +18,4 @@
 .streamer-menuitem.title {
   font-size: 80%;
   margin-top: 0.5em;
-  margin-left: 1em;
 }
