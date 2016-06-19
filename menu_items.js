@@ -37,7 +37,7 @@ const StreamerMenuItem = new Lang.Class({
 
     this._firstLine.add(this._layout.streamer_icon);
     this._firstLine.add(this._layout.name);
-    this._firstLine.add(this._layout.game, {expand: true, fill:true});
+    this._firstLine.add(this._layout.game);
     this._firstLine.add(this._layout.viewer_count);
     this._firstLine.add(this._layout.viewer_icon);
 
@@ -54,8 +54,7 @@ const StreamerMenuItem = new Lang.Class({
   },
 
   get_size_info: function() {
-    return [this._layout.name.get_allocation_box().get_width(), this._layout.game.get_allocation_box().get_width(), 
-      this._layout.viewer_count.get_allocation_box().get_width(), this._layout.title.get_allocation_box().get_width()];
+    return [this._layout.name.get_allocation_box().get_width(), this._layout.game.get_allocation_box().get_width(), this._layout.viewer_count.get_allocation_box().get_width()];
   },
 
   apply_size_info: function(size_info) {
@@ -63,7 +62,7 @@ const StreamerMenuItem = new Lang.Class({
     this._layout.name.set_width(size_info[0]);
     this._layout.game.set_width(size_info[1] + viewer_count_size_diff);
     this._layout.viewer_count.set_width(size_info[2] - viewer_count_size_diff);
-    this._layout.title.set_width(size_info[3]);
+    this._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] );
   }
 });
 
