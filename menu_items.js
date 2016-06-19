@@ -19,8 +19,9 @@ const StreamerMenuItem = new Lang.Class({
     this._streamer = streamername;
 
     this._layout = {};
-    this._wrapBox = new St.BoxLayout({ vertical: true });
-    this._firstLine = new St.BoxLayout();
+    this._wrapBox = new St.BoxLayout();
+    this._textLayout = new St.BoxLayout({ vertical: true });
+    this._textFirstLine = new St.BoxLayout();
 
     this._layout.streamer_icon = Icons.get_streamericon(streamername, "streamer-icon streamer-menuitem");
     this._layout.name = new St.Label({ text: streamername, style_class : "name streamer-menuitem"});
@@ -35,14 +36,16 @@ const StreamerMenuItem = new Lang.Class({
 
     this._layout.title = new St.Label({ text: title, style_class : "title streamer-menuitem"});
 
-    this._firstLine.add(this._layout.streamer_icon);
-    this._firstLine.add(this._layout.name);
-    this._firstLine.add(this._layout.game, {expand: true, fill:true});
-    this._firstLine.add(this._layout.viewer_count);
-    this._firstLine.add(this._layout.viewer_icon);
+    this._textFirstLine.add(this._layout.name);
+    this._textFirstLine.add(this._layout.game, {expand: true, fill:true});
+    this._textFirstLine.add(this._layout.viewer_count);
+    this._textFirstLine.add(this._layout.viewer_icon);
 
-    this._wrapBox.add(this._firstLine);
-    this._wrapBox.add(this._layout.title);
+    this._textLayout.add(this._textFirstLine);
+    this._textLayout.add(this._layout.title);
+
+    this._wrapBox.add(this._layout.streamer_icon);
+    this._wrapBox.add(this._textLayout);
 
     this.actor.add(this._wrapBox);
 
