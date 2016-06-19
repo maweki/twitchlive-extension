@@ -175,7 +175,7 @@ const ExtensionLayout = new Lang.Class({
             return;
           }
 
-          let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers, data.stream.is_playlist);
+          let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers, data.stream.channel.status, data.stream.is_playlist);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
           new_online.push({
             item: item, streamer: streamer, game: data.stream.game, viewers: data.stream.viewers

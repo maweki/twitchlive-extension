@@ -6,3 +6,11 @@
 .viewer-count {
   text-align: right; /* I think this might not be implemented for St.Label yet */
 }
+
+.streamer-menuitem {
+  margin: 5px;
+}
+
+.streamer-menuitem.title {
+  font-size: 80%;
+}
