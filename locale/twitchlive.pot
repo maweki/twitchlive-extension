@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-18 21:38+0200\n"
+"POT-Creation-Date: 2016-06-20 17:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:104
+#: extension.js:105
 msgid "Settings"
 msgstr ""
 
-#: extension.js:108 extension.js:208
+#: extension.js:109 extension.js:210
 msgid "Update now"
 msgstr ""
 
-#: extension.js:162
+#: extension.js:164
 msgid "Updating ..."
 msgstr ""
 
-#: extension.js:244
+#: extension.js:246
 msgid "Nobody is streaming"
 msgstr ""
 
-#: prefs.js:57 prefs.js:69
+#: prefs.js:58 prefs.js:70
 msgid "Streamer name"
 msgstr ""
 
-#: prefs.js:57
+#: prefs.js:58
 msgid "Game title"
 msgstr ""
 
-#: prefs.js:57
+#: prefs.js:58
 msgid "Viewers count"
 msgstr ""
 
@@ -99,4 +99,8 @@ msgstr ""
 
 #: prefs.xml:228
 msgid "Sort streamers by"
+msgstr ""
+
+#: prefs.xml:255
+msgid "Hide status line from the menu"
 msgstr ""
