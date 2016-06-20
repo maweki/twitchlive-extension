@@ -37,5 +37,10 @@
 		<summary>Sort key for streams in menu</summary>
 		<description>NAME, GAME or COUNT (default)</description>
     </key>
+    <key type="b" name="hidestatus">
+		<default>false</default>
+		<summary>Hide status information</summary>
+		<description>Hide current channel status detail</description>
+    </key>
   </schema>
 </schemalist>

@@ -247,6 +247,24 @@
 				</object>
 			</child>
 
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Hide status line from the menu</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_hidestatus">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
 		</object>
 	</child>
 

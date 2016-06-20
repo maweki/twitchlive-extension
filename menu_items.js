@@ -14,7 +14,7 @@ const StreamerMenuItem = new Lang.Class({
   Name: 'StreamerMenuItem',
   Extends: PopupMenu.PopupBaseMenuItem,
 
-  _init: function(streamername, game, viewer_count, title, is_playlist=false) {
+  _init: function(streamername, game, viewer_count, title, is_playlist=false, HIDESTATUS=false) {
     this.parent();
     this._streamer = streamername;
 
@@ -33,20 +33,19 @@ const StreamerMenuItem = new Lang.Class({
     }
     this._layout.viewer_icon = new St.Icon({ icon_name: info_icon, style_class: 'viewer-icon streamer-menuitem' });
 
-    this._layout.title = new St.Label({ text: title, style_class : "title streamer-menuitem"});
-
     this._firstLine.add(this._layout.streamer_icon);
     this._firstLine.add(this._layout.name);
     this._firstLine.add(this._layout.game);
     this._firstLine.add(this._layout.viewer_count);
     this._firstLine.add(this._layout.viewer_icon);
-
     this._wrapBox.add(this._firstLine);
-    this._wrapBox.add(this._layout.title);
+
+    if (!HIDESTATUS) { 
+          this._layout.title = new St.Label({ text: title, style_class : "title streamer-menuitem"});
+          this._wrapBox.add(this._layout.title); 
+    }
 
     this.actor.add(this._wrapBox);
-
-    //this._layout.name.set_width(80);
   },
 
   get_streamer: function() {
@@ -62,7 +61,9 @@ const StreamerMenuItem = new Lang.Class({
     this._layout.name.set_width(size_info[0]);
     this._layout.game.set_width(size_info[1] + viewer_count_size_diff);
     this._layout.viewer_count.set_width(size_info[2] - viewer_count_size_diff);
-    this._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] );
+    if ( this._layout.title ) {
+      this._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] );
+    }
   }
 });
 
