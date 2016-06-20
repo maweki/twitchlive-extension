@@ -47,6 +47,7 @@ let HIDESTREAMERS = false;
 let HIDEPLAYLISTS = false;
 let HIDEEMPTY = false;
 let SORTKEY = 'COUNT';
+let HIDESTATUS = false;
 
 let button;
 
@@ -123,6 +124,7 @@ const ExtensionLayout = new Lang.Class({
     HIDEPLAYLISTS = this.settings.get_boolean('hideplaylists');
     HIDEEMPTY = this.settings.get_boolean('hideempty');
     SORTKEY = this.settings.get_string('sortkey');
+    HIDESTATUS = this.settings.get_boolean('hidestatus');
 
     if (this.timer.settings != 0) Mainloop.source_remove(this.timer.settings);
     this.timer.settings = Mainloop.timeout_add(1000, Lang.bind(this, function(){
@@ -175,7 +177,7 @@ const ExtensionLayout = new Lang.Class({
             return;
           }
 
-          let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers, data.stream.is_playlist);
+          let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers, data.stream.channel.status, data.stream.is_playlist, HIDESTATUS);
           item.connect("activate", Lang.bind(that, that._execCmd, streamer));
           new_online.push({
             item: item, streamer: streamer, game: data.stream.game, viewers: data.stream.viewers

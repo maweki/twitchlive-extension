@@ -43,6 +43,7 @@ const App = new Lang.Class(
       Schema.bind('hidestreamers', buildable.get_object('field_hidestreamers'), 'active', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('hideplaylists', buildable.get_object('field_hideplaylists'), 'active', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
+      Schema.bind('hidestatus', buildable.get_object('field_hidestatus'), 'active', Gio.SettingsBindFlags.DEFAULT);
       buildable.get_object('add_streamer').connect('clicked', Lang.bind(this, this._addStreamer));
       buildable.get_object('del_streamer').connect('clicked', Lang.bind(this, this._delStreamer));
       buildable.get_object('del_all_streamers').connect('clicked', Lang.bind(this, this._delAllStreamers));
