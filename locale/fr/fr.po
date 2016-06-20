@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-06-20 17:58+0200\n"
-"PO-Revision-Date: 2016-06-18 21:40+0200\n"
+"PO-Revision-Date: 2016-06-20 17:59+0200\n"
 "Last-Translator: Raphael Rochet <raphael@rri.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -104,7 +104,7 @@ msgstr "Trier les diffusions par"
 
 #: prefs.xml:255
 msgid "Hide status line from the menu"
-msgstr ""
+msgstr "Masquer la description dans le menu"
 
 #~ msgid "Streamers to follow (comma seperated)"
 #~ msgstr "Streamers à suivre (séparés par des virgules)"
