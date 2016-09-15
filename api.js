@@ -13,6 +13,7 @@ const api_base = 'https://api.twitch.tv/kraken/';
 
 function load_json_async(httpSession, url, fun) {
   let message = Soup.Message.new('GET', url);
+  message.requestHeaders.append('Client-ID', '4yzkpoa13a9zqepwguxejohaqulrgbu');
   httpSession.queue_message(message, function(session, message) {
       let data = JSON.parse(message.response_body.data);
       fun(data);
