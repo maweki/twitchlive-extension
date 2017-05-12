@@ -2,7 +2,6 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const St = imports.gi.St;
 const Gtk = imports.gi.Gtk;
 const GLib = imports.gi.GLib;
 
