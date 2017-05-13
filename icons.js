@@ -82,7 +82,8 @@ function get_icon_name(streamername) {
 }
 
 function get_streamericon(streamername, style_class) {
-  let icon = new St.Icon({ icon_name: get_icon_name(streamername), style_class: style_class });
+  // St is not imported globally since it's not available in the preferences context
+  let icon = new imports.gi.St.Icon({ icon_name: get_icon_name(streamername), style_class: style_class });
   if (icon.set_fallback_icon_name) { // this isnt available before 3.16
     icon.set_fallback_icon_name('twitchlive');
   }
