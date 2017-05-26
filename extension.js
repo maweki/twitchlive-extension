@@ -19,6 +19,7 @@ const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
+const Topbar = Extension.imports.topbar;
 const MenuItems = Extension.imports.menu_items;
 const Promise = Extension.imports.promise.Promise;
 const Icons = Extension.imports.icons;
@@ -69,6 +70,7 @@ const ExtensionLayout = new Lang.Class({
   Extends: PanelMenu.Button,
 
   streamertext : null,
+  topbar_mode : 'empty',
   text: null,
   icon: null,
   online: [],
@@ -84,10 +86,16 @@ const ExtensionLayout = new Lang.Class({
     this.actor.add_actor(this._box);
     this.icon = new St.Icon({ icon_name: 'twitchlive',
                              style_class: 'system-status-icon' });
-    this.streamertext = new St.Label({text: "",
-                                y_align: Clutter.ActorAlign.CENTER});
+    this.topbar_mode = "all-icons";
+    this.streamertext = {
+      "empty": Topbar.empty,
+      "text-only": Topbar.text_only,
+      "count-only": Topbar.count_only,
+      "all-icons": Topbar.all_icons,
+      "icon-only": Topbar.icon_only
+    }[this.topbar_mode]();
     this._box.add_child(this.icon);
-    this._box.add_child(this.streamertext);
+    this._box.add_child(this.streamertext.box);
 
     // Create menu section for streamers
     this.streamersMenu = new PopupMenu.PopupMenuSection();
@@ -198,7 +206,8 @@ const ExtensionLayout = new Lang.Class({
         function(){
             // switch updated streamers
             that.online = new_online;
-
+            // notify topbar actor
+            that.streamertext.update(new_online);
             // clear menu
             menu.removeAll();
             that.spacer.actor.hide();
@@ -276,17 +285,12 @@ const ExtensionLayout = new Lang.Class({
     let _online = this.online;
     if (_online.length > 0) {
       this.icon.set_icon_name('twitchlive_on');
-      if (HIDESTREAMERS) {
-        this.streamertext.set_text(_online.length.toString());
-      }
-      else {
-        this.streamer_rotation++;
-        this.streamertext.set_text(_online[this.streamer_rotation % _online.length].streamer);
-      }
+      this.streamertext.interval();
+      this.streamertext.box.show();
     }
     else {
       this.icon.set_icon_name('twitchlive_off');
-      this.streamertext.set_text("");
+      this.streamertext.box.hide();
     }
     return true;
   },
