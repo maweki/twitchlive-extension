@@ -40,7 +40,6 @@ const App = new Lang.Class(
       this.main = buildable.get_object('prefs-widget');
       Schema.bind('interval', buildable.get_object('field_interval'), 'value', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('opencmd', buildable.get_object('field_opencmd'), 'text', Gio.SettingsBindFlags.DEFAULT);
-      Schema.bind('hidestreamers', buildable.get_object('field_hidestreamers'), 'active', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('hideplaylists', buildable.get_object('field_hideplaylists'), 'active', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
       Schema.bind('hidestatus', buildable.get_object('field_hidestatus'), 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -53,6 +52,17 @@ const App = new Lang.Class(
       this.newStreamerEntry = buildable.get_object('field_addstreamer');
       this.streamersList = buildable.get_object('field_streamerslist');
       this.sortkeyStore = buildable.get_object('StreamSort_ListStore');
+      this.topbardisplayStore = buildable.get_object('TopBarDisplay_ListStore');
+
+      // Fill the topbar display combobox
+      [
+       ['empty', _('Only indicator')] ,['text-only', _('Streamers names')] , ['count-only', _('Number of live streams')] ,
+       ['icon-only', _('Streamers icons')] , ['all-icons', _('Streamers icons (all)')]
+      ].forEach( function(element) {
+        let iter = this.topbardisplayStore.append();
+        this.topbardisplayStore.set(iter, [0, 1], element);
+      }, this);
+      Schema.bind('topbarmode', buildable.get_object('field_topbarmode'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
 
       // Fill the sort key combobox
       [ ['NAME', _('Streamer name')] , ['GAME', _('Game title')] , ['COUNT', _('Viewers count')] ].forEach( function(element) {

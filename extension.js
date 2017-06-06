@@ -44,11 +44,11 @@ let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false)
 let STREAMERS = [];
 let OPENCMD = "";
 let INTERVAL = 5*1000*60;
-let HIDESTREAMERS = false;
 let HIDEPLAYLISTS = false;
 let HIDEEMPTY = false;
 let SORTKEY = 'COUNT';
 let HIDESTATUS = false;
+let TOPBARMODE = 'all-icons';
 
 let button;
 
@@ -70,7 +70,7 @@ const ExtensionLayout = new Lang.Class({
   Extends: PanelMenu.Button,
 
   streamertext : null,
-  topbar_mode : 'empty',
+  topbar_mode : '',
   text: null,
   icon: null,
   online: [],
@@ -86,16 +86,7 @@ const ExtensionLayout = new Lang.Class({
     this.actor.add_actor(this._box);
     this.icon = new St.Icon({ icon_name: 'twitchlive',
                              style_class: 'system-status-icon' });
-    this.topbar_mode = "all-icons";
-    this.streamertext = {
-      "empty": Topbar.empty,
-      "text-only": Topbar.text_only,
-      "count-only": Topbar.count_only,
-      "all-icons": Topbar.all_icons,
-      "icon-only": Topbar.icon_only
-    }[this.topbar_mode]();
     this._box.add_child(this.icon);
-    this._box.add_child(this.streamertext.box);
 
     // Create menu section for streamers
     this.streamersMenu = new PopupMenu.PopupMenuSection();
@@ -128,11 +119,23 @@ const ExtensionLayout = new Lang.Class({
     STREAMERS = this.settings.get_string('streamers').split(',');
     OPENCMD = this.settings.get_string('opencmd');
     INTERVAL = this.settings.get_int('interval')*1000*60;
-    HIDESTREAMERS = this.settings.get_boolean('hidestreamers');
     HIDEPLAYLISTS = this.settings.get_boolean('hideplaylists');
     HIDEEMPTY = this.settings.get_boolean('hideempty');
     SORTKEY = this.settings.get_string('sortkey');
     HIDESTATUS = this.settings.get_boolean('hidestatus');
+    TOPBARMODE = this.settings.get_string('topbarmode');
+
+    if (this.topbar_mode != TOPBARMODE) {
+        if (this.streamertext) this._box.remove_child(this.streamertext.box);
+        this.streamertext = {
+          "empty": Topbar.empty,
+          "text-only": Topbar.text_only,
+          "count-only": Topbar.count_only,
+          "all-icons": Topbar.all_icons,
+          "icon-only": Topbar.icon_only
+        }[TOPBARMODE]();
+        this._box.add_child(this.streamertext.box);
+    }
 
     if (this.timer.settings != 0) Mainloop.source_remove(this.timer.settings);
     this.timer.settings = Mainloop.timeout_add(1000, Lang.bind(this, function(){

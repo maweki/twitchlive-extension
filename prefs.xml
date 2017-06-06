@@ -18,6 +18,13 @@
 	</columns>
 </object>
 
+<object class="GtkListStore" id="TopBarDisplay_ListStore">
+	<columns>
+		<column type="gchararray"/>
+		<column type="gchararray"/>
+	</columns>
+</object>
+
 <object class="GtkDialog" id="UserPromptDialog">
 	<property name="modal">true</property>
 	<property name="use-header-bar">1</property>
@@ -137,6 +144,33 @@
 					<property name="spacing">5</property>
 					<child>
 						<object class="GtkLabel">
+							<property translatable="yes" name="label">Panel display</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkComboBox" id="field_topbarmode">
+							<property name="visible">True</property>
+							<property name="can_focus">False</property>
+							<property name="model">TopBarDisplay_ListStore</property>
+							<property name="id-column">0</property>
+							<child>
+								<object class="GtkCellRendererText"/>
+								<attributes>
+									<attribute name="text">1</attribute>
+								</attributes>
+							</child>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
 							<property name="label" translatable="yes">Update Interval (min)</property>
 							<property name="hexpand">true</property>
 							<property name="halign">1</property>
@@ -161,24 +195,6 @@
 					</child>
 					<child>
 						<object class="GtkEntry" id="field_opencmd">
-						</object>
-					</child>
-				</object>
-			</child>
-
-			<child>
-				<object class="GtkBox">
-					<property name="spacing">5</property>
-					<child>
-						<object class="GtkLabel">
-							<property translatable="yes" name="label">Show streamer count instead</property>
-							<property name="hexpand">true</property>
-							<property name="halign">1</property>
-						</object>
-					</child>
-					<child>
-						<object class="GtkSwitch" id="field_hidestreamers">
-							<property name="active">false</property>
 						</object>
 					</child>
 				</object>
