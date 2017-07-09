@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-09 16:59+0200\n"
-"PO-Revision-Date: 2016-06-12 10:23+0200\n"
+"PO-Revision-Date: 2017-07-09 18:58+0200\n"
 "Last-Translator: Mario Wenzel <maweki@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -36,26 +36,23 @@ msgstr "Niemand streamt"
 
 #: prefs.js:59
 msgid "Only indicator"
-msgstr ""
+msgstr "Nur Indikator"
 
 #: prefs.js:59
-#, fuzzy
 msgid "Streamers names"
-msgstr "Streamername"
+msgstr "Streamernamen"
 
 #: prefs.js:59
 msgid "Number of live streams"
-msgstr ""
+msgstr "Anzahl der Livestreams"
 
 #: prefs.js:60
-#, fuzzy
 msgid "Streamers icons"
-msgstr "Streamername"
+msgstr "Streamericon"
 
 #: prefs.js:60
-#, fuzzy
 msgid "Streamers icons (all)"
-msgstr "Streamername"
+msgstr "Streamericons (alle)"
 
 #: prefs.js:68 prefs.js:80
 msgid "Streamer name"
@@ -94,7 +91,6 @@ msgid "Remove selected"
 msgstr "Markierten entfernen"
 
 #: prefs.xml:115
-#, fuzzy
 msgid "Remove all"
 msgstr "Alle entfernen"
 
@@ -104,7 +100,7 @@ msgstr "Von Twitch User importieren"
 
 #: prefs.xml:147
 msgid "Panel display"
-msgstr ""
+msgstr "Paneldarstellung"
 
 #: prefs.xml:174
 msgid "Update Interval (min)"
