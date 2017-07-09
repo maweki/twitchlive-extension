@@ -7,101 +7,128 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-01 11:04+0300\n"
+"POT-Creation-Date: 2017-07-09 16:59+0200\n"
 "PO-Revision-Date: 2016-07-01 12:01+0300\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.7.1\n"
-"Last-Translator: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: extension.js:105
+#: extension.js:104
 msgid "Settings"
 msgstr "Налаштування"
 
-#: extension.js:109 extension.js:210
+#: extension.js:108 extension.js:222
 msgid "Update now"
 msgstr "Оновити"
 
-#: extension.js:164
+#: extension.js:175
 msgid "Updating ..."
 msgstr "Оновлення ..."
 
-#: extension.js:246
+#: extension.js:258
 msgid "Nobody is streaming"
 msgstr "Ніхто не стримить"
 
-#: prefs.js:58 prefs.js:70
+#: prefs.js:59
+msgid "Only indicator"
+msgstr ""
+
+#: prefs.js:59
+#, fuzzy
+msgid "Streamers names"
+msgstr "Имʼя стримера"
+
+#: prefs.js:59
+msgid "Number of live streams"
+msgstr ""
+
+#: prefs.js:60
+#, fuzzy
+msgid "Streamers icons"
+msgstr "Имʼя стримера"
+
+#: prefs.js:60
+#, fuzzy
+msgid "Streamers icons (all)"
+msgstr "Имʼя стримера"
+
+#: prefs.js:68 prefs.js:80
 msgid "Streamer name"
 msgstr "Имʼя стримера"
 
-#: prefs.js:58
+#: prefs.js:68
 msgid "Game title"
 msgstr "Назва гри"
 
-#: prefs.js:58
+#: prefs.js:68
 msgid "Viewers count"
 msgstr "Кількість глядачів"
 
-#: prefs.xml:29
+#: prefs.xml:36
 msgid "Import from twitch"
 msgstr "Імпорт з Twitch"
 
-#: prefs.xml:39
+#: prefs.xml:46
 msgid "Twitch account to import follows from :"
 msgstr "Акаунт Twitch, з якого імпортувати підписки :"
 
-#: prefs.xml:52
+#: prefs.xml:59
 msgid "Cancel"
 msgstr "Відміна"
 
-#: prefs.xml:57
+#: prefs.xml:64
 msgid "Import"
 msgstr "Імпорт"
 
-#: prefs.xml:98
+#: prefs.xml:105
 msgid "Add streamer"
 msgstr "Додати"
 
-#: prefs.xml:103
+#: prefs.xml:110
 msgid "Remove selected"
 msgstr "Видалити"
 
-#: prefs.xml:108
+#: prefs.xml:115
 msgid "Remove all"
 msgstr "Видалити всі"
 
-#: prefs.xml:113
+#: prefs.xml:120
 msgid "Import from twitch user"
 msgstr "Імпортувати"
 
-#: prefs.xml:140
+#: prefs.xml:147
+msgid "Panel display"
+msgstr ""
+
+#: prefs.xml:174
 msgid "Update Interval (min)"
 msgstr "Інтервал оновлення (мін)"
 
-#: prefs.xml:157
+#: prefs.xml:191
 msgid "Command to execute"
 msgstr "Виконати команду"
 
-#: prefs.xml:174
-msgid "Show streamer count instead"
-msgstr "Показувати кількість стримерів замість імен"
-
-#: prefs.xml:192
+#: prefs.xml:208
 msgid "Hide playlist streams"
 msgstr "Приховати плейлисти"
 
-#: prefs.xml:210
+#: prefs.xml:226
 msgid "Hide indicator if nobody is streaming"
 msgstr "Приховати індикатор, якщо ніхто не стримить"
 
-#: prefs.xml:228
+#: prefs.xml:244
 msgid "Sort streamers by"
 msgstr "Сортувати стримерів за"
 
-#: prefs.xml:255
+#: prefs.xml:271
 msgid "Hide status line from the menu"
 msgstr "Приховати рядок статусу з меню"
+
+#~ msgid "Show streamer count instead"
+#~ msgstr "Показувати кількість стримерів замість імен"

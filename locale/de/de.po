@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:58+0200\n"
-"PO-Revision-Date: 2017-07-09 16:50+0200\n"
+"POT-Creation-Date: 2017-07-09 16:59+0200\n"
+"PO-Revision-Date: 2016-06-12 10:23+0200\n"
 "Last-Translator: Mario Wenzel <maweki@gmail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,93 +18,120 @@ msgstr ""
 "X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension.js:105
+#: extension.js:104
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: extension.js:109 extension.js:210
+#: extension.js:108 extension.js:222
 msgid "Update now"
 msgstr "Jetzt aktualisieren"
 
-#: extension.js:164
+#: extension.js:175
 msgid "Updating ..."
 msgstr "Aktualisiere..."
 
-#: extension.js:246
+#: extension.js:258
 msgid "Nobody is streaming"
 msgstr "Niemand streamt"
 
-#: prefs.js:58 prefs.js:70
+#: prefs.js:59
+msgid "Only indicator"
+msgstr ""
+
+#: prefs.js:59
+#, fuzzy
+msgid "Streamers names"
+msgstr "Streamername"
+
+#: prefs.js:59
+msgid "Number of live streams"
+msgstr ""
+
+#: prefs.js:60
+#, fuzzy
+msgid "Streamers icons"
+msgstr "Streamername"
+
+#: prefs.js:60
+#, fuzzy
+msgid "Streamers icons (all)"
+msgstr "Streamername"
+
+#: prefs.js:68 prefs.js:80
 msgid "Streamer name"
 msgstr "Streamername"
 
-#: prefs.js:58
+#: prefs.js:68
 msgid "Game title"
 msgstr "Spiel"
 
-#: prefs.js:58
+#: prefs.js:68
 msgid "Viewers count"
 msgstr "Zuschauerzahl"
 
-#: prefs.xml:29
+#: prefs.xml:36
 msgid "Import from twitch"
 msgstr "Von Twitch importieren"
 
-#: prefs.xml:39
+#: prefs.xml:46
 msgid "Twitch account to import follows from :"
 msgstr "Twitch Konto zum Importieren der Abonnements:"
 
-#: prefs.xml:52
+#: prefs.xml:59
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: prefs.xml:57
+#: prefs.xml:64
 msgid "Import"
 msgstr "Importieren"
 
-#: prefs.xml:98
+#: prefs.xml:105
 msgid "Add streamer"
 msgstr "Streamer hinzufügen"
 
-#: prefs.xml:103
+#: prefs.xml:110
 msgid "Remove selected"
 msgstr "Markierten entfernen"
 
-#: prefs.xml:108
+#: prefs.xml:115
+#, fuzzy
 msgid "Remove all"
 msgstr "Alle entfernen"
 
-#: prefs.xml:113
+#: prefs.xml:120
 msgid "Import from twitch user"
 msgstr "Von Twitch User importieren"
 
-#: prefs.xml:140
+#: prefs.xml:147
+msgid "Panel display"
+msgstr ""
+
+#: prefs.xml:174
 msgid "Update Interval (min)"
 msgstr "Aktualisierungsintervall (min)"
 
-#: prefs.xml:157
+#: prefs.xml:191
 msgid "Command to execute"
 msgstr "Auszuführender Befehl"
 
-#: prefs.xml:174
-msgid "Show streamer count instead"
-msgstr "Zeige stattdessen Anzahl der Streamer"
-
-#: prefs.xml:192
+#: prefs.xml:208
 msgid "Hide playlist streams"
 msgstr "Playlist-Streams verstecken"
 
-#: prefs.xml:210
+#: prefs.xml:226
 msgid "Hide indicator if nobody is streaming"
 msgstr "Verstecke Indikator wenn niemand streamt"
 
-#: prefs.xml:228
+#: prefs.xml:244
 msgid "Sort streamers by"
 msgstr "Sortiere Streamer nach"
 
-#: prefs.xml:255
+#: prefs.xml:271
 msgid "Hide status line from the menu"
 msgstr "Statuszeile im Menü verstecken"
+
+#~ msgid "Show streamer count instead"
+#~ msgstr "Zeige stattdessen Anzahl der Streamer"
 
 #~ msgid "Streamers to follow (comma seperated)"
 #~ msgstr "Streamer (komma-getrennt)"

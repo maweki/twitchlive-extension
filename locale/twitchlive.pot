@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 17:58+0200\n"
+"POT-Creation-Date: 2017-07-09 16:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,90 +17,110 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: extension.js:105
+#: extension.js:104
 msgid "Settings"
 msgstr ""
 
-#: extension.js:109 extension.js:210
+#: extension.js:108 extension.js:222
 msgid "Update now"
 msgstr ""
 
-#: extension.js:164
+#: extension.js:175
 msgid "Updating ..."
 msgstr ""
 
-#: extension.js:246
+#: extension.js:258
 msgid "Nobody is streaming"
 msgstr ""
 
-#: prefs.js:58 prefs.js:70
+#: prefs.js:59
+msgid "Only indicator"
+msgstr ""
+
+#: prefs.js:59
+msgid "Streamers names"
+msgstr ""
+
+#: prefs.js:59
+msgid "Number of live streams"
+msgstr ""
+
+#: prefs.js:60
+msgid "Streamers icons"
+msgstr ""
+
+#: prefs.js:60
+msgid "Streamers icons (all)"
+msgstr ""
+
+#: prefs.js:68 prefs.js:80
 msgid "Streamer name"
 msgstr ""
 
-#: prefs.js:58
+#: prefs.js:68
 msgid "Game title"
 msgstr ""
 
-#: prefs.js:58
+#: prefs.js:68
 msgid "Viewers count"
 msgstr ""
 
-#: prefs.xml:29
+#: prefs.xml:36
 msgid "Import from twitch"
 msgstr ""
 
-#: prefs.xml:39
+#: prefs.xml:46
 msgid "Twitch account to import follows from :"
 msgstr ""
 
-#: prefs.xml:52
+#: prefs.xml:59
 msgid "Cancel"
 msgstr ""
 
-#: prefs.xml:57
+#: prefs.xml:64
 msgid "Import"
 msgstr ""
 
-#: prefs.xml:98
+#: prefs.xml:105
 msgid "Add streamer"
 msgstr ""
 
-#: prefs.xml:103
+#: prefs.xml:110
 msgid "Remove selected"
 msgstr ""
 
-#: prefs.xml:108
+#: prefs.xml:115
 msgid "Remove all"
 msgstr ""
 
-#: prefs.xml:113
+#: prefs.xml:120
 msgid "Import from twitch user"
 msgstr ""
 
-#: prefs.xml:140
-msgid "Update Interval (min)"
-msgstr ""
-
-#: prefs.xml:157
-msgid "Command to execute"
+#: prefs.xml:147
+msgid "Panel display"
 msgstr ""
 
 #: prefs.xml:174
-msgid "Show streamer count instead"
+msgid "Update Interval (min)"
 msgstr ""
 
-#: prefs.xml:192
+#: prefs.xml:191
+msgid "Command to execute"
+msgstr ""
+
+#: prefs.xml:208
 msgid "Hide playlist streams"
 msgstr ""
 
-#: prefs.xml:210
+#: prefs.xml:226
 msgid "Hide indicator if nobody is streaming"
 msgstr ""
 
-#: prefs.xml:228
+#: prefs.xml:244
 msgid "Sort streamers by"
 msgstr ""
 
-#: prefs.xml:255
+#: prefs.xml:271
 msgid "Hide status line from the menu"
 msgstr ""
