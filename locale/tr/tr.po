@@ -1,0 +1,95 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-09 16:59+0200\n"
+"PO-Revision-Date: 2017-10-06 18:10+0300\n"
+"Last-Translator: Tolga Gölelçin <golelcintolga@gmail.com>\n"
+"Language-Team: golelcintolga@gmail.com\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Add streamer"
+msgstr "Yayıncı Ekle"
+
+msgid "Cancel"
+msgstr "Çıkış"
+
+msgid "Command to execute"
+msgstr "Çalıştırılacak komut"
+
+msgid "Game title"
+msgstr "Oyun Başlığı"
+
+msgid "Hide indicator if nobody is streaming"
+msgstr "Yayın yoksa götergeyi gizle"
+
+msgid "Hide playlist streams"
+msgstr ""
+
+msgid "Hide status line from the menu"
+msgstr "Menüde durum satırı gizle"
+
+msgid "Import"
+msgstr "İçe aktar"
+
+msgid "Import from twitch"
+msgstr "Twitch' den içeri aktar"
+
+msgid "Import from twitch user"
+msgstr "Twitch kullanıcısından içeri aktar"
+
+msgid "Nobody is streaming"
+msgstr "Yayın Yok"
+
+msgid "Number of live streams"
+msgstr "Yayıncı sayısı"
+
+msgid "Only indicator"
+msgstr "Sadece gösterge"
+
+msgid "Panel display"
+msgstr "Panel düzeni"
+
+msgid "Remove all"
+msgstr "Hepsini Kaldır"
+
+msgid "Remove selected"
+msgstr "Seçileni Kaldır"
+
+msgid "Settings"
+msgstr "Ayarlar"
+
+msgid "Sort streamers by"
+msgstr "Sıralama Şekli"
+
+msgid "Streamer name"
+msgstr "Yayıncı ismi"
+
+msgid "Streamers icons"
+msgstr "Yayıncı simgesi"
+
+msgid "Streamers icons (all)"
+msgstr "Yayıncı simgesi (tümü)"
+
+msgid "Streamers names"
+msgstr "Yayıncı ismi"
+
+msgid "Twitch account to import follows from :"
+msgstr ""
+
+msgid "Update Interval (min)"
+msgstr "Güncelleme aralığı (dk)"
+
+msgid "Update now"
+msgstr "Güncelle"
+
+msgid "Updating ..."
+msgstr "Güncelleniyor..."
+
+msgid "Viewers count"
+msgstr "İzleyici sayısı"
