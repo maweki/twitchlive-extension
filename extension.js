@@ -76,6 +76,7 @@ const ExtensionLayout = new Lang.Class({
   text: null,
   icon: null,
   online: [],
+  firstRun: true, // Avoids notifications on first run
   timer: { view: 0, update: 0, settings: 0 },
   settings: new Gio.Settings({ settings_schema: schema }),
   _httpSession: new Soup.SessionAsync(),
