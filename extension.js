@@ -236,6 +236,15 @@ const ExtensionLayout = new Lang.Class({
     new Promise.all(requests).then(
         //sucess
         function(){
+            // Send the user a notification when new streamer(s) come online, if enabled
+            if ( NOTIFICATIONS_ENABLED ) {
+                if ( !that.firstRun )
+                  that._findNewStreamerEntries(that.online, new_online, NOTIFICATIONS_GAME_CHANGE).forEach(
+                    (newStreamer) => that._streamerOnlineNotification(newStreamer)
+                  );
+                else
+                  that.firstRun = !that.firstRun;
+            }
             // switch updated streamers
             that.online = new_online;
             // notify topbar actor
