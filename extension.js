@@ -173,6 +173,10 @@ const ExtensionLayout = new Lang.Class({
     GLib.spawn_command_line_async(cmd);
   },
 
+  _streamerOnlineNotification:function(streamer) {
+    Main.notify(streamer.streamer + " is live!", "Playing " + streamer.game);
+  },
+
   updateData: function() {
     // disable timer and disable "update now" menu
     if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
