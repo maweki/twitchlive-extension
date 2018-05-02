@@ -173,6 +173,26 @@ const ExtensionLayout = new Lang.Class({
     GLib.spawn_command_line_async(cmd);
   },
 
+  _findNewStreamerEntries:function(lastList, currentList, detectGameChange) {
+    detectGameChange = detectGameChange || false;
+    if ( lastList.length == 0 )
+      return currentList;
+
+    let streamers = new Map();
+    lastList.forEach( ({streamer, game}) => streamers.set(streamer, game) );
+
+    return currentList.filter( ({streamer, game}) => {
+        if (!streamers.has(streamer))
+            return true;
+
+        if (detectGameChange &&
+            game != streamers.get(streamer))
+            return true;
+
+        return false;
+    });
+  },
+
   _streamerOnlineNotification:function(streamer) {
     Main.notify(streamer.streamer + " is live!", "Playing " + streamer.game);
   },
