@@ -17,6 +17,7 @@ const Panel = imports.ui.main.panel;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
+const MessageTray = imports.ui.messageTray;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Topbar = Extension.imports.topbar;
@@ -116,6 +117,11 @@ const ExtensionLayout = new Lang.Class({
     this._applySettings();
     this.settings.connect('changed', Lang.bind(this, this._applySettings));
     this.menu.connect('open-state-changed', Lang.bind(this, this._onMenuOpened));
+
+    // Set up notifications area
+    this.messageTray = new MessageTray.MessageTray();
+    this.notification_source = new MessageTray.Source('TwitchLive', 'twitchlive');
+    this.messageTray.add(this.notification_source);
   },
 
   _applySettings: function() {
