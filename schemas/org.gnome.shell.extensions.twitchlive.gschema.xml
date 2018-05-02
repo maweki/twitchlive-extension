@@ -27,6 +27,11 @@
 		<summary>Show streamer notifications</summary>
 		<description>Show a notification when a streamer comes online</description>
     </key>
+    <key type="b" name="notifications-game-change">
+		<default>false</default>
+		<summary>Show streamer game changes</summary>
+		<description>Show a notification when a streamer changes games</description>
+    </key>
     <key type="s" name="topbarmode">
 		<default>'all-icons'</default>
 		<summary>Indicator display setting</summary>
