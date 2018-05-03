@@ -200,7 +200,18 @@ const ExtensionLayout = new Lang.Class({
   },
 
   _streamerOnlineNotification:function(streamer) {
-    Main.notify(streamer.streamer + " is live!", "Playing " + streamer.game);
+    let notification = new MessageTray.Notification(
+      this.notification_source,
+      _("%streamer% is live!").replace(/%streamer%/, streamer.streamer),
+      _("Playing %game%").replace(/%game%/, streamer.game));
+
+    notification.addAction(_("Watch!"), function(){
+      // FIXME duplicate code from _execCmd
+      let cmd = OPENCMD.replace(/%streamer%/g, streamer.streamer);
+      GLib.spawn_command_line_async(cmd);
+    });
+
+    this.notification_source.notify(notification);
   },
 
   updateData: function() {
