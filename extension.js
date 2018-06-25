@@ -17,6 +17,7 @@ const Panel = imports.ui.main.panel;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
+const MessageTray = imports.ui.messageTray;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Topbar = Extension.imports.topbar;
@@ -45,6 +46,8 @@ let STREAMERS = [];
 let OPENCMD = "";
 let INTERVAL = 5*1000*60;
 let HIDEPLAYLISTS = false;
+let NOTIFICATIONS_ENABLED = false;
+let NOTIFICATIONS_GAME_CHANGE = false;
 let HIDEEMPTY = false;
 let SORTKEY = 'COUNT';
 let HIDESTATUS = false;
@@ -74,6 +77,7 @@ const ExtensionLayout = new Lang.Class({
   text: null,
   icon: null,
   online: [],
+  firstRun: true, // Avoids notifications on first run
   timer: { view: 0, update: 0, settings: 0 },
   settings: new Gio.Settings({ settings_schema: schema }),
   _httpSession: new Soup.SessionAsync(),
@@ -113,6 +117,11 @@ const ExtensionLayout = new Lang.Class({
     this._applySettings();
     this.settings.connect('changed', Lang.bind(this, this._applySettings));
     this.menu.connect('open-state-changed', Lang.bind(this, this._onMenuOpened));
+
+    // Set up notifications area
+    this.messageTray = new MessageTray.MessageTray();
+    this.notification_source = new MessageTray.Source('TwitchLive', 'twitchlive');
+    this.messageTray.add(this.notification_source);
   },
 
   _applySettings: function() {
@@ -120,6 +129,8 @@ const ExtensionLayout = new Lang.Class({
     OPENCMD = this.settings.get_string('opencmd');
     INTERVAL = this.settings.get_int('interval')*1000*60;
     HIDEPLAYLISTS = this.settings.get_boolean('hideplaylists');
+    NOTIFICATIONS_ENABLED = this.settings.get_boolean('notifications-enabled');
+    NOTIFICATIONS_GAME_CHANGE = this.settings.get_boolean('notifications-game-change');
     HIDEEMPTY = this.settings.get_boolean('hideempty');
     SORTKEY = this.settings.get_string('sortkey');
     HIDESTATUS = this.settings.get_boolean('hidestatus');
@@ -168,6 +179,41 @@ const ExtensionLayout = new Lang.Class({
     GLib.spawn_command_line_async(cmd);
   },
 
+  _findNewStreamerEntries:function(lastList, currentList, detectGameChange) {
+    detectGameChange = detectGameChange || false;
+    if ( lastList.length == 0 )
+      return currentList;
+
+    let streamers = new Map();
+    lastList.forEach( ({streamer, game}) => streamers.set(streamer, game) );
+
+    return currentList.filter( ({streamer, game}) => {
+        if (!streamers.has(streamer))
+            return true;
+
+        if (detectGameChange &&
+            game != streamers.get(streamer))
+            return true;
+
+        return false;
+    });
+  },
+
+  _streamerOnlineNotification:function(streamer) {
+    let notification = new MessageTray.Notification(
+      this.notification_source,
+      _("%streamer% is live!").replace(/%streamer%/, streamer.streamer),
+      _("Playing %game%").replace(/%game%/, streamer.game));
+
+    notification.addAction(_("Watch!"), function(){
+      // FIXME duplicate code from _execCmd
+      let cmd = OPENCMD.replace(/%streamer%/g, streamer.streamer);
+      GLib.spawn_command_line_async(cmd);
+    });
+
+    this.notification_source.notify(notification);
+  },
+
   updateData: function() {
     // disable timer and disable "update now" menu
     if (this.timer.update != 0) Mainloop.source_remove(this.timer.update);
@@ -207,6 +253,15 @@ const ExtensionLayout = new Lang.Class({
     new Promise.all(requests).then(
         //sucess
         function(){
+            // Send the user a notification when new streamer(s) come online, if enabled
+            if ( NOTIFICATIONS_ENABLED ) {
+                if ( !that.firstRun )
+                  that._findNewStreamerEntries(that.online, new_online, NOTIFICATIONS_GAME_CHANGE).forEach(
+                    (newStreamer) => that._streamerOnlineNotification(newStreamer)
+                  );
+                else
+                  that.firstRun = !that.firstRun;
+            }
             // switch updated streamers
             that.online = new_online;
             // notify topbar actor
