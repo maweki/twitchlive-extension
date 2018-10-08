@@ -31,6 +31,9 @@ const App = new Lang.Class(
 
     _init: function()
     {
+      // Make soup use default system proxy if configured
+      Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
+      
       Icons.init_icons();
 
       // Build widgets, bind simple fields to settings and connect buttons clicked signals
