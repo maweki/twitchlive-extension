@@ -86,6 +86,10 @@ const ExtensionLayout = new Lang.Class({
 
   _init: function() {
     this.parent(0.0);
+
+    // Make soup use default system proxy if configured
+    Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
+
     this._box = new St.BoxLayout();
     this.actor.add_actor(this._box);
     this.icon = new St.Icon({ icon_name: 'twitchlive',
