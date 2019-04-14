@@ -4,6 +4,7 @@
 **/
 const Gtk = imports.gi.Gtk;
 const GLib = imports.gi.GLib;
+const Gio = imports.gi.Gio;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Api = Extension.imports.api;
@@ -83,7 +84,7 @@ function get_icon_name(streamername) {
 
 function get_streamericon(streamername, style_class) {
   // St is not imported globally since it's not available in the preferences context
-  let icon = new imports.gi.St.Icon({ icon_name: get_icon_name(streamername), style_class: style_class });
+  let icon = new imports.gi.St.Icon({ gicon: Gio.icon_new_for_string(get_final_icon_path(streamername)), style_class: style_class });
   if (icon.set_fallback_icon_name) { // this isnt available before 3.16
     icon.set_fallback_icon_name('twitchlive');
   }
