@@ -2,20 +2,17 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const Lang = imports.lang;
 const PopupMenu = imports.ui.popupMenu;
 const St = imports.gi.St;
+const GObject = imports.gi.GObject;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Icons = Extension.imports.icons;
 
-const StreamerMenuItem = new Lang.Class({
+var StreamerMenuItem = class extends PopupMenu.PopupBaseMenuItem {
 
-  Name: 'StreamerMenuItem',
-  Extends: PopupMenu.PopupBaseMenuItem,
-
-  _init: function(streamername, game, viewer_count, title, is_playlist=false, HIDESTATUS=false) {
-    this.parent();
+  constructor(streamername, game, viewer_count, title, is_playlist=false, HIDESTATUS=false) {
+    super();
     this._streamer = streamername;
 
     this._layout = {};
@@ -46,17 +43,17 @@ const StreamerMenuItem = new Lang.Class({
     }
 
     this.actor.add(this._wrapBox);
-  },
+  };
 
-  get_streamer: function() {
+  get_streamer() {
     return this._streamer;
-  },
+  };
 
-  get_size_info: function() {
+  get_size_info() {
     return [this._layout.name.get_allocation_box().get_width(), this._layout.game.get_allocation_box().get_width(), this._layout.viewer_count.get_allocation_box().get_width()];
-  },
+  };
 
-  apply_size_info: function(size_info) {
+  apply_size_info(size_info) {
     let viewer_count_size_diff = size_info[2] - this._layout.viewer_count.get_allocation_box().get_width();
     this._layout.name.set_width(size_info[0]);
     this._layout.game.set_width(size_info[1] + viewer_count_size_diff);
@@ -65,15 +62,12 @@ const StreamerMenuItem = new Lang.Class({
       this._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] );
     }
   }
-});
+}
 
-const NobodyMenuItem = new Lang.Class({
+class NobodyMenuItem extends PopupMenu.PopupBaseMenuItem {
 
-  Name: 'NobodyMenuItem',
-  Extends: PopupMenu.PopupBaseMenuItem,
-
-  _init: function(nobodytext) {
-    this.parent({ reactive: false, can_focus: false });
+  constructor(nobodytext) {
+    super({ reactive: false, can_focus: false });
     this.actor.add(new St.Label({ text: nobodytext, style_class : "nobody-menuitem"}));
   }
-});
+}
