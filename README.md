@@ -9,10 +9,14 @@ Needs `curl` and `mogrify` to fully support streamer logos.
 
 Install it from here (using Firefox with the gnome-integration plugin): https://extensions.gnome.org/extension/1078/twitchlive-panel/
 
-I use livestreamer (https://github.com/streamlink/streamlink) with
+I use streamlink (https://github.com/streamlink/streamlink) with
 `streamlink twitch.tv/%streamer% high,best` as the opening command instead
 of the default `xdg-open http://twitch.tv/%streamer%`.
 
+## Compatibility with older shell versions
+
+Gnome 3.32 broke compatibility the interface for extensions.
+For a version that is compatible with gnome shell previous to version 3.32 check out the `3.30-compat` branch.
 
 ## License: GPL 3.0
 
