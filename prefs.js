@@ -107,13 +107,17 @@ const App = class {
       let username = textbox.get_text();
       messagedialog.hide();
       if(response_id === Gtk.ResponseType.OK){
-        Api.follows(this._httpSession, username).then((data) => {
-          if(data.follows){
-            let usernames = data.follows.map(follow => follow.channel.name);
-            usernames.forEach(username => this._appendStreamer(username));
-            this._saveStreamersList();
-            this._reloadStreamersList();
-            this._retrieveStreamerIcons();
+        Api.users(this._httpSession, [username]).then((data) => {
+          if (data.length > 0) {
+            const user = data[0];
+            if (user.id) {
+              Api.follows(this._httpSession, user.id).then((follows) => {
+                follows.forEach(follow => this._appendStreamer(follow.to_name));
+                this._saveStreamersList();
+                this._reloadStreamersList();
+                this._retrieveStreamerIcons();
+              });
+            }
           }
         });
       }
@@ -205,12 +209,13 @@ const App = class {
 
   _retrieveStreamerIcons(streamer) {
     if (streamer === undefined) {
-      this.streamers.map((streamer) => {
-        if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer, this._httpSession);
-      });
+      const streamersWithoutIcons = this.streamers.filter((streamer) => !Icons.has_icon(streamer));
+      if (streamersWithoutIcons.length > 0) {
+        Icons.trigger_download_by_names(streamersWithoutIcons, this._httpSession);
+      }
     }
     else {
-      if (!Icons.has_icon(streamer)) Icons.trigger_download_by_name(streamer, this._httpSession);
+      if (!Icons.has_icon(streamer)) Icons.trigger_download_by_names([streamer], this._httpSession);
     }
   }
 }
