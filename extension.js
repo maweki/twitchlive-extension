@@ -227,65 +227,60 @@ const ExtensionLayout = GObject.registerClass(
 
       let new_online = [];
 
-      // make requests
-      let req = streamer => {
-        let http_prom = Api.stream(this._httpSession, streamer).then((data) => {
-          if (data.stream) {
-            if (data.stream.is_playlist && HIDEPLAYLISTS) {
+      const streamersList = STREAMERS.map((d) => d.trim()).filter((d) => d != "");
+      Api.streams(this._httpSession, streamersList).then((streams) => {
+        let gameIds = streams.filter((stream) => stream.game_id && stream.game_id > 0).map((stream) => stream.game_id);
+        gameIds = gameIds.filter((item, pos) => gameIds.indexOf(item) == pos); // remove duplicates
+        Api.games(this._httpSession, gameIds).then((games) => {
+          streams.forEach((stream) => {
+            if (stream.type !== 'live' && HIDEPLAYLISTS) {
+              // zikeji: I've no idea if type !== 'live' designates playlists - the documentation doesn't mention playlists
               return;
             }
 
-            let item = new MenuItems.StreamerMenuItem(streamer, data.stream.game, data.stream.viewers, data.stream.channel.status, data.stream.is_playlist, HIDESTATUS);
-            item.connect("activate", () => this._execCmd(streamer));
+            const game = games.find(game => game.id === stream.game_id);
+            const gameName = game ? game.name : 'n/a'; // zikeji: may want to display something other than n/a if the game doesn't exist? not sure if this case would ever get hit
+
+            const item = new MenuItems.StreamerMenuItem(stream.user_name, gameName, stream.viewer_count, stream.title, stream.type !== 'live', HIDESTATUS);
+            item.connect("activate", () => this._execCmd(stream.user_name));
             new_online.push({
-              item: item, streamer: streamer, game: data.stream.game, viewers: data.stream.viewers
+              item: item, streamer: stream.user_name, game: gameName, viewers: stream.viewer_count
             });
 
-            if (data.stream.channel && data.stream.channel.logo) {
-              Icons.trigger_download_by_url(streamer, data.stream.channel.logo);
+            if (stream.thumbnail_url) {
+              // zikeji: not sure what this was meant to do originally - download the specific stream thumbnail?
+              Icons.trigger_download_by_url(stream.user_name, stream.thumbnail_url);
             }
+          });
+
+          // Send the user a notification when new streamer(s) come online, if enabled
+          if ( NOTIFICATIONS_ENABLED ) {
+            if ( !this.firstRun )
+              this._findNewStreamerEntries(this.online, new_online, NOTIFICATIONS_GAME_CHANGE).forEach(
+                (newStreamer) => this._streamerOnlineNotification(newStreamer)
+              );
+            else
+              this.firstRun = !this.firstRun;
           }
+          // switch updated streamers
+          this.online = new_online;
+          // notify topbar actor
+          this.streamertext.update(new_online);
+          // clear menu
+          menu.removeAll();
+          this.spacer.actor.hide();
+          // store items for late menu draw
+          this.layoutChanged = true;
+          if (this.menu.isOpen) this.updateMenuLayout();
+          // make update now menu reactive again
+          this.updateMenuItem.actor.reactive = true;
+          this.updateMenuItem.label.set_text(_("Update now"));
+          this.enable_view_update();
+
+          // update indicator visibility if needed
+          this.actor.visible =  !HIDEEMPTY || this.online.length;
         });
-        return http_prom;
-      };
-
-      let requests = STREAMERS.map((d) => d.trim()).filter((d) => d != "").map(req);
-
-      new Promise.all(requests).then(
-          //sucess
-          () => {
-              // Send the user a notification when new streamer(s) come online, if enabled
-              if ( NOTIFICATIONS_ENABLED ) {
-                  if ( !this.firstRun )
-                    this._findNewStreamerEntries(this.online, new_online, NOTIFICATIONS_GAME_CHANGE).forEach(
-                      (newStreamer) => this._streamerOnlineNotification(newStreamer)
-                    );
-                  else
-                    this.firstRun = !this.firstRun;
-              }
-              // switch updated streamers
-              this.online = new_online;
-              // notify topbar actor
-              this.streamertext.update(new_online);
-              // clear menu
-              menu.removeAll();
-              this.spacer.actor.hide();
-              // store items for late menu draw
-              this.layoutChanged = true;
-              if (this.menu.isOpen) this.updateMenuLayout();
-              // make update now menu reactive again
-              this.updateMenuItem.actor.reactive = true;
-              this.updateMenuItem.label.set_text(_("Update now"));
-              this.enable_view_update();
-
-              // update indicator visibility if needed
-              this.actor.visible =  !HIDEEMPTY || this.online.length;
-            },
-        //failed
-        function(why){
-          log("An error occured : " + why );
-        }
-      );
+      });
 
       //schedule next check
       this.timer.update = Mainloop.timeout_add(INTERVAL, this.updateData.bind(this));
