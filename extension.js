@@ -24,6 +24,7 @@ const Topbar = Extension.imports.topbar;
 const MenuItems = Extension.imports.menu_items;
 const Promise = Extension.imports.promise.Promise;
 const Icons = Extension.imports.icons;
+const Games = Extension.imports.games;
 const Api = Extension.imports.api;
 
 const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
@@ -229,9 +230,7 @@ const ExtensionLayout = GObject.registerClass(
 
       const streamersList = STREAMERS.map((d) => d.trim()).filter((d) => d != "");
       Api.streams(this._httpSession, streamersList).then((streams) => {
-        let gameIds = streams.filter((stream) => stream.game_id && stream.game_id > 0).map((stream) => stream.game_id);
-        gameIds = gameIds.filter((item, pos) => gameIds.indexOf(item) == pos); // remove duplicates
-        Api.games(this._httpSession, gameIds).then((games) => {
+        Games.getFromStreams(this._httpSession, streams).then((games) => {
           streams.forEach((stream) => {
             if (stream.type !== 'live' && HIDEPLAYLISTS) {
               // zikeji: I've no idea if type !== 'live' designates playlists - the documentation doesn't mention playlists
