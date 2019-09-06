@@ -44,24 +44,6 @@ var StreamerMenuItem = class extends PopupMenu.PopupBaseMenuItem {
 
     this.actor.add(this._wrapBox);
   };
-
-  get_streamer() {
-    return this._streamer;
-  };
-
-  get_size_info() {
-    return [this._layout.name.get_allocation_box().get_width(), this._layout.game.get_allocation_box().get_width(), this._layout.viewer_count.get_allocation_box().get_width()];
-  };
-
-  apply_size_info(size_info) {
-    let viewer_count_size_diff = size_info[2] - this._layout.viewer_count.get_allocation_box().get_width();
-    this._layout.name.set_width(size_info[0]);
-    this._layout.game.set_width(size_info[1] + viewer_count_size_diff);
-    this._layout.viewer_count.set_width(size_info[2] - viewer_count_size_diff);
-    if ( this._layout.title ) {
-      this._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] );
-    }
-  }
 }
 
 class NobodyMenuItem extends PopupMenu.PopupBaseMenuItem {

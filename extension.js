@@ -310,9 +310,9 @@ const ExtensionLayout = GObject.registerClass(
       else {
         this.spacer.actor.show();
         // gather sizes
-        let sizes = menuItems.map((item) => item.get_size_info()).reduce(max_size_info, [0,0,0]);
+        let sizes = menuItems.map(get_size_info).reduce(max_size_info, [0,0,0]);
         // set sizes
-        menuItems.map((item) => item.apply_size_info(sizes));
+        menuItems.map((item) => apply_size_info(item, sizes));
       }
       this.layoutChanged = false;
     };
@@ -352,6 +352,20 @@ const ExtensionLayout = GObject.registerClass(
 
 function max_size_info(size_info1, size_info2) {
   return [Math.max(size_info1[0], size_info2[0]), Math.max(size_info1[1], size_info2[1]), Math.max(size_info1[2], size_info2[2])]
+}
+
+function get_size_info(item) {
+  return [item._layout.name.get_allocation_box().get_width(), item._layout.game.get_allocation_box().get_width(), item._layout.viewer_count.get_allocation_box().get_width()];
+}
+
+function apply_size_info(item, size_info) {
+  let viewer_count_size_diff = size_info[2] - item._layout.viewer_count.get_allocation_box().get_width();
+  item._layout.name.set_width(size_info[0]);
+  item._layout.game.set_width(size_info[1] + viewer_count_size_diff);
+  item._layout.viewer_count.set_width(size_info[2] - viewer_count_size_diff);
+  if ( item._layout.title ) {
+    item._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] );
+  }
 }
 
 function init() {
