@@ -20,8 +20,6 @@ For a version that is compatible with gnome shell previous to version 3.32 check
 
 ## License: GPL 3.0
 
-Promises library by https://github.com/satya164/gjs-helpers
-
 Icons by https://github.com/RaphaelRochet
 
 Twitch and the Twitch icon is owned by Twitch Interactive, Inc., no rights infringement intended

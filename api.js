@@ -5,7 +5,6 @@
 const Soup = imports.gi.Soup;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Promise = Extension.imports.promise.Promise;
 
 const api_base = 'https://api.twitch.tv/helix/';
 

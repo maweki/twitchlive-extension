@@ -1,5 +1,4 @@
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Promise = Extension.imports.promise.Promise;
 const Api = Extension.imports.api;
 
 const GAMES_CACHE = [];
