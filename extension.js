@@ -22,7 +22,6 @@ const MessageTray = imports.ui.messageTray;
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Topbar = Extension.imports.topbar;
 const MenuItems = Extension.imports.menu_items;
-const Promise = Extension.imports.promise.Promise;
 const Icons = Extension.imports.icons;
 const Games = Extension.imports.games;
 const Api = Extension.imports.api;
