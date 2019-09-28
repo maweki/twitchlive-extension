@@ -244,11 +244,6 @@ const ExtensionLayout = GObject.registerClass(
             new_online.push({
               item: item, streamer: stream.user_name, game: gameName, viewers: stream.viewer_count
             });
-
-            if (stream.thumbnail_url) {
-              // zikeji: not sure what this was meant to do originally - download the specific stream thumbnail?
-              Icons.trigger_download_by_url(stream.user_name, stream.thumbnail_url);
-            }
           });
 
           // Send the user a notification when new streamer(s) come online, if enabled
