@@ -44,6 +44,7 @@ const App = class {
     Schema.bind('notifications-game-change', buildable.get_object('field_notifications-game-change'), 'active', Gio.SettingsBindFlags.DEFAULT);
     Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
     Schema.bind('hidestatus', buildable.get_object('field_hidestatus'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    Schema.bind('showuptime', buildable.get_object('field_showuptime'), 'active', Gio.SettingsBindFlags.DEFAULT);
     buildable.get_object('add_streamer').connect('clicked', this._addStreamer.bind(this));
     buildable.get_object('del_streamer').connect('clicked', this._delStreamer.bind(this));
     buildable.get_object('del_all_streamers').connect('clicked', this._delAllStreamers.bind(this));
