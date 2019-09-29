@@ -51,6 +51,7 @@ let NOTIFICATIONS_GAME_CHANGE = false;
 let HIDEEMPTY = false;
 let SORTKEY = 'COUNT';
 let HIDESTATUS = false;
+let SHOWUPTIME = false;
 let TOPBARMODE = 'all-icons';
 
 let button;
@@ -136,6 +137,7 @@ const ExtensionLayout = GObject.registerClass(
       HIDEEMPTY = this.settings.get_boolean('hideempty');
       SORTKEY = this.settings.get_string('sortkey');
       HIDESTATUS = this.settings.get_boolean('hidestatus');
+      SHOWUPTIME = this.settings.get_boolean('showuptime');
       TOPBARMODE = this.settings.get_string('topbarmode');
 
       if (this.topbar_mode != TOPBARMODE) {
@@ -238,8 +240,8 @@ const ExtensionLayout = GObject.registerClass(
 
             const game = games.find(game => game.id === stream.game_id);
             const gameName = game ? game.name : 'n/a'; // zikeji: may want to display something other than n/a if the game doesn't exist? not sure if this case would ever get hit
-
-            const item = new MenuItems.StreamerMenuItem(stream.user_name, gameName, stream.viewer_count, stream.title, stream.type !== 'live', HIDESTATUS);
+            const uptime = SHOWUPTIME ? format_uptime((new Date() - new Date(stream.started_at)) / 1000) : false;
+            const item = new MenuItems.StreamerMenuItem(stream.user_name, gameName, stream.viewer_count, stream.title, stream.type !== 'live', HIDESTATUS, uptime);
             item.connect("activate", () => this._execCmd(stream.user_name));
             new_online.push({
               item: item, streamer: stream.user_name, game: gameName, viewers: stream.viewer_count
@@ -309,7 +311,7 @@ const ExtensionLayout = GObject.registerClass(
       else {
         this.spacer.actor.show();
         // gather sizes
-        let sizes = menuItems.map(get_size_info).reduce(max_size_info, [0,0,0]);
+        let sizes = menuItems.map(get_size_info).reduce(max_size_info, [0,0,0,0]);
         // set sizes
         menuItems.map((item) => apply_size_info(item, sizes));
       }
@@ -350,11 +352,21 @@ const ExtensionLayout = GObject.registerClass(
 );
 
 function max_size_info(size_info1, size_info2) {
-  return [Math.max(size_info1[0], size_info2[0]), Math.max(size_info1[1], size_info2[1]), Math.max(size_info1[2], size_info2[2])]
+  return [
+    Math.max(size_info1[0], size_info2[0]),
+    Math.max(size_info1[1], size_info2[1]),
+    Math.max(size_info1[2], size_info2[2]),
+    Math.max(size_info1[3], size_info2[3])
+  ];
 }
 
 function get_size_info(item) {
-  return [item._layout.name.get_allocation_box().get_width(), item._layout.game.get_allocation_box().get_width(), item._layout.viewer_count.get_allocation_box().get_width()];
+  return [
+    item._layout.name.get_allocation_box().get_width(),
+    item._layout.game.get_allocation_box().get_width(),
+    item._layout.viewer_count.get_allocation_box().get_width(),
+    item._layout.uptime ? item._layout.uptime.get_allocation_box().get_width() : 0
+  ];
 }
 
 function apply_size_info(item, size_info) {
@@ -362,9 +374,18 @@ function apply_size_info(item, size_info) {
   item._layout.name.set_width(size_info[0]);
   item._layout.game.set_width(size_info[1] + viewer_count_size_diff);
   item._layout.viewer_count.set_width(size_info[2] - viewer_count_size_diff);
-  if ( item._layout.title ) {
-    item._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] );
+  if (item._layout.uptime) {
+    item._layout.uptime.set_width(size_info[3]);
   }
+  if ( item._layout.title ) {
+    item._layout.title.set_width(size_info[0] + size_info[1] + size_info[2] + size_info[3]);
+  }
+}
+
+function format_uptime(seconds) {
+  const hours   = Math.floor(seconds / 3600);
+  const minutes = Math.floor(seconds % 3600 / 60);
+  return [hours, minutes > 9 ? minutes : '0' + minutes].join(':');
 }
 
 function init() {

@@ -12,7 +12,7 @@ const Icons = Extension.imports.icons;
 var StreamerMenuItem = GObject.registerClass(
 {GTypeName: 'StreamerMenuItem'},
 class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
-  _init(streamername, game, viewer_count, title, is_playlist=false, HIDESTATUS=false) {
+  _init(streamername, game, viewer_count, title, is_playlist=false, HIDESTATUS=false, uptime) {
     super._init();
     this._streamer = streamername;
 
@@ -25,6 +25,10 @@ class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
     this._layout.game = new St.Label({ text: game, style_class : "game streamer-menuitem"});
     this._layout.viewer_count = new St.Label({ text: viewer_count.toString(), style_class : "viewer-count streamer-menuitem"});
 
+    if (uptime) {
+      this._layout.uptime = new St.Label({ text: uptime, style_class : "uptime streamer-menuitem"});
+    }
+
     let info_icon = 'avatar-default-symbolic';
     if (is_playlist) {
       info_icon = 'media-playlist-repeat-symbolic';
@@ -36,6 +40,11 @@ class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
     this._firstLine.add(this._layout.game);
     this._firstLine.add(this._layout.viewer_count);
     this._firstLine.add(this._layout.viewer_icon);
+
+    if (uptime) {
+      this._firstLine.add(this._layout.uptime);
+    }
+
     this._wrapBox.add(this._firstLine);
 
     if (!HIDESTATUS) {

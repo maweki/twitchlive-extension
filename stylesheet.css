@@ -3,7 +3,7 @@
   width: 1.4em;
 }
 
-.viewer-count {
+.viewer-count, .uptime {
   text-align: right; /* I think this might not be implemented for St.Label yet */
 }
 
@@ -11,7 +11,7 @@
   font-weight: bold;
 }
 
-.streamer-menuitem.viewer-count, .streamer-menuitem.game, .streamer-menuitem.name, .streamer-menuitem.viewer-icon {
+.streamer-menuitem.viewer-count, .streamer-menuitem.game, .streamer-menuitem.name, .streamer-menuitem.viewer-icon, .streamer-menuitem.uptime {
   margin-left: 1em;
 }
 

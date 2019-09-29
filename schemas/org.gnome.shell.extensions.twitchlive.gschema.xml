@@ -57,5 +57,10 @@
 		<summary>Hide status information</summary>
 		<description>Hide current channel status detail</description>
     </key>
+    <key type="b" name="showuptime">
+		<default>false</default>
+		<summary>Show stream uptime</summary>
+		<description>Show how long the stream has been live</description>
+    </key>
   </schema>
 </schemalist>
