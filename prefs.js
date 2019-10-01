@@ -68,7 +68,7 @@ const App = class {
     Schema.bind('topbarmode', buildable.get_object('field_topbarmode'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
 
     // Fill the sort key combobox
-    [ ['NAME', _('Streamer name')] , ['GAME', _('Game title')] , ['COUNT', _('Viewers count')] ].forEach( function(element) {
+    [ ['NAME', _('Streamer name')] , ['GAME', _('Game title')] , ['COUNT', _('Viewers count')], ['UPTIME', _('Stream uptime')] ].forEach( function(element) {
       let iter = this.sortkeyStore.append();
       this.sortkeyStore.set(iter, [0, 1], element);
     }, this);

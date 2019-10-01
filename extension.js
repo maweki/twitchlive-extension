@@ -244,7 +244,7 @@ const ExtensionLayout = GObject.registerClass(
             const item = new MenuItems.StreamerMenuItem(stream.user_name, gameName, stream.viewer_count, stream.title, stream.type !== 'live', HIDESTATUS, uptime);
             item.connect("activate", () => this._execCmd(stream.user_name));
             new_online.push({
-              item: item, streamer: stream.user_name, game: gameName, viewers: stream.viewer_count
+              item: item, streamer: stream.user_name, game: gameName, viewers: stream.viewer_count, started_at: stream.started_at
             });
           });
 
@@ -297,6 +297,8 @@ const ExtensionLayout = GObject.registerClass(
         sortfunc = (a,b) => a.streamer.toUpperCase() > b.streamer.toUpperCase() ? 1 : -1;
       } else if ( SORTKEY == 'GAME' ) {
         sortfunc = (a,b) => a.game.toUpperCase() > b.game.toUpperCase() ? 1 : -1;
+      } else if ( SORTKEY == 'UPTIME' ) {
+        sortfunc = (a,b) => a.started_at < b.started_at ? 1 : -1;
       } else {
         sortfunc = (a,b) => a.viewers < b.viewers ? 1 : -1;
       }
