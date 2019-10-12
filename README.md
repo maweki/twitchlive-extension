@@ -16,7 +16,7 @@ of the default `xdg-open http://twitch.tv/%streamer%`.
 ## Compatibility with older shell versions
 
 Gnome 3.32 broke compatibility the interface for extensions.
-For a version that is compatible with gnome shell previous to version 3.32 check out the `3.30-compat` branch.
+For a version that is compatible with gnome shell previous to version 3.32 check out the `3.30-helix` branch.
 
 ## License: GPL 3.0
 
