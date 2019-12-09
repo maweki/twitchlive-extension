@@ -55,7 +55,7 @@ function users(session, userLogins) {
 
 function _users(session, userLogins) {
   return new Promise((resolve, reject) => {
-    let url = encodeURI(api_base + 'users?login=' + userLogins.join('&login='));
+    let url = api_base + 'users?login=' + userLogins.join('&login=');
     load_json_async(session, url, (data) => {
       if (!data.error) {
         resolve(data.data);
