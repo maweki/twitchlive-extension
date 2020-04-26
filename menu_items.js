@@ -9,10 +9,11 @@ const GObject = imports.gi.GObject;
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Icons = Extension.imports.icons;
 
-var StreamerMenuItem = class extends PopupMenu.PopupBaseMenuItem {
-
-  constructor(streamername, game, viewer_count, title, is_playlist=false, HIDESTATUS=false) {
-    super();
+var StreamerMenuItem = GObject.registerClass(
+{GTypeName: 'StreamerMenuItem'},
+class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
+  _init(streamername, game, viewer_count, title, is_playlist=false, HIDESTATUS=false) {
+    super._init();
     this._streamer = streamername;
 
     this._layout = {};
@@ -37,19 +38,20 @@ var StreamerMenuItem = class extends PopupMenu.PopupBaseMenuItem {
     this._firstLine.add(this._layout.viewer_icon);
     this._wrapBox.add(this._firstLine);
 
-    if (!HIDESTATUS) { 
+    if (!HIDESTATUS) {
           this._layout.title = new St.Label({ text: title, style_class : "title streamer-menuitem"});
-          this._wrapBox.add(this._layout.title); 
+          this._wrapBox.add(this._layout.title);
     }
 
-    this.actor.add(this._wrapBox);
+    this.add_actor(this._wrapBox); // this.actor.add(this._wrapBox) seems deprecated
   };
-}
+});
 
-class NobodyMenuItem extends PopupMenu.PopupBaseMenuItem {
+const NobodyMenuItem = GObject.registerClass(
+class extends PopupMenu.PopupBaseMenuItem {
 
-  constructor(nobodytext) {
-    super({ reactive: false, can_focus: false });
+  _init(nobodytext) {
+    super._init({ reactive: false, can_focus: false });
     this.actor.add(new St.Label({ text: nobodytext, style_class : "nobody-menuitem"}));
   }
-}
+});

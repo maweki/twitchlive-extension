@@ -55,16 +55,16 @@ let TOPBARMODE = 'all-icons';
 
 let button;
 
-
+var SeparatorMenuItem = GObject.registerClass(
 class SeparatorMenuItem extends PopupMenu.PopupBaseMenuItem {
-  constructor() {
-      super({ reactive: false, can_focus: false});
+  _init() {
+      super._init({ reactive: false, can_focus: false});
       this._separator = new St.Widget({ style_class: 'popup-separator-menu-item',
                                         y_expand: true,
                                         y_align: Clutter.ActorAlign.CENTER });
-      this.actor.add(this._separator, { expand: true });
+      this.actor.add(this._separator, { expand: true }); // this.add_child(this._separator, { expand: true }) is deprecated
   }
-}
+});
 
 const ExtensionLayout = GObject.registerClass(
   class ExtensionLayout extends PanelMenu.Button {
@@ -84,12 +84,12 @@ const ExtensionLayout = GObject.registerClass(
       this.layoutChanged = false;
       this.streamer_rotation = 0;
 
-      
+
       // Make soup use default system proxy if configured
       Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
 
       this._box = new St.BoxLayout();
-      this.actor.add_actor(this._box);
+      this.add_child(this._box);
       this.icon = new St.Icon({ gicon: Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive.svg"),
                               style_class: 'system-status-icon' });
       this._box.add_child(this.icon);
@@ -170,7 +170,7 @@ const ExtensionLayout = GObject.registerClass(
 
     _openSettings() {
         Util.spawn([
-            "gnome-shell-extension-prefs",
+            "gnome-extensions", "prefs",
             Extension.uuid
         ]);
     };
@@ -271,7 +271,7 @@ const ExtensionLayout = GObject.registerClass(
           this.enable_view_update();
 
           // update indicator visibility if needed
-          this.actor.visible =  !HIDEEMPTY || this.online.length;
+          if (!HIDEEMPTY || this.online.length) { this.show(); } else { this.hide(); } // visibility property seems deprecated
         });
       });
 
@@ -363,8 +363,15 @@ function apply_size_info(item, size_info) {
 }
 
 function init() {
-  Gtk.IconTheme.get_default().append_search_path(Extension.dir.get_child('livestreamer-icons').get_path());
-  Icons.init_icons();
+  var icon_theme = Gtk.IconTheme.get_default();
+  if (icon_theme === null) {
+    // how do we recover? Do we need to?
+    // This sometimes happens right after reboot
+  }
+  else {
+    Gtk.IconTheme.get_default().append_search_path(Extension.dir.get_child('livestreamer-icons').get_path());
+    Icons.init_icons();
+  }
 }
 
 function enable() {

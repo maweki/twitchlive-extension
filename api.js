@@ -37,25 +37,38 @@ function promiseAllMerge(promises) {
   return new Promise((resolve, reject) => {
     Promise.all(promises).then(data => {
       resolve([].concat.apply([], data));
-    }).catch(errors => {
-      reject(errors[0].error);
+    }).catch(error => {
+      reject(error.error);
     });
   });
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-users
 function users(session, userLogins) {
+    return usersLogin(session, userLogins);
+}
+
+function usersLogin(session, userLogins) {
   const chunks = chunk(userLogins, 100);
   const promises = [];
   chunks.forEach((chunk) => {
-    promises.push(_users(session, chunk));
+    promises.push(_users(session, chunk, "login"));
   });
   return promiseAllMerge(promises);
 }
 
-function _users(session, userLogins) {
+function usersID(session, userLogins) {
+  const chunks = chunk(userLogins, 100);
+  const promises = [];
+  chunks.forEach((chunk) => {
+    promises.push(_users(session, chunk, "id"));
+  });
+  return promiseAllMerge(promises);
+}
+
+function _users(session, userLogins, key) {
   return new Promise((resolve, reject) => {
-    let url = api_base + 'users?login=' + userLogins.join('&login=');
+    let url = api_base + 'users?' + key + '=' + userLogins.join('&' + key + '=');
     load_json_async(session, url, (data) => {
       if (!data.error) {
         resolve(data.data);
@@ -70,7 +83,7 @@ function _users(session, userLogins) {
 // https://dev.twitch.tv/docs/api/reference/#get-users-follows
 function follows(session, userId) {
   return new Promise((resolve, reject) => {
-    let url = api_base + 'users/follows?from_id=' + userId + '&first=100';
+    let url = api_base + 'users/follows?from_id=' + encodeURI(userId) + '&first=100';
     load_json_async(session, url, (data) => {
       if (!data.error) {
         resolve(data.data);
@@ -94,7 +107,7 @@ function streams(session, userLogins) {
 function _streams(session, userLogins) {
   // TODO: split > 100 into groups and resolve as a promiseAll in this function
   return new Promise((resolve, reject) => {
-    let url = api_base + 'streams?user_login=' + userLogins.join('&user_login=');
+    let url = api_base + 'streams?user_login=' + userLogins.map(encodeURI).join('&user_login=');
     load_json_async(session, url, (data) => {
       if (!data.error) {
         resolve(data.data);

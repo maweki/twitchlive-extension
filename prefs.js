@@ -29,7 +29,7 @@ const App = class {
     this._httpSession = new Soup.SessionAsync();
     // Make soup use default system proxy if configured
     Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
-    
+
     Icons.init_icons();
 
     // Build widgets, bind simple fields to settings and connect buttons clicked signals
@@ -112,10 +112,13 @@ const App = class {
             const user = data[0];
             if (user.id) {
               Api.follows(this._httpSession, user.id).then((follows) => {
-                follows.forEach(follow => this._appendStreamer(follow.to_name));
-                this._saveStreamersList();
-                this._reloadStreamersList();
-                this._retrieveStreamerIcons();
+                var followsIDs = follows.map(x => x.to_id);
+                Api.usersID(this._httpSession, followsIDs).then((userdata) => {
+                    userdata.forEach(follow => this._appendStreamer(follow.login));
+                    this._saveStreamersList();
+                    this._reloadStreamersList();
+                    this._retrieveStreamerIcons();
+                 });
               });
             }
           }
