@@ -24,12 +24,20 @@ function text_only() {
 
 function icon_only() {
   let rotation = 0,
+      icon,
       online = [];
   return {
-    box: Icons.get_streamericon("", "streamer-icon system-status-icon"),
+    box: new St.BoxLayout(),
     update: function(_online) { online = _online; },
     interval: function() {
-      this.box.set_icon_name(Icons.get_icon_name(online[rotation++ % online.length].streamer));
+      if (icon) {
+        icon.destroy();
+        icon = undefined;
+      }
+      if (online.length > 0) {
+        icon = Icons.get_streamericon(online[rotation++ % online.length].streamer, "streamer-icon system-status-icon"),
+        this.box.add_actor(icon);
+      }
     }
   };
 }
