@@ -48,7 +48,7 @@ class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
 });
 
 const NobodyMenuItem = GObject.registerClass(
-class extends PopupMenu.PopupBaseMenuItem {
+class NobodyMenuItem extends PopupMenu.PopupBaseMenuItem {
 
   _init(nobodytext) {
     super._init({ reactive: false, can_focus: false });
