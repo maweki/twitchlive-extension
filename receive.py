@@ -1,0 +1,1 @@
+from http.server import *; from urllib.parse import *; import sys; import os.path; HTTPServer(('', 8877), type('handler', (BaseHTTPRequestHandler,), {'log_request': lambda *x: None, 'do_GET': lambda s: (open(sys.argv[1], 'w').write(parse_qs(urlparse(s.path).query)['code'][0]) or s.wfile.write(b'Thank You') or s.send_response(200)) and sys.exit()})).serve_forever()
