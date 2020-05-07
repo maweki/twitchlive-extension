@@ -7,12 +7,13 @@ const Soup = imports.gi.Soup;
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 
 const api_base = 'https://api.twitch.tv/helix/';
+const client_id = '4yzkpoa13a9zqepwguxejohaqulrgbu'
 
 /* exported channel, stream */
 
 function load_json_async(httpSession, url, fun) {
   let message = Soup.Message.new('GET', url);
-  message.requestHeaders.append('Client-ID', '4yzkpoa13a9zqepwguxejohaqulrgbu');
+  message.requestHeaders.append('Client-ID', client_id);
   httpSession.queue_message(message, function(session, message) {
       let data = JSON.parse(message.response_body.data);
       fun(data);
