@@ -1,3 +1,10 @@
+# This script is used to create tiny webserver that receives an OAuth callback
+# as GNOME does not provide a way for extensions to do that.
+# gnome-online-accounts has no interface for that, neither does the shell.
+# This is minimal implementation for what is needed to do OpenAuth without a client secret
+# AUTHOR: Mario Wenzel
+# LICENSE: GPL3.0
+
 from http.server import *;
 from urllib.parse import *;
 import sys;
