@@ -1,7 +1,8 @@
 # This script is used to create tiny webserver that receives an OAuth callback
 # as GNOME does not provide a way for extensions to do that.
 # gnome-online-accounts has no interface for that, neither does the shell.
-# This is minimal implementation for what is needed to do OpenAuth without a client secret
+# This is minimal implementation for what is needed to do OpenAuth without a client secret.
+# We need the browser as the token is passed in the url fragment.
 # AUTHOR: Mario Wenzel
 # LICENSE: GPL3.0
 
@@ -25,14 +26,13 @@ class handler(BaseHTTPRequestHandler):
         print(self.path)
         if self.path == '/':
             # initial call from twitch
-            print(self.path)
-
             self.send_response(200)
             self.send_header("Content-Type", "text/html")
             self.end_headers()
 
             self.wfile.write(page.encode())
         elif self.path.startswith('/tokens'):
+            # our own call
             code = parse_qs(urlparse(self.path).query)['access_token'][0]
             open(sys.argv[1], 'w').write(code)
 
