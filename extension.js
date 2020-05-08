@@ -272,12 +272,17 @@ const ExtensionLayout = GObject.registerClass(
 
           // update indicator visibility if needed
           if (!HIDEEMPTY || this.online.length) { this.show(); } else { this.hide(); } // visibility property seems deprecated
-        });
-      });
+        }).catch((d) => this.errorHandler(d));
+      }).catch((d) => this.errorHandler(d));
 
       //schedule next check
       this.timer.update = Mainloop.timeout_add(INTERVAL, this.updateData.bind(this));
       return false;
+    };
+
+    errorHandler(data) {
+      this.updateMenuItem.actor.reactive = true;
+      this.updateMenuItem.label.set_text(data.error + " (" + data.message + ")");
     };
 
     updateMenuLayout() {

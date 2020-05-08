@@ -39,7 +39,7 @@ function promiseAllMerge(promises) {
     Promise.all(promises).then(data => {
       resolve([].concat.apply([], data));
     }).catch(error => {
-      reject(error.error);
+      reject(error);
     });
   });
 }
