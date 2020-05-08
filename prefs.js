@@ -48,6 +48,7 @@ const App = class {
     buildable.get_object('del_streamer').connect('clicked', this._delStreamer.bind(this));
     buildable.get_object('del_all_streamers').connect('clicked', this._delAllStreamers.bind(this));
     buildable.get_object('import_from_twitch').connect('clicked', this._importFromTwitch.bind(this));
+    buildable.get_object('authenticate_oauth').connect('clicked', this._authenticateOauth.bind(this));
 
     // Name some widgets for future reference
     this.newStreamerEntry = buildable.get_object('field_addstreamer');
@@ -125,6 +126,11 @@ const App = class {
         });
       }
     });
+  };
+
+  _authenticateOauth() {
+    // Triger Oauth Authentication
+    Api.trigger_oauth();
   };
 
   _showUserPromptDialog(callback) {
