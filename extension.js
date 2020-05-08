@@ -62,7 +62,7 @@ class SeparatorMenuItem extends PopupMenu.PopupBaseMenuItem {
       this._separator = new St.Widget({ style_class: 'popup-separator-menu-item',
                                         y_expand: true,
                                         y_align: Clutter.ActorAlign.CENTER });
-      this.actor.add(this._separator, { expand: true }); // this.add_child(this._separator, { expand: true }) is deprecated
+      this.add_actor(this._separator); // this.actor.add(this._separator, { expand: true }); // this.add_child(this._separator, { expand: true }) is deprecated
   }
 });
 
