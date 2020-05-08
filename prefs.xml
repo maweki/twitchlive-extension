@@ -120,6 +120,11 @@
 								<property name="label" translatable="yes">Import from twitch user</property>
 							</object>
 						</child>
+						<child>
+							<object class="GtkButton" id="authenticate_oauth">
+								<property name="label" translatable="yes">OAuth authentication</property>
+							</object>
+						</child>
 						</object>
 					</child>
 

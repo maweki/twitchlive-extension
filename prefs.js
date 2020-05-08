@@ -31,6 +31,7 @@ const App = new Lang.Class(
 
     _init: function()
     {
+      this._httpSession = new Soup.SessionAsync();
       // Make soup use default system proxy if configured
       Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
       
@@ -52,6 +53,7 @@ const App = new Lang.Class(
       buildable.get_object('del_streamer').connect('clicked', Lang.bind(this, this._delStreamer));
       buildable.get_object('del_all_streamers').connect('clicked', Lang.bind(this, this._delAllStreamers));
       buildable.get_object('import_from_twitch').connect('clicked', Lang.bind(this, this._importFromTwitch));
+      buildable.get_object('authenticate_oauth').connect('clicked', Lang.bind(this, this._authenticateOauth));
 
       // Name some widgets for future reference
       this.newStreamerEntry = buildable.get_object('field_addstreamer');
@@ -117,16 +119,24 @@ const App = new Lang.Class(
               const user = data[0];
               if (user.id) {
                 Api.follows(this._httpSession, user.id).then((follows) => {
-                  follows.forEach(follow => this._appendStreamer(follow.to_name));
-                  this._saveStreamersList();
-                  this._reloadStreamersList();
-                  this._retrieveStreamerIcons();
+                  var followsIDs = follows.map(x => x.to_id);
+                  Api.usersID(this._httpSession, followsIDs).then((userdata) => {
+                    userdata.forEach(follow => this._appendStreamer(follow.login));
+                    this._saveStreamersList();
+                    this._reloadStreamersList();
+                    this._retrieveStreamerIcons();
+                  });
                 });
               }
             }
           });
         }
       });
+    },
+
+    _authenticateOauth: function() {
+      // Triger Oauth Authentication
+      Api.trigger_oauth();
     },
 
     _showUserPromptDialog: function (callback) {
