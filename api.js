@@ -45,7 +45,7 @@ function load_json_async(httpSession, url, fun) {
   let oauth_token = get_token();
   message.requestHeaders.append('Client-ID', client_id);
   if (oauth_token) {
-    message.requestHeaders.append('Authorization', "OAuth " + oauth_token);
+    message.requestHeaders.append('Authorization', "Bearer " + oauth_token);
   }
   httpSession.queue_message(message, function(session, message) {
       let data = JSON.parse(message.response_body.data);
