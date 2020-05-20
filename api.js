@@ -13,27 +13,21 @@ const api_base = 'https://api.twitch.tv/helix/';
 const client_id = "1zat8h7je94boq5t88of6j09p41hg0";
 const oauth_receiver = imports.misc.extensionUtils.getCurrentExtension().path + "/oauth_receive.py"
 const oauth_token_path = GLib.get_user_cache_dir() + '/twitchlive-extension/oauth_token';
-var token_cache = undefined;
 
 /* OAuth */
 
 function trigger_oauth() {
-  token_cache = undefined;
   const url = "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=" + client_id + "&redirect_uri=http://localhost:8877&scope=";
   GLib.spawn_command_line_async("xdg-open " + url);
   GLib.spawn_sync(null, ["python3", oauth_receiver,  oauth_token_path], null, GLib.SpawnFlags.SEARCH_PATH, null);
 }
 
 function get_token() {
-  if (token_cache) {
-    return token_cache;
-  }
   var tokenfile = Gio.File.new_for_path(oauth_token_path);
   if (tokenfile.query_exists(null)) {
     let success, content, tag;
     [success, content, tag] = tokenfile.load_contents(null);
-    token_cache = ByteArray.toString(content);
-    return token_cache;
+    return ByteArray.toString(content);
   }
   return undefined;
 }
