@@ -237,14 +237,16 @@ const ExtensionLayout = GObject.registerClass(
               // zikeji: I've no idea if type !== 'live' designates playlists - the documentation doesn't mention playlists
               return;
             }
-
+            // The login name is stupidly not part of the response but weg get
+            // thumbnail_url:"https://static-cdn.jtvnw.net/previews-ttv/live_user_USERNAME-{width}x{height}.jpg
+            const loginName = stream.thumbnail_url.slice(52, -21);
             const game = games.find(game => game.id === stream.game_id);
             const gameName = game ? game.name : 'n/a'; // zikeji: may want to display something other than n/a if the game doesn't exist? not sure if this case would ever get hit
             const uptime = SHOWUPTIME ? format_uptime((new Date() - new Date(stream.started_at)) / 1000) : false;
-            const item = new MenuItems.StreamerMenuItem(stream.user_name, gameName, stream.viewer_count, stream.title, stream.type !== 'live', HIDESTATUS, uptime);
-            item.connect("activate", () => this._execCmd(stream.user_name));
+            const item = new MenuItems.StreamerMenuItem(stream.user_name, loginName, gameName, stream.viewer_count, stream.title, stream.type !== 'live', HIDESTATUS, uptime);
+            item.connect("activate", () => this._execCmd(loginName));
             new_online.push({
-              item: item, streamer: stream.user_name, game: gameName, viewers: stream.viewer_count, started_at: stream.started_at
+              item: item, streamer: stream.user_name, login: loginName, game: gameName, viewers: stream.viewer_count, started_at: stream.started_at
             });
           });
 
