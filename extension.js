@@ -12,7 +12,6 @@ const Main = imports.ui.main;
 const Soup = imports.gi.Soup;
 const Mainloop = imports.mainloop;
 const Clutter = imports.gi.Clutter;
-const Tweener = imports.ui.tweener;
 const Panel = imports.ui.main.panel;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
