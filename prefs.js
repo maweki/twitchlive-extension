@@ -99,7 +99,7 @@ const App = class {
     // populate the list
     this._reloadStreamersList();
 
-    this.main.show_all();
+    if (this.main.show_all) this.main.show_all();
   };
 
   _importFromTwitch() {

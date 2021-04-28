@@ -5,6 +5,7 @@
 const Gtk = imports.gi.Gtk;
 const GLib = imports.gi.GLib;
 const Gio = imports.gi.Gio;
+const Gdk = imports.gi.Gdk;
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Api = Extension.imports.api;
@@ -16,7 +17,12 @@ const icons_path = GLib.get_user_cache_dir() + '/twitchlive-extension';
 function init_icons() {
   // TODO: everything needs to be disabled if the creation fails or if it isn't a writable directory
   GLib.mkdir_with_parents(icons_path, 448);
-  Gtk.IconTheme.get_default().append_search_path(icons_path);
+  if (Gtk.IconTheme.get_default) { // before 40
+    Gtk.IconTheme.get_default().append_search_path(icons_path);
+  }
+  else { // after 40
+    Gtk.IconTheme.get_for_display(Gdk.Display.get_default()).add_search_path(icons_path);
+  }
 }
 
 function mogrify_available() { // TODO: cache this result
