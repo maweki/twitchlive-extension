@@ -36,7 +36,7 @@
     </child>
     <child internal-child="content_area">
       <object class="GtkBox">
-        <property name="visible">0</property>
+        <property name="visible">True</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
         <property name="margin-top">10</property>
@@ -44,7 +44,7 @@
         <property name="spacing">5</property>
         <child>
           <object class="GtkLabel">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="label" translatable="yes">Twitch account to import follows from :</property>
             <property name="hexpand">1</property>
             <property name="halign">1</property>
@@ -52,20 +52,20 @@
         </child>
         <child>
           <object class="GtkEntry" id="UserPromptDialog-entry">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
           </object>
         </child>
       </object>
     </child>
     <child type="action">
       <object class="GtkButton" id="UserPromptDialog-cancel">
-        <property name="visible">0</property>
+        <property name="visible">True</property>
         <property name="label" translatable="yes">Cancel</property>
       </object>
     </child>
     <child type="action">
       <object class="GtkButton" id="UserPromptDialog-ok">
-        <property name="visible">0</property>
+        <property name="visible">True</property>
         <property name="label" translatable="yes">Import</property>
       </object>
     </child>
@@ -75,11 +75,11 @@
     </action-widgets>
   </object>
   <object class="GtkGrid" id="prefs-widget">
-    <property name="visible">0</property>
+    <property name="visible">True</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkBox">
-        <property name="visible">0</property>
+        <property name="visible">True</property>
         <property name="margin-start">10</property>
         <property name="margin-end">10</property>
         <property name="margin-top">10</property>
@@ -89,7 +89,7 @@
           <object class="GtkScrolledWindow" id="scrolledwindow1">
             <property name="child">
               <object class="GtkTreeView" id="field_streamerslist">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property name="hexpand">1</property>
                 <property name="vexpand">1</property>
               </object>
@@ -98,7 +98,7 @@
         </child>
         <child>
           <object class="GtkGrid">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkBox">
@@ -106,31 +106,31 @@
                 <!-- <property name="layout-style">GTK_BUTTONBOX_EXPAND</property> -->
                 <child>
                   <object class="GtkButton" id="add_streamer">
-                    <property name="visible">0</property>
+                    <property name="visible">True</property>
                     <property name="label" translatable="yes">Add streamer</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="del_streamer">
-                    <property name="visible">0</property>
+                    <property name="visible">True</property>
                     <property name="label" translatable="yes">Remove selected</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="del_all_streamers">
-                    <property name="visible">0</property>
+                    <property name="visible">True</property>
                     <property name="label" translatable="yes">Remove all</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="import_from_twitch">
-                    <property name="visible">0</property>
+                    <property name="visible">True</property>
                     <property name="label" translatable="yes">Import from twitch user</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="authenticate_oauth">
-                    <property name="visible">0</property>
+                    <property name="visible">True</property>
                     <property name="label" translatable="yes">OAuth authentication</property>
                   </object>
                 </child>
@@ -142,7 +142,7 @@
     </child>
     <child>
       <object class="GtkSeparator">
-        <property name="visible">0</property>
+        <property name="visible">True</property>
       </object>
     </child>
     <child>
@@ -152,11 +152,11 @@
         <property name="spacing">5</property>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property translatable="yes" name="label">Panel display</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -179,11 +179,11 @@
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property name="label" translatable="yes">Streamer notifications</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -191,18 +191,18 @@
             </child>
             <child>
               <object class="GtkSwitch" id="field_notifications-enabled">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
               </object>
             </child>
           </object>
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property name="label" translatable="yes">Game change notifications</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -210,18 +210,18 @@
             </child>
             <child>
               <object class="GtkSwitch" id="field_notifications-game-change">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
               </object>
             </child>
           </object>
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property name="label" translatable="yes">Update Interval (min)</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -229,7 +229,7 @@
             </child>
             <child>
               <object class="GtkSpinButton" id="field_interval">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property name="adjustment">Adjust_Interval</property>
               </object>
             </child>
@@ -240,7 +240,7 @@
             <property name="orientation">vertical</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property translatable="yes" name="label">Command to execute</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -248,18 +248,18 @@
             </child>
             <child>
               <object class="GtkEntry" id="field_opencmd">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
               </object>
             </child>
           </object>
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property translatable="yes" name="label">Hide playlist streams</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -267,18 +267,18 @@
             </child>
             <child>
               <object class="GtkSwitch" id="field_hideplaylists">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
               </object>
             </child>
           </object>
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property translatable="yes" name="label">Hide indicator if nobody is streaming</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -286,18 +286,18 @@
             </child>
             <child>
               <object class="GtkSwitch" id="field_hideempty">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
               </object>
             </child>
           </object>
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property translatable="yes" name="label">Sort streamers by</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -320,11 +320,11 @@
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property translatable="yes" name="label">Hide status line from the menu</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -332,18 +332,18 @@
             </child>
             <child>
               <object class="GtkSwitch" id="field_hidestatus">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
               </object>
             </child>
           </object>
         </child>
         <child>
           <object class="GtkBox">
-            <property name="visible">0</property>
+            <property name="visible">True</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
                 <property translatable="yes" name="label">Show stream uptime</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>
@@ -351,7 +351,7 @@
             </child>
             <child>
               <object class="GtkSwitch" id="field_showuptime">
-                <property name="visible">0</property>
+                <property name="visible">True</property>
               </object>
             </child>
           </object>
