@@ -13,6 +13,16 @@ I use streamlink (https://github.com/streamlink/streamlink) with
 `streamlink twitch.tv/%streamer% high,best` as the opening command instead
 of the default `xdg-open http://twitch.tv/%streamer%`.
 
+## Manual auth
+
+If the settings-dialogue is broken - like now - but you still need to authenticate against twitch,
+you can enter the following into the terminal:
+
+```
+xdg-open "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=1zat8h7je94boq5t88of6j09p41hg0&redirect_uri=http://localhost:8877&scope=" ; python3 ~/.local/share/gnome-shell/extensions/TwitchLive_Panel@extensions.maweki.de/oauth_receive.py ~/.cache/twitchlive-extension/oauth_token
+```
+
+
 ## Compatibility with older shell versions
 
 Gnome 3.32 broke compatibility the interface for extensions.
