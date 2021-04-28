@@ -1,0 +1,348 @@
+<?xml version="1.0"?>
+<!--
+  AUTHORS: Mario Wenzel, Raphaël Rochet
+  LICENSE: GPL3.0
+-->
+<interface domain="twitchlive">
+
+<object class="GtkAdjustment" id="Adjust_Interval">
+	<property name="lower">1</property>
+	<property name="upper">30</property>
+	<property name="step_increment">1</property>
+</object>
+
+<object class="GtkListStore" id="StreamSort_ListStore">
+	<columns>
+		<column type="gchararray"/>
+		<column type="gchararray"/>
+	</columns>
+</object>
+
+<object class="GtkListStore" id="TopBarDisplay_ListStore">
+	<columns>
+		<column type="gchararray"/>
+		<column type="gchararray"/>
+	</columns>
+</object>
+
+<object class="GtkDialog" id="UserPromptDialog">
+	<property name="modal">true</property>
+	<property name="use-header-bar">1</property>
+	<child type="titlebar">
+		<object class="GtkHeaderBar">
+			<property name="visible">True</property>
+			<property name="can_focus">False</property>
+			<property name="show-close-button">True</property>
+			<property name="title" translatable="yes">Import from twitch</property>
+			<property name="hexpand">true</property>
+		</object>
+	</child>
+	<child internal-child="vbox">
+		<object class="GtkBox">
+			<property name="margin">10</property>
+			<property name="spacing">5</property>
+			<child>
+				<object class="GtkLabel">
+					<property name="label" translatable="yes">Twitch account to import follows from :</property>
+					<property name="hexpand">true</property>
+					<property name="halign">1</property>
+				</object>
+			</child>
+			<child>
+				<object class="GtkEntry" id="UserPromptDialog-entry">
+				</object>
+			</child>
+		</object>
+	</child>
+	<child type="action">
+		<object class="GtkButton" id="UserPromptDialog-cancel">
+			<property name="label" translatable="yes">Cancel</property>
+		</object>
+	</child>
+	<child type="action">
+		<object class="GtkButton" id="UserPromptDialog-ok">
+			<property name="label" translatable="yes">Import</property>
+			<property name="can-default">True</property>
+		</object>
+	</child>
+	<action-widgets>
+		<action-widget response="cancel">UserPromptDialog-cancel</action-widget>
+		<action-widget response="ok" default="true">UserPromptDialog-ok</action-widget>
+	</action-widgets>
+</object>
+
+<object class="GtkGrid" id="prefs-widget">
+	<property name="orientation">vertical</property>
+
+	<child>
+		<object class="GtkBox">
+			<property name="margin">10</property>
+			<property name="spacing">5</property>
+
+			<child>
+				<object class="GtkScrolledWindow" id="scrolledwindow1">
+					<property name="visible">True</property>
+					<property name="vscrollbar_policy">automatic</property>
+					<child>
+						<object class="GtkTreeView" id="field_streamerslist">
+							<property name="hexpand">true</property>
+							<property name="vexpand">true</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkGrid">
+					<property name="orientation">vertical</property>
+					<child>
+						<object class="GtkButtonBox">
+						<property name="orientation">vertical</property>
+						<property name="layout-style">GTK_BUTTONBOX_EXPAND</property>
+
+						<child>
+							<object class="GtkButton" id="add_streamer">
+								<property name="label" translatable="yes">Add streamer</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="del_streamer">
+								<property name="label" translatable="yes">Remove selected</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="del_all_streamers">
+								<property name="label" translatable="yes">Remove all</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="import_from_twitch">
+								<property name="label" translatable="yes">Import from twitch user</property>
+							</object>
+						</child>
+						<child>
+							<object class="GtkButton" id="authenticate_oauth">
+								<property name="label" translatable="yes">OAuth authentication</property>
+							</object>
+						</child>
+						</object>
+					</child>
+
+				</object>
+			</child>
+
+		</object>
+	</child>
+
+	<child>
+		<object class="GtkSeparator">
+		</object>
+	</child>
+
+	<child>
+		<object class="GtkVBox">
+			<property name="margin">10</property>
+			<property name="spacing">5</property>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Panel display</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkComboBox" id="field_topbarmode">
+							<property name="visible">True</property>
+							<property name="can_focus">False</property>
+							<property name="model">TopBarDisplay_ListStore</property>
+							<property name="id-column">0</property>
+							<child>
+								<object class="GtkCellRendererText"/>
+								<attributes>
+									<attribute name="text">1</attribute>
+								</attributes>
+							</child>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Streamer notifications</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_notifications-enabled">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Game change notifications</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_notifications-game-change">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Update Interval (min)</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSpinButton" id="field_interval">
+							<property name="adjustment">Adjust_Interval</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkVBox">
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Command to execute</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkEntry" id="field_opencmd">
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Hide playlist streams</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_hideplaylists">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Hide indicator if nobody is streaming</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_hideempty">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Sort streamers by</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkComboBox" id="field_sortkey">
+							<property name="visible">True</property>
+							<property name="can_focus">False</property>
+							<property name="model">StreamSort_ListStore</property>
+							<property name="id-column">0</property>
+							<child>
+								<object class="GtkCellRendererText" id="renderer"/>
+								<attributes>
+									<attribute name="text">1</attribute>
+								</attributes>
+							</child>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Hide status line from the menu</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_hidestatus">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property translatable="yes" name="label">Show stream uptime</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_showuptime">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+		</object>
+	</child>
+
+</object>
+
+</interface>

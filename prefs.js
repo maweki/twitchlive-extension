@@ -9,6 +9,10 @@ const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
 const Soup = imports.gi.Soup;
 
+const Config = imports.misc.config;
+const [major] = Config.PACKAGE_VERSION.split('.');
+const shellVersion = Number.parseInt(major);
+
 const Icons = Extension.imports.icons;
 
 let schemaDir = Extension.dir.get_child('schemas').get_path();
@@ -34,7 +38,11 @@ const App = class {
 
     // Build widgets, bind simple fields to settings and connect buttons clicked signals
     let buildable = new Gtk.Builder();
-    buildable.add_from_file( Extension.dir.get_path() + '/prefs.xml' );
+    if (shellVersion < 40)
+        buildable.add_from_file( Extension.dir.get_path() + '/prefs_old.xml' );
+    else
+        buildable.add_from_file( Extension.dir.get_path() + '/prefs.xml' );
+
     this._buildable = buildable;
     this.main = buildable.get_object('prefs-widget');
     Schema.bind('interval', buildable.get_object('field_interval'), 'value', Gio.SettingsBindFlags.DEFAULT);
