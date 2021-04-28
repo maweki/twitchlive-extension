@@ -39,3 +39,7 @@ Twitch and the Twitch icon is owned by Twitch Interactive, Inc., no rights infri
 * Give feedback when streamer page is being opened (livestreamer takes some seconds to start)
 * nicely reload settings when they are changed
 * Translations
+
+## Settings Layouting
+
+In gtk4 settings layout can be tested using `gtk4-builder-tool preview --id=prefs-widget prefs.xml`
