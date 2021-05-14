@@ -147,7 +147,11 @@ const App = class {
       this._messageDialog = this._buildable.get_object("UserPromptDialog");
       this._messageDialog.connect ('response', callback.bind(null, this._buildable.get_object("UserPromptDialog-entry")).bind(this));
     }
-    this._messageDialog.show_all();
+    if (this._messageDialog.show_all) {
+      this._messageDialog.show_all();
+    } else {
+      this._messageDialog.show();
+    }
   };
 
   _cellEdited(renderer, path, new_text, whatelse) {
