@@ -214,7 +214,7 @@ const ExtensionLayout = GObject.registerClass(
         GLib.spawn_command_line_async(cmd);
       });
 
-      this.notification_source.notify(notification);
+      this.notification_source.showNotification(notification);
     };
 
     updateData() {
