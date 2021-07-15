@@ -17,6 +17,10 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
 const MessageTray = imports.ui.messageTray;
+const Config = imports.misc.config;
+
+const [major] = Config.PACKAGE_VERSION.split('.');
+const shellVersion = Number.parseInt(major);
 
 const Extension = imports.misc.extensionUtils.getCurrentExtension();
 const Topbar = Extension.imports.topbar;
@@ -214,7 +218,11 @@ const ExtensionLayout = GObject.registerClass(
         GLib.spawn_command_line_async(cmd);
       });
 
-      this.notification_source.notify(notification);
+      if (shellVersion < 40) {
+        this.notification_source.notify(notification);
+      } else {
+        this.notification_source.showNotification(notification);
+      }
     };
 
     updateData() {
