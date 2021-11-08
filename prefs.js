@@ -30,9 +30,9 @@ Gettext.bindtextdomain(domain, localeDir.get_path());
 const App = class {
 
   constructor() {
-    this._httpSession = new Soup.SessionAsync();
+    this._httpSession = Soup.Session.new();
     // Make soup use default system proxy if configured
-    Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
+    // Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
 
     Icons.init_icons();
 
