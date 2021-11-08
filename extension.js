@@ -84,13 +84,13 @@ const ExtensionLayout = GObject.registerClass(
       this.firstRun = true, // Avoids notifications on first run
       this.timer = { view: 0, update: 0, settings: 0 };
       this.settings = new Gio.Settings({ settings_schema: schema });
-      this._httpSession = new Soup.SessionAsync();
+      this._httpSession = Soup.Session.new();
       this.layoutChanged = false;
       this.streamer_rotation = 0;
 
 
       // Make soup use default system proxy if configured
-      Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
+      // Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
 
       this._box = new St.BoxLayout();
       this.add_child(this._box);
