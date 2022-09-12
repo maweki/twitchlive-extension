@@ -7,6 +7,7 @@ const Gettext = imports.gettext;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 const GObject = imports.gi.GObject;
+imports.gi.versions.Soup = "2.4";
 const Soup = imports.gi.Soup;
 
 const Config = imports.misc.config;
