@@ -22,12 +22,6 @@ you can enter the following into the terminal:
 xdg-open "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=1zat8h7je94boq5t88of6j09p41hg0&redirect_uri=http://localhost:8877&scope=" ; python3 ~/.local/share/gnome-shell/extensions/TwitchLive_Panel@extensions.maweki.de/oauth_receive.py ~/.cache/twitchlive-extension/oauth_token
 ```
 
-
-## Compatibility with older shell versions
-
-Gnome 3.32 broke compatibility the interface for extensions.
-For a version that is compatible with gnome shell previous to version 3.32 check out the `3.30-helix` branch.
-
 ## License: GPL 3.0
 
 Icons by https://github.com/RaphaelRochet
