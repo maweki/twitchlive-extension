@@ -1,6 +1,6 @@
 {
 "uuid": "TwitchLive_Panel@extensions.maweki.de",
-"name": "TwitchLive Panel", "shell-version": ["40", "41", "42"],
+"name": "TwitchLive Panel", "shell-version": ["43"],
 "description": "A panel showing whether your favorite Twitch.tv streamers are streaming.\n\nCycles through the online streamers if multiples are configured. Click on the panel and then on streamer's name to launch the stream with a custom command (your browser or some other application).\n\nNeeds curl and mogrify to fully support streamer logos.",
 "settings-schema": "org.gnome.shell.extensions.twitchlive",
 "gettext-domain": "twitchlive",
