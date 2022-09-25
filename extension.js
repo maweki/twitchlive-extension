@@ -218,6 +218,10 @@ const ExtensionLayout = GObject.registerClass(
         GLib.spawn_command_line_async(cmd);
       });
 
+      this.notification_source.createIcon = function() {
+        return Icons.get_streamericon(streamer.streamer, null);
+      };
+
       if (shellVersion < 40) {
         this.notification_source.notify(notification);
       } else {
