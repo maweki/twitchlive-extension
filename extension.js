@@ -129,6 +129,7 @@ const ExtensionLayout = GObject.registerClass(
       this.messageTray = new MessageTray.MessageTray();
       this.notification_source = new MessageTray.Source('TwitchLive', 'twitchlive');
       this.messageTray.add(this.notification_source);
+      this.notification_icon = new St.Icon({ gicon: Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive.svg") });
     };
 
     _applySettings() {
@@ -220,11 +221,11 @@ const ExtensionLayout = GObject.registerClass(
         GLib.spawn_command_line_async(cmd);
       });
 
-      if (NOTIFICATIONS_STREAMER_ICON) {
-        this.notification_source.createIcon = function() {
-          return Icons.get_streamericon(streamer.streamer, null);
-        };
-      }
+      var icon = NOTIFICATIONS_STREAMER_ICON ? Icons.get_streamericon(streamer.streamer, null) : this.notification_icon;
+
+      this.notification_source.createIcon = function() {
+        return icon;
+      };
 
       if (shellVersion < 40) {
         this.notification_source.notify(notification);
