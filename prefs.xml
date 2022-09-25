@@ -222,6 +222,25 @@
             <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
+                <property name="label" translatable="yes">Show streamer icon on notifications</property>
+                <property name="hexpand">1</property>
+                <property name="halign">1</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="field_notifications-streamer-icon">
+                <property name="visible">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="spacing">5</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
                 <property name="label" translatable="yes">Update Interval (min)</property>
                 <property name="hexpand">1</property>
                 <property name="halign">1</property>

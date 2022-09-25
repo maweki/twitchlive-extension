@@ -51,6 +51,7 @@ let INTERVAL = 5*1000*60;
 let HIDEPLAYLISTS = false;
 let NOTIFICATIONS_ENABLED = false;
 let NOTIFICATIONS_GAME_CHANGE = false;
+let NOTIFICATIONS_STREAMER_ICON = false;
 let HIDEEMPTY = false;
 let SORTKEY = 'COUNT';
 let HIDESTATUS = false;
@@ -137,6 +138,7 @@ const ExtensionLayout = GObject.registerClass(
       HIDEPLAYLISTS = this.settings.get_boolean('hideplaylists');
       NOTIFICATIONS_ENABLED = this.settings.get_boolean('notifications-enabled');
       NOTIFICATIONS_GAME_CHANGE = this.settings.get_boolean('notifications-game-change');
+      NOTIFICATIONS_STREAMER_ICON = this.settings.get_boolean('notifications-streamer-icon');
       HIDEEMPTY = this.settings.get_boolean('hideempty');
       SORTKEY = this.settings.get_string('sortkey');
       HIDESTATUS = this.settings.get_boolean('hidestatus');
@@ -218,9 +220,11 @@ const ExtensionLayout = GObject.registerClass(
         GLib.spawn_command_line_async(cmd);
       });
 
-      this.notification_source.createIcon = function() {
-        return Icons.get_streamericon(streamer.streamer, null);
-      };
+      if (NOTIFICATIONS_STREAMER_ICON) {
+        this.notification_source.createIcon = function() {
+          return Icons.get_streamericon(streamer.streamer, null);
+        };
+      }
 
       if (shellVersion < 40) {
         this.notification_source.notify(notification);
