@@ -41,10 +41,19 @@ function load_json_async(httpSession, url, fun) {
   if (oauth_token) {
     message.requestHeaders.append('Authorization', "Bearer " + oauth_token);
   }
-  httpSession.queue_message(message, function(session, message) {
-      let data = JSON.parse(message.response_body.data);
+
+  httpSession.send_and_read_async(
+    message,
+    GLib.PRIORITY_DEFAULT,
+    null,
+    (session, result) => {
+      let bytes = session.send_and_read_finish(result);
+      let decoder = new TextDecoder('utf-8');
+      let response = decoder.decode(bytes.get_data());
+      let data = JSON.parse(response);
       fun(data);
-  });
+    }
+  );
 }
 
 // "chunk" an array into multiple chunks (for 100-per-request limit)
