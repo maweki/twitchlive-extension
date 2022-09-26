@@ -32,7 +32,7 @@
 		<summary>Show streamer game changes</summary>
 		<description>Show a notification when a streamer changes games</description>
     </key>
-	<key type="b" name="notifications-streamer-icon">
+    <key type="b" name="notifications-streamer-icon">
 		<default>false</default>
 		<summary>Show streamer icon on notifications</summary>
 		<description></description>
