@@ -55,6 +55,13 @@ const App = class {
     Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
     Schema.bind('hidestatus', buildable.get_object('field_hidestatus'), 'active', Gio.SettingsBindFlags.DEFAULT);
     Schema.bind('showuptime', buildable.get_object('field_showuptime'), 'active', Gio.SettingsBindFlags.DEFAULT);
+
+    buildable.get_object('field_notifications-enabled').connect('state-set', function() {
+      var newState = !Schema.get_boolean('notifications-enabled');
+      buildable.get_object('obj_notifications-game-change').set_property("visible", newState);
+      buildable.get_object('obj_notifications-streamer-icon').set_property("visible", newState);
+    });
+
     buildable.get_object('add_streamer').connect('clicked', this._addStreamer.bind(this));
     buildable.get_object('del_streamer').connect('clicked', this._delStreamer.bind(this));
     buildable.get_object('del_all_streamers').connect('clicked', this._delAllStreamers.bind(this));
@@ -100,14 +107,17 @@ const App = class {
     this.nameColRenderer.connect('edited', this._cellEdited.bind(this));
     this.nameCol.pack_start(this.nameColRenderer, true);
     this.nameCol.add_attribute(this.nameColRenderer, "text", 0);
-
-
     this.nameCol.add_attribute(this.iconColRenderer, "icon-name", 1);
 
     this.streamersList.append_column(this.nameCol);
 
     // populate the list
     this._reloadStreamersList();
+
+    if (Schema.get_boolean('notifications-enabled')) {
+      buildable.get_object('obj_notifications-game-change').set_property("visible", true);
+      buildable.get_object('obj_notifications-streamer-icon').set_property("visible", true);
+    }
 
     if (this.main.show_all) this.main.show_all();
   };

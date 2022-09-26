@@ -197,8 +197,8 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
+          <object class="GtkBox" id="obj_notifications-game-change">
+            <property name="visible">False</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
@@ -216,8 +216,8 @@
           </object>
         </child>
         <child>
-          <object class="GtkBox">
-            <property name="visible">True</property>
+          <object class="GtkBox" id="obj_notifications-streamer-icon">
+            <property name="visible">False</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkLabel">
