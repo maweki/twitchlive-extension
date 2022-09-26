@@ -220,7 +220,7 @@ const ExtensionLayout = GObject.registerClass(
         GLib.spawn_command_line_async(cmd);
       });
 
-      var icon = NOTIFICATIONS_STREAMER_ICON ? Icons.get_streamericon(streamer.streamer, null) : new St.Icon({ gicon: Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive.svg") });
+      var icon = NOTIFICATIONS_STREAMER_ICON ? Icons.get_streamericon(streamer.streamer, "notifications-icon") : new St.Icon({ gicon: Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive.svg"), style_class: "notifications-icon" });
 
       this.notification_source.createIcon = function() {
         return icon;
