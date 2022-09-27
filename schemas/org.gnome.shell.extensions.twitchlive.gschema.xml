@@ -32,6 +32,11 @@
 		<summary>Show streamer game changes</summary>
 		<description>Show a notification when a streamer changes games</description>
     </key>
+    <key type="b" name="notifications-streamer-icon">
+		<default>false</default>
+		<summary>Show streamer icon on notifications</summary>
+		<description></description>
+    </key>
     <key type="s" name="topbarmode">
 		<default>'all-icons'</default>
 		<summary>Indicator display setting</summary>

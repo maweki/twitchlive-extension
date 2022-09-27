@@ -190,7 +190,7 @@
 			</child>
 
 			<child>
-				<object class="GtkBox">
+				<object class="GtkBox" id="obj_notifications-game-change">
 					<property name="spacing">5</property>
 					<child>
 						<object class="GtkLabel">
@@ -201,6 +201,24 @@
 					</child>
 					<child>
 						<object class="GtkSwitch" id="field_notifications-game-change">
+							<property name="active">false</property>
+						</object>
+					</child>
+				</object>
+			</child>
+
+			<child>
+				<object class="GtkBox" id="obj_notifications-streamer-icon">
+					<property name="spacing">5</property>
+					<child>
+						<object class="GtkLabel">
+							<property name="label" translatable="yes">Show streamer icon on notifications</property>
+							<property name="hexpand">true</property>
+							<property name="halign">1</property>
+						</object>
+					</child>
+					<child>
+						<object class="GtkSwitch" id="field_notifications-streamer-icon">
 							<property name="active">false</property>
 						</object>
 					</child>
