@@ -18,6 +18,7 @@ const PopupMenu = imports.ui.popupMenu;
 const Util = imports.misc.util;
 const MessageTray = imports.ui.messageTray;
 const Config = imports.misc.config;
+const Gdk = imports.gi.Gdk;
 
 const [major] = Config.PACKAGE_VERSION.split('.');
 const shellVersion = Number.parseInt(major);
@@ -408,15 +409,20 @@ function format_uptime(seconds) {
 }
 
 function init() {
-  var icon_theme = Gtk.IconTheme.get_default();
-  if (icon_theme === null) {
-    // how do we recover? Do we need to?
-    // This sometimes happens right after reboot
+  var display = Gdk.Display.get_default();
+
+  if (display == null) {
+    return;
   }
-  else {
-    Gtk.IconTheme.get_default().append_search_path(Extension.dir.get_child('livestreamer-icons').get_path());
-    Icons.init_icons();
+
+  var icon_theme = Gtk.IconTheme.get_for_display(display);
+
+  if (icon_theme == null) {
+    return;
   }
+
+  icon_theme.add_search_path(Extension.dir.get_child('livestreamer-icons').get_path());
+  Icons.init_icons();
 }
 
 function enable() {
