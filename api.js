@@ -17,7 +17,7 @@ const oauth_token_path = GLib.get_user_cache_dir() + '/twitchlive-extension/oaut
 /* OAuth */
 
 function trigger_oauth() {
-  const url = "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=" + client_id + "&redirect_uri=http://localhost:8877&scope=";
+  const url = "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=" + client_id + "&redirect_uri=http://localhost:8877&scope=user%3Aread%3Afollows";
   GLib.spawn_command_line_async("xdg-open " + url);
   GLib.spawn_sync(null, ["python3", oauth_receiver,  oauth_token_path], null, GLib.SpawnFlags.SEARCH_PATH, null);
 }
@@ -120,7 +120,7 @@ function _users(session, userLogins, key) {
 // https://dev.twitch.tv/docs/api/reference/#get-users-follows
 function follows(session, userId) {
   return new Promise((resolve, reject) => {
-    let url = api_base + 'users/follows?from_id=' + encodeURI(userId) + '&first=100';
+    let url = api_base + 'channels/followed?user_id=' + encodeURI(userId) + '&first=100';
     load_json_async(session, url, (data) => {
       if (!data.error) {
         resolve(data.data);
