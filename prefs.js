@@ -123,7 +123,7 @@ const App = class {
             const user = data[0];
             if (user.id) {
               Api.follows(this._httpSession, user.id).then((follows) => {
-                var followsIDs = follows.map(x => x.to_id);
+                var followsIDs = follows.map(x => x.broadcaster_id);
                 Api.usersID(this._httpSession, followsIDs).then((userdata) => {
                     userdata.forEach(follow => this._appendStreamer(follow.login));
                     this._saveStreamersList();
