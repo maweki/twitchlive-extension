@@ -24,7 +24,7 @@ function get_token() {
   if (tokenfile.query_exists(null)) {
     let success, content, tag;
     [success, content, tag] = tokenfile.load_contents(null);
-    return ByteArray.toString(content);
+    return new TextDecoder().decode(content);
   }
   return undefined;
 }
