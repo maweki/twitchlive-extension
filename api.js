@@ -78,7 +78,7 @@ function promiseAllMerge(promises) {
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-users
-function users(session, userLogins) {
+export function users(session, userLogins) {
     return usersLogin(session, userLogins);
 }
 
@@ -91,7 +91,7 @@ function usersLogin(session, userLogins) {
   return promiseAllMerge(promises);
 }
 
-function usersID(session, userLogins) {
+export function usersID(session, userLogins) {
   const chunks = chunk(userLogins, 100);
   const promises = [];
   chunks.forEach((chunk) => {
@@ -115,7 +115,7 @@ function _users(session, userLogins, key) {
 
 
 // https://dev.twitch.tv/docs/api/reference/#get-users-follows
-function follows(session, userId) {
+export function follows(session, userId) {
   return new Promise((resolve, reject) => {
     let url = api_base + 'channels/followed?user_id=' + encodeURI(userId) + '&first=100';
     load_json_async(session, url, (data) => {
@@ -129,7 +129,7 @@ function follows(session, userId) {
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-streams
-function streams(session, userLogins) {
+export function streams(session, userLogins) {
   const chunks = chunk(userLogins, 100);
   const promises = [];
   chunks.forEach((chunk) => {
@@ -153,7 +153,7 @@ function _streams(session, userLogins) {
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-games
-function games(session, gameIds) {
+export function games(session, gameIds) {
   const chunks = chunk(gameIds, 100);
   const promises = [];
   chunks.forEach((chunk) => {

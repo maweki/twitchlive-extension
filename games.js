@@ -38,7 +38,7 @@ function get(session, gameIds) {
     });
 }
 
-function getFromStreams(session, streams) {
+export function getFromStreams(session, streams) {
     // map streams to an array of game ids where the stream has a valid game id
     let gameIds = streams.filter((stream) => stream.game_id && stream.game_id > 0).map((stream) => stream.game_id);
     // remove duplicates

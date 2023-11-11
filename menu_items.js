@@ -8,7 +8,7 @@ import GObject from 'gi://GObject';
 
 import * as Icons from './icons.js';
 
-var StreamerMenuItem = GObject.registerClass(
+export var StreamerMenuItem = GObject.registerClass(
 {GTypeName: 'StreamerMenuItem'},
 class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
   _init(streamername, login, game, viewer_count, title, is_playlist=false, HIDESTATUS=false, uptime) {
@@ -55,7 +55,7 @@ class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
   };
 });
 
-const NobodyMenuItem = GObject.registerClass(
+export const NobodyMenuItem = GObject.registerClass(
 class NobodyMenuItem extends PopupMenu.PopupBaseMenuItem {
 
   _init(nobodytext) {
