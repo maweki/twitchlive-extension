@@ -17,8 +17,9 @@ import * as Icons from './icons.js';
 import * as Api from './api.js';
 
 const App = class {
-
-  constructor() {
+  constructor(extensionDir, path, settings) {
+    this.settings = settings;
+    this.path = path;
     this._httpSession = Soup.Session.new();
     // Make soup use default system proxy if configured
     // Soup.Session.prototype.add_feature.call(this._httpSession, new Soup.ProxyResolverDefault());
@@ -27,25 +28,22 @@ const App = class {
 
     // Build widgets, bind simple fields to settings and connect buttons clicked signals
     let buildable = new Gtk.Builder();
-    if (shellVersion < 40)
-        buildable.add_from_file( Extension.dir.get_path() + '/prefs_old.xml' );
-    else
-        buildable.add_from_file( Extension.dir.get_path() + '/prefs.xml' );
+    buildable.add_from_file( extensionDir.get_path() + '/prefs.xml' );
 
     this._buildable = buildable;
     this.main = buildable.get_object('prefs-widget');
-    Schema.bind('interval', buildable.get_object('field_interval'), 'value', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('opencmd', buildable.get_object('field_opencmd'), 'text', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('hideplaylists', buildable.get_object('field_hideplaylists'), 'active', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('notifications-enabled', buildable.get_object('field_notifications-enabled'), 'active', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('notifications-game-change', buildable.get_object('field_notifications-game-change'), 'active', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('notifications-streamer-icon', buildable.get_object('field_notifications-streamer-icon'), 'active', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('hidestatus', buildable.get_object('field_hidestatus'), 'active', Gio.SettingsBindFlags.DEFAULT);
-    Schema.bind('showuptime', buildable.get_object('field_showuptime'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('interval', buildable.get_object('field_interval'), 'value', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('opencmd', buildable.get_object('field_opencmd'), 'text', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('hideplaylists', buildable.get_object('field_hideplaylists'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('notifications-enabled', buildable.get_object('field_notifications-enabled'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('notifications-game-change', buildable.get_object('field_notifications-game-change'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('notifications-streamer-icon', buildable.get_object('field_notifications-streamer-icon'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('hideempty', buildable.get_object('field_hideempty'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('hidestatus', buildable.get_object('field_hidestatus'), 'active', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('showuptime', buildable.get_object('field_showuptime'), 'active', Gio.SettingsBindFlags.DEFAULT);
     
     const updateNotificationOptions = () => {
-      var notificationsEnabled = Schema.get_boolean('notifications-enabled');
+      var notificationsEnabled = this.settings.get_boolean('notifications-enabled');
       buildable.get_object('obj_notifications-game-change').sensitive = notificationsEnabled;
       buildable.get_object('obj_notifications-streamer-icon').sensitive = notificationsEnabled;
     };
@@ -73,14 +71,14 @@ const App = class {
       let iter = this.topbardisplayStore.append();
       this.topbardisplayStore.set(iter, [0, 1], element);
     }, this);
-    Schema.bind('topbarmode', buildable.get_object('field_topbarmode'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('topbarmode', buildable.get_object('field_topbarmode'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
 
     // Fill the sort key combobox
     [ ['NAME', _('Streamer name')] , ['GAME', _('Game title')] , ['COUNT', _('Viewers count')], ['UPTIME', _('Stream uptime')] ].forEach( function(element) {
       let iter = this.sortkeyStore.append();
       this.sortkeyStore.set(iter, [0, 1], element);
     }, this);
-    Schema.bind('sortkey', buildable.get_object('field_sortkey'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
+    this.settings.bind('sortkey', buildable.get_object('field_sortkey'), 'active-id', Gio.SettingsBindFlags.DEFAULT);
 
     // Create the list's store and columns
     this.store = new Gtk.ListStore();
@@ -137,7 +135,7 @@ const App = class {
 
   _authenticateOauth() {
     // Triger Oauth Authentication
-    Api.trigger_oauth();
+    Api.trigger_oauth(this.path);
   };
 
   _showUserPromptDialog(callback) {
@@ -212,11 +210,11 @@ const App = class {
       return prev.some(u => u.toLowerCase() === username.toLowerCase()) ?
         prev : prev.concat(username);
     },[]);
-    Schema.set_string('streamers', toSave.join(','));
+    this.settings.set_string('streamers', toSave.join(','));
   };
 
   _reloadStreamersList() {
-    let old_streamers = Schema.get_string('streamers').split(',').sort((a,b) => a.toUpperCase() < b.toUpperCase() ? -1 : 1);
+    let old_streamers = this.settings.get_string('streamers').split(',').sort((a,b) => a.toUpperCase() < b.toUpperCase() ? -1 : 1);
     this.streamers = [];
     this.store.clear();
     for (let i = 0; i < old_streamers.length; i++) {
@@ -240,10 +238,15 @@ const App = class {
   }
 }
 
-function buildPrefsWidget()
-{
-    let widget = new App();
-    return widget.main;
-};
+export default class TwitchLivePreferences extends ExtensionPreferences {
+  fillPreferencesWindow(window) {
+    const page = new Adw.PreferencesPage();
+    window.add(page);
 
-function init() {}
+    const group = new Adw.PreferencesGroup();
+    page.add(group);
+    
+    const widget = new App(this.dir, this.path, this.getSettings());
+    group.add(widget.main);
+  }
+}

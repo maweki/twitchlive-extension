@@ -8,13 +8,13 @@ import Gio from 'gi://Gio';
 
 const api_base = 'https://api.twitch.tv/helix/';
 const client_id = "1zat8h7je94boq5t88of6j09p41hg0";
-const oauth_receiver = imports.misc.extensionUtils.getCurrentExtension().path + "/oauth_receive.py"
 const oauth_token_path = GLib.get_user_cache_dir() + '/twitchlive-extension/oauth_token';
 
 /* OAuth */
 
-function trigger_oauth() {
+export function trigger_oauth(extension_path) {
   const url = "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=" + client_id + "&redirect_uri=http://localhost:8877&scope=user%3Aread%3Afollows";
+  const oauth_receiver = extension_path + "/oauth_receive.py";
   GLib.spawn_command_line_async("xdg-open " + url);
   GLib.spawn_sync(null, ["python3", oauth_receiver,  oauth_token_path], null, GLib.SpawnFlags.SEARCH_PATH, null);
 }
