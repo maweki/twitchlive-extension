@@ -3,38 +3,32 @@
   LICENSE: GPL3.0
   COMPILING SCHEMAS: glib-compile-schemas schemas/
 **/
-const St = imports.gi.St;
-const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
-const GLib = imports.gi.GLib;
-const Main = imports.ui.main;
-const Soup = imports.gi.Soup;
+import St from 'gi://St';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
+import GObject from 'gi://GObject';
+import GLib from 'gi://GLib';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import Soup from 'gi://Soup';
 const Mainloop = imports.mainloop;
-const Clutter = imports.gi.Clutter;
-const Panel = imports.ui.main.panel;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
-const Util = imports.misc.util;
-const MessageTray = imports.ui.messageTray;
-const Config = imports.misc.config;
-const Gdk = imports.gi.Gdk;
+import Clutter from 'gi://Clutter';
+const Panel = Main.panel;
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
+import Gdk from 'gi://Gdk';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const [major] = Config.PACKAGE_VERSION.split('.');
 const shellVersion = Number.parseInt(major);
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Topbar = Extension.imports.topbar;
-const MenuItems = Extension.imports.menu_items;
-const Icons = Extension.imports.icons;
-const Games = Extension.imports.games;
-const Api = Extension.imports.api;
-
-const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
-const localeDir = Extension.dir.get_child('locale');
-const Gettext = imports.gettext;
-const _ = Gettext.domain(domain).gettext;
-Gettext.bindtextdomain(domain, localeDir.get_path());
+import * as Topbar from './topbar.js';
+import * as MenuItems from './menu_items.js';
+import * as Icons from './icons.js';
+import * as Games from './games.js';
+import * as Api from './api.js';
 
 const viewUpdateInterval = 10*1000;
 

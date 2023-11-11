@@ -2,13 +2,12 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const Gtk = imports.gi.Gtk;
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const Gdk = imports.gi.Gdk;
+import Gtk from 'gi://Gtk';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Api = Extension.imports.api;
+import * as Api from './api.js';
 
 const icons_path = GLib.get_user_cache_dir() + '/twitchlive-extension';
 

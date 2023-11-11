@@ -2,12 +2,9 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const Soup = imports.gi.Soup;
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const ByteArray = imports.byteArray;
-
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
+import Soup from 'gi://Soup'
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 const api_base = 'https://api.twitch.tv/helix/';
 const client_id = "1zat8h7je94boq5t88of6j09p41hg0";

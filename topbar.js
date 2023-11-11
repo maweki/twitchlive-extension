@@ -1,8 +1,7 @@
-const St = imports.gi.St;
-const Clutter = imports.gi.Clutter;
+import St from 'gi://St';
+import Clutter from 'gi://Clutter';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Icons = Extension.imports.icons;
+import * as Icons from './icons.js';
 
 function empty() {
   return {

@@ -2,31 +2,19 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Gettext = imports.gettext;
-const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
-imports.gi.versions.Soup = "3.0";
-const Soup = imports.gi.Soup;
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
+import Adw from 'gi://Adw';
+import GObject from 'gi://GObject';
+import Soup from 'gi://Soup?version=3.0';
 
-const Config = imports.misc.config;
+import * as Config from 'resource:///org/gnome/Shell/Extensions/js/misc/config.js';
 const [major] = Config.PACKAGE_VERSION.split('.');
 const shellVersion = Number.parseInt(major);
 
-const Icons = Extension.imports.icons;
-
-let schemaDir = Extension.dir.get_child('schemas').get_path();
-let schemaSource = Gio.SettingsSchemaSource.new_from_directory(schemaDir, Gio.SettingsSchemaSource.get_default(), false);
-let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false);
-let Schema = new Gio.Settings({ settings_schema: schema });
-
-const Api = Extension.imports.api;
-
-const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
-const localeDir = Extension.dir.get_child('locale');
-const _ = Gettext.domain(domain).gettext;
-Gettext.bindtextdomain(domain, localeDir.get_path());
+import * as Icons from './icons.js';
+import * as Api from './api.js';
 
 const App = class {
 

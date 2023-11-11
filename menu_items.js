@@ -2,12 +2,11 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const PopupMenu = imports.ui.popupMenu;
-const St = imports.gi.St;
-const GObject = imports.gi.GObject;
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import St from 'gi://St';
+import GObject from 'gi://GObject';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Icons = Extension.imports.icons;
+import * as Icons from './icons.js';
 
 var StreamerMenuItem = GObject.registerClass(
 {GTypeName: 'StreamerMenuItem'},

@@ -1,5 +1,4 @@
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Api = Extension.imports.api;
+import * as Api from './api.js';
 
 const GAMES_CACHE = [];
 
