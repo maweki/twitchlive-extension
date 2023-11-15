@@ -2,14 +2,13 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const PopupMenu = imports.ui.popupMenu;
-const St = imports.gi.St;
-const GObject = imports.gi.GObject;
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import St from 'gi://St';
+import GObject from 'gi://GObject';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Icons = Extension.imports.icons;
+import * as Icons from './icons.js';
 
-var StreamerMenuItem = GObject.registerClass(
+export var StreamerMenuItem = GObject.registerClass(
 {GTypeName: 'StreamerMenuItem'},
 class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
   _init(streamername, login, game, viewer_count, title, is_playlist=false, HIDESTATUS=false, uptime) {
@@ -56,7 +55,7 @@ class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
   };
 });
 
-const NobodyMenuItem = GObject.registerClass(
+export const NobodyMenuItem = GObject.registerClass(
 class NobodyMenuItem extends PopupMenu.PopupBaseMenuItem {
 
   _init(nobodytext) {

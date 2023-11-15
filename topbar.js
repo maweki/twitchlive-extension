@@ -1,10 +1,9 @@
-const St = imports.gi.St;
-const Clutter = imports.gi.Clutter;
+import St from 'gi://St';
+import Clutter from 'gi://Clutter';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Icons = Extension.imports.icons;
+import * as Icons from './icons.js';
 
-function empty() {
+export function empty() {
   return {
     box: new St.Label({text: "", y_align: Clutter.ActorAlign.CENTER}),
     update: function() { },
@@ -12,7 +11,7 @@ function empty() {
   };
 }
 
-function text_only() {
+export function text_only() {
   let rotation = 0,
       online = [];
   return {
@@ -22,7 +21,7 @@ function text_only() {
   };
 }
 
-function icon_only() {
+export function icon_only() {
   let rotation = 0,
       icon,
       online = [];
@@ -42,7 +41,7 @@ function icon_only() {
   };
 }
 
-function count_only() {
+export function count_only() {
   return {
     box: new St.Label({text: "", y_align: Clutter.ActorAlign.CENTER}),
     update: function(online) { this.box.set_text(online.length.toString()); },
@@ -50,7 +49,7 @@ function count_only() {
   };
 }
 
-function all_icons() {
+export function all_icons() {
   let actors = [];
   return {
     box: new St.BoxLayout(),

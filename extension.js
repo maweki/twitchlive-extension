@@ -3,48 +3,34 @@
   LICENSE: GPL3.0
   COMPILING SCHEMAS: glib-compile-schemas schemas/
 **/
-const St = imports.gi.St;
-const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
-const GObject = imports.gi.GObject;
-const GLib = imports.gi.GLib;
-const Main = imports.ui.main;
-const Soup = imports.gi.Soup;
+import St from 'gi://St';
+import Gio from 'gi://Gio';
+import Gtk from 'gi://Gtk';
+import GObject from 'gi://GObject';
+import GLib from 'gi://GLib';
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import Soup from 'gi://Soup';
 const Mainloop = imports.mainloop;
-const Clutter = imports.gi.Clutter;
-const Panel = imports.ui.main.panel;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
-const Util = imports.misc.util;
-const MessageTray = imports.ui.messageTray;
-const Config = imports.misc.config;
-const Gdk = imports.gi.Gdk;
+import Clutter from 'gi://Clutter';
+const Panel = Main.panel;
+import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
+import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
+import * as Util from 'resource:///org/gnome/shell/misc/util.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
+import * as Config from 'resource:///org/gnome/shell/misc/config.js';
+import Gdk from 'gi://Gdk';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const [major] = Config.PACKAGE_VERSION.split('.');
 const shellVersion = Number.parseInt(major);
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Topbar = Extension.imports.topbar;
-const MenuItems = Extension.imports.menu_items;
-const Icons = Extension.imports.icons;
-const Games = Extension.imports.games;
-const Api = Extension.imports.api;
-
-const domain = Extension.metadata['gettext-domain']; // Get gettext domain from metadata.json
-const localeDir = Extension.dir.get_child('locale');
-const Gettext = imports.gettext;
-const _ = Gettext.domain(domain).gettext;
-Gettext.bindtextdomain(domain, localeDir.get_path());
+import * as Topbar from './topbar.js';
+import * as MenuItems from './menu_items.js';
+import * as Icons from './icons.js';
+import * as Games from './games.js';
+import * as Api from './api.js';
 
 const viewUpdateInterval = 10*1000;
-
-let schemaDir = Extension.dir.get_child('schemas').get_path();
-let schemaSource = Gio.SettingsSchemaSource.new_from_directory(
-    schemaDir,
-    Gio.SettingsSchemaSource.get_default(),
-    false
-);
-let schema = schemaSource.lookup('org.gnome.shell.extensions.twitchlive', false);
 
 let STREAMERS = [];
 let OPENCMD = "";
@@ -74,18 +60,19 @@ class SeparatorMenuItem extends PopupMenu.PopupBaseMenuItem {
 
 const ExtensionLayout = GObject.registerClass(
   class ExtensionLayout extends PanelMenu.Button {
-
-    _init() {
+    _init(path, uuid, settings) {
       super._init(0.0);
 
+      this.path = path;
+      this.uuid = uuid;
       this.streamertext = null;
       this.topbar_mode = '';
       this.text = null;
       this.icon = null;
       this.online = [];
-      this.firstRun = true, // Avoids notifications on first run
+      this.firstRun = true; // Avoids notifications on first run
       this.timer = { view: 0, update: 0, settings: 0 };
-      this.settings = new Gio.Settings({ settings_schema: schema });
+      this.settings = settings;
       this._httpSession = Soup.Session.new();
       this.layoutChanged = false;
       this.streamer_rotation = 0;
@@ -96,7 +83,7 @@ const ExtensionLayout = GObject.registerClass(
 
       this._box = new St.BoxLayout();
       this.add_child(this._box);
-      this.icon = new St.Icon({ gicon: Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive.svg"),
+      this.icon = new St.Icon({ gicon: Gio.icon_new_for_string(this.path + "/livestreamer-icons/twitchlive.svg"),
                               style_class: 'system-status-icon' });
       this._box.add_child(this.icon);
 
@@ -179,7 +166,7 @@ const ExtensionLayout = GObject.registerClass(
     _openSettings() {
         Util.spawn([
             "gnome-extensions", "prefs",
-            Extension.uuid
+            this.uuid
         ]);
     };
 
@@ -221,7 +208,7 @@ const ExtensionLayout = GObject.registerClass(
         GLib.spawn_command_line_async(cmd);
       });
 
-      var icon = NOTIFICATIONS_STREAMER_ICON ? Icons.get_streamericon(streamer.streamer, "notifications-icon") : new St.Icon({ gicon: Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive.svg"), style_class: "notifications-icon" });
+      var icon = NOTIFICATIONS_STREAMER_ICON ? Icons.get_streamericon(streamer.streamer, "notifications-icon") : new St.Icon({ gicon: Gio.icon_new_for_string(this.path + "/livestreamer-icons/twitchlive.svg"), style_class: "notifications-icon" });
 
       this.notification_source.createIcon = function() {
         return icon;
@@ -358,12 +345,12 @@ const ExtensionLayout = GObject.registerClass(
     interval() {
       let _online = this.online;
       if (_online.length > 0) {
-        this.icon.set_gicon(Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive_on.svg"));
+        this.icon.set_gicon(Gio.icon_new_for_string(this.path + "/livestreamer-icons/twitchlive_on.svg"));
         this.streamertext.interval();
         this.streamertext.box.show();
       }
       else {
-        this.icon.set_gicon(Gio.icon_new_for_string(Extension.path + "/livestreamer-icons/twitchlive_off.svg"));
+        this.icon.set_gicon(Gio.icon_new_for_string(this.path + "/livestreamer-icons/twitchlive_off.svg"));
         this.streamertext.box.hide();
       }
       return true;
@@ -408,27 +395,30 @@ function format_uptime(seconds) {
   return [hours, minutes > 9 ? minutes : '0' + minutes].join(':');
 }
 
-function init() {
-  var display = Gdk.Display.get_default();
+export default class TwitchLiveExtension extends Extension {
+  constructor(metadata) {
+    super(metadata);
 
-  if (display == null) {
-    return;
+    var display = Gdk.Display.get_default();
+  
+    if (display == null) {
+      return;
+    }
+  
+    var icon_theme = Gtk.IconTheme.get_for_display(display);
+  
+    if (icon_theme == null) {
+      return;
+    }
+  
+    icon_theme.add_search_path(this.dir.get_child('livestreamer-icons').get_path());
+    Icons.init_icons();
   }
-
-  var icon_theme = Gtk.IconTheme.get_for_display(display);
-
-  if (icon_theme == null) {
-    return;
-  }
-
-  icon_theme.add_search_path(Extension.dir.get_child('livestreamer-icons').get_path());
-  Icons.init_icons();
-}
-
-function enable() {
-    button = new ExtensionLayout();
+  enable() {
+    button = new ExtensionLayout(this.path, this.uuid, this.getSettings());
     Panel.addToStatusArea('twitchlive', button, 0);
-}
-function disable() {
+  }
+  disable() {
     button.destroy();
+  }
 }

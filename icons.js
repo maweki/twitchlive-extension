@@ -2,19 +2,18 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const Gtk = imports.gi.Gtk;
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const Gdk = imports.gi.Gdk;
+import Gtk from 'gi://Gtk';
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
+import Gdk from 'gi://Gdk';
 
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
-const Api = Extension.imports.api;
+import * as Api from './api.js';
 
 const icons_path = GLib.get_user_cache_dir() + '/twitchlive-extension';
 
 /* exported init_icons, trigger_download_by_name, trigger_download_by_url, get_streamericon, has_icon */
 
-function init_icons() {
+export function init_icons() {
   // TODO: everything needs to be disabled if the creation fails or if it isn't a writable directory
   GLib.mkdir_with_parents(icons_path, 448);
   
@@ -46,12 +45,12 @@ function get_final_icon_path(streamername) {
   return filename;
 }
 
-function has_icon(streamername) {
+export function has_icon(streamername) {
   // check whether any icon is already available
   return GLib.file_test(get_final_icon_path(streamername), GLib.FileTest.EXISTS);
 }
 
-function trigger_download_by_names(names, session) {
+export function trigger_download_by_names(names, session) {
   Api.users(session, names).then((data) => {
     data.forEach((streamer) => {
       if (streamer.profile_image_url) trigger_download_by_url(streamer.login, streamer.profile_image_url);
@@ -59,7 +58,7 @@ function trigger_download_by_names(names, session) {
   });
 }
 
-function trigger_download_by_url(streamername, imageurl) {
+export function trigger_download_by_url(streamername, imageurl) {
   // TODO: this should return immediately
   if (!curl_available()) {
     return; // we can't download anything
@@ -93,11 +92,11 @@ function trigger_download_by_url(streamername, imageurl) {
 
 }
 
-function get_icon_name(streamername) {
+export function get_icon_name(streamername) {
   return 'twitchlive-' + streamername.toLowerCase();
 }
 
-function get_streamericon(streamername, style_class) {
+export function get_streamericon(streamername, style_class) {
   // St is not imported globally since it's not available in the preferences context
   let icon = new imports.gi.St.Icon({ gicon: Gio.icon_new_for_string(get_final_icon_path(streamername)), style_class: style_class });
   if (icon.set_fallback_icon_name) { // this isnt available before 3.16

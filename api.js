@@ -2,22 +2,19 @@
   AUTHOR: Mario Wenzel
   LICENSE: GPL3.0
 **/
-const Soup = imports.gi.Soup;
-const GLib = imports.gi.GLib;
-const Gio = imports.gi.Gio;
-const ByteArray = imports.byteArray;
-
-const Extension = imports.misc.extensionUtils.getCurrentExtension();
+import Soup from 'gi://Soup'
+import GLib from 'gi://GLib';
+import Gio from 'gi://Gio';
 
 const api_base = 'https://api.twitch.tv/helix/';
 const client_id = "1zat8h7je94boq5t88of6j09p41hg0";
-const oauth_receiver = imports.misc.extensionUtils.getCurrentExtension().path + "/oauth_receive.py"
 const oauth_token_path = GLib.get_user_cache_dir() + '/twitchlive-extension/oauth_token';
 
 /* OAuth */
 
-function trigger_oauth() {
+export function trigger_oauth(extension_path) {
   const url = "https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=" + client_id + "&redirect_uri=http://localhost:8877&scope=user%3Aread%3Afollows";
+  const oauth_receiver = extension_path + "/oauth_receive.py";
   GLib.spawn_command_line_async("xdg-open " + url);
   GLib.spawn_sync(null, ["python3", oauth_receiver,  oauth_token_path], null, GLib.SpawnFlags.SEARCH_PATH, null);
 }
@@ -27,7 +24,7 @@ function get_token() {
   if (tokenfile.query_exists(null)) {
     let success, content, tag;
     [success, content, tag] = tokenfile.load_contents(null);
-    return ByteArray.toString(content);
+    return new TextDecoder().decode(content);
   }
   return undefined;
 }
@@ -81,7 +78,7 @@ function promiseAllMerge(promises) {
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-users
-function users(session, userLogins) {
+export function users(session, userLogins) {
     return usersLogin(session, userLogins);
 }
 
@@ -94,7 +91,7 @@ function usersLogin(session, userLogins) {
   return promiseAllMerge(promises);
 }
 
-function usersID(session, userLogins) {
+export function usersID(session, userLogins) {
   const chunks = chunk(userLogins, 100);
   const promises = [];
   chunks.forEach((chunk) => {
@@ -118,7 +115,7 @@ function _users(session, userLogins, key) {
 
 
 // https://dev.twitch.tv/docs/api/reference/#get-users-follows
-function follows(session, userId) {
+export function follows(session, userId) {
   return new Promise((resolve, reject) => {
     let url = api_base + 'channels/followed?user_id=' + encodeURI(userId) + '&first=100';
     load_json_async(session, url, (data) => {
@@ -132,7 +129,7 @@ function follows(session, userId) {
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-streams
-function streams(session, userLogins) {
+export function streams(session, userLogins) {
   const chunks = chunk(userLogins, 100);
   const promises = [];
   chunks.forEach((chunk) => {
@@ -156,7 +153,7 @@ function _streams(session, userLogins) {
 }
 
 // https://dev.twitch.tv/docs/api/reference/#get-games
-function games(session, gameIds) {
+export function games(session, gameIds) {
   const chunks = chunk(gameIds, 100);
   const promises = [];
   chunks.forEach((chunk) => {
