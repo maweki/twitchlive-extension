@@ -54,7 +54,7 @@ class SeparatorMenuItem extends PopupMenu.PopupBaseMenuItem {
       this._separator = new St.Widget({ style_class: 'popup-separator-menu-item',
                                         y_expand: true,
                                         y_align: Clutter.ActorAlign.CENTER });
-      this.add_actor(this._separator); // this.actor.add(this._separator, { expand: true }); // this.add_child(this._separator, { expand: true }) is deprecated
+      this.add_child(this._separator); // this.actor.add(this._separator, { expand: true }); // this.add_child(this._separator, { expand: true }) is deprecated
   }
 });
 
@@ -91,8 +91,8 @@ const ExtensionLayout = GObject.registerClass(
       this.streamersMenu = new PopupMenu.PopupMenuSection();
       this.streamersMenuContainer = new PopupMenu.PopupMenuSection();
       let scrollView = new St.ScrollView({ overlay_scrollbars: true , hscrollbar_policy: Gtk.PolicyType.NEVER });
-      scrollView.add_actor(this.streamersMenu.actor);
-      this.streamersMenuContainer.actor.add_actor(scrollView);
+      scrollView.add_child(this.streamersMenu.actor);
+      this.streamersMenuContainer.actor.add_child(scrollView);
       this.menu.addMenuItem(this.streamersMenuContainer);
 
       // Add separator
@@ -106,7 +106,7 @@ const ExtensionLayout = GObject.registerClass(
 
       this.updateMenuItem = new PopupMenu.PopupMenuItem(_('Update now'));
       this.updateMenuContainer = new PopupMenu.PopupMenuSection();
-      this.updateMenuContainer.actor.add_actor(this.updateMenuItem.actor);
+      this.updateMenuContainer.actor.add_child(this.updateMenuItem.actor);
       this.menu.addMenuItem(this.updateMenuContainer);
       this.updateMenuItem.connect('activate', this.updateData.bind(this));
       this._applySettings();

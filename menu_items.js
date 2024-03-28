@@ -51,7 +51,7 @@ class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
           this._wrapBox.add(this._layout.title);
     }
 
-    this.add_actor(this._wrapBox); // this.actor.add(this._wrapBox) seems deprecated
+    this.add_child(this._wrapBox); // this.actor.add(this._wrapBox) seems deprecated
   };
 });
 

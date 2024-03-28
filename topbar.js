@@ -35,7 +35,7 @@ export function icon_only() {
       }
       if (online.length > 0) {
         icon = Icons.get_streamericon(online[rotation++ % online.length].login, "streamer-icon system-status-icon"),
-        this.box.add_actor(icon);
+        this.box.add_child(icon);
       }
     }
   };
@@ -56,7 +56,7 @@ export function all_icons() {
     update: function(online) {
       actors.forEach((actor) => actor.destroy());
       actors = online.map((streamer) => Icons.get_streamericon(streamer.login, "streamer-icon system-status-icon"));
-      actors.forEach((icon) => this.box.add_actor(icon));
+      actors.forEach((icon) => this.box.add_child(icon));
     },
     interval: function() { }
   }
