@@ -34,21 +34,21 @@ class StreamerMenuItem extends PopupMenu.PopupBaseMenuItem {
     }
     this._layout.viewer_icon = new St.Icon({ icon_name: info_icon, style_class: 'viewer-icon streamer-menuitem' });
 
-    this._firstLine.add(this._layout.streamer_icon);
-    this._firstLine.add(this._layout.name);
-    this._firstLine.add(this._layout.game);
-    this._firstLine.add(this._layout.viewer_count);
-    this._firstLine.add(this._layout.viewer_icon);
+    this._firstLine.add_child(this._layout.streamer_icon);
+    this._firstLine.add_child(this._layout.name);
+    this._firstLine.add_child(this._layout.game);
+    this._firstLine.add_child(this._layout.viewer_count);
+    this._firstLine.add_child(this._layout.viewer_icon);
 
     if (uptime) {
-      this._firstLine.add(this._layout.uptime);
+      this._firstLine.add_child(this._layout.uptime);
     }
 
-    this._wrapBox.add(this._firstLine);
+    this._wrapBox.add_child(this._firstLine);
 
     if (!HIDESTATUS) {
           this._layout.title = new St.Label({ text: title, style_class : "title streamer-menuitem"});
-          this._wrapBox.add(this._layout.title);
+          this._wrapBox.add_child(this._layout.title);
     }
 
     this.add_child(this._wrapBox); // this.actor.add(this._wrapBox) seems deprecated
