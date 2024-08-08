@@ -16,8 +16,12 @@ const shellVersion = Number.parseInt(major);
 import * as Icons from './icons.js';
 import * as Api from './api.js';
 
-const App = class {
+class App extends Adw.PreferencesGroup {
+  static {
+        GObject.registerClass(this);
+  }
   constructor(extensionDir, path, settings) {
+    super();
     this.settings = settings;
     this.path = path;
     this._httpSession = Soup.Session.new();

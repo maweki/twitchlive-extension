@@ -115,7 +115,8 @@ const ExtensionLayout = GObject.registerClass(
 
       // Set up notifications area
       this.messageTray = new MessageTray.MessageTray();
-      this.notification_source = new MessageTray.Source({title: _('TwitchLive'), iconName: _('twitchlive'), policy: null});
+      this.notification_source = new MessageTray.Source({title: _('TwitchLive'), iconName: _('twitchlive'),});
+      this.notification_source.policy = new MessageTray.NotificationApplicationPolicy(_('twitchlive'));
 
       this.notification_source.connect('destroy', () => {this.notification_source = null;});
 
