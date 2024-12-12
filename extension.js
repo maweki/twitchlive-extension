@@ -115,7 +115,11 @@ const ExtensionLayout = GObject.registerClass(
 
       // Set up notifications area
       this.messageTray = new MessageTray.MessageTray();
-      this.notification_source = new MessageTray.Source('TwitchLive', 'twitchlive');
+      this.notification_source = new MessageTray.Source({title: _('TwitchLive'), iconName: _('twitchlive'),});
+      this.notification_source.policy = new MessageTray.NotificationApplicationPolicy(_('twitchlive'));
+
+      this.notification_source.connect('destroy', () => {this.notification_source = null;});
+
       this.messageTray.add(this.notification_source);
     };
 
@@ -256,9 +260,11 @@ const ExtensionLayout = GObject.registerClass(
           // Send the user a notification when new streamer(s) come online, if enabled
           if ( NOTIFICATIONS_ENABLED ) {
             if ( !this.firstRun )
-              this._findNewStreamerEntries(this.online, new_online, NOTIFICATIONS_GAME_CHANGE).forEach(
-                (newStreamer) => this._streamerOnlineNotification(newStreamer)
-              );
+              this.firstRun = this.firstRun;
+              // Fixme: For unknown to me reason it prevents extension from working
+              //this._findNewStreamerEntries(this.online, new_online, NOTIFICATIONS_GAME_CHANGE).forEach(
+              //  (newStreamer) => this._streamerOnlineNotification(newStreamer)
+              //);
             else
               this.firstRun = !this.firstRun;
           }
